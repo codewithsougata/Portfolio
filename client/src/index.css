@@ -1,0 +1,429 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Variables ─────────────────────────────────────────────── */
+:root {
+  --bg: #0a0e1a;
+  --bg2: #0f1525;
+  --surface: #111827;
+  --surface2: #161f30;
+  --border: #1e2d3d;
+  --border2: #243447;
+  --cyan: #00d4ff;
+  --cyan-dim: rgba(0, 212, 255, 0.15);
+  --purple: #7c3aed;
+  --purple-dim: rgba(124, 58, 237, 0.15);
+  --green: #00ff88;
+  --green-dim: rgba(0, 255, 136, 0.12);
+  --amber: #fbbf24;
+  --red: #f87171;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --text-mute: #64748b;
+}
+
+html.light {
+  --bg: #f8fafc;
+  --bg2: #f1f5f9;
+  --surface: #ffffff;
+  --surface2: #f8fafc;
+  --border: #e2e8f0;
+  --border2: #cbd5e1;
+  --cyan: #0891b2;
+  --cyan-dim: rgba(8, 145, 178, 0.1);
+  --purple: #7c3aed;
+  --purple-dim: rgba(124, 58, 237, 0.08);
+  --green: #059669;
+  --green-dim: rgba(5, 150, 105, 0.08);
+  --amber: #d97706;
+  --red: #dc2626;
+  --text: #0f172a;
+  --text-dim: #475569;
+  --text-mute: #94a3b8;
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: var(--bg);
+    color: var(--text);
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  /* Animated gradient mesh background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-color: var(--bg);
+    transition: background-color 0.4s ease;
+  }
+
+  /* Grid lines overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.3;
+    transition: opacity 0.4s ease;
+  }
+
+  /* Radial glow spots */
+  body {
+    background-image:
+      radial-gradient(ellipse 80vw 60vh at 20% 0%, rgba(0, 212, 255, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60vw 50vh at 80% 100%, rgba(124, 58, 237, 0.06) 0%, transparent 60%);
+  }
+
+  html.light body {
+    background-image:
+      radial-gradient(ellipse 80vw 60vh at 20% 0%, rgba(8, 145, 178, 0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 60vw 50vh at 80% 100%, rgba(124, 58, 237, 0.04) 0%, transparent 60%);
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border2);
+    border-radius: 99px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--cyan);
+  }
+
+  ::selection {
+    background: var(--cyan-dim);
+    color: var(--cyan);
+  }
+}
+
+@layer components {
+
+  /* ── Terminal Window Card ───────────────────────────── */
+  .terminal-window {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .terminal-window:hover {
+    border-color: color-mix(in srgb, var(--cyan) 40%, var(--border));
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.07), 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  /* ── Terminal Title Bar ─────────────────────────────── */
+  .terminal-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dot-red {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff5f57;
+    flex-shrink: 0;
+  }
+
+  .dot-yellow {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #febc2e;
+    flex-shrink: 0;
+  }
+
+  .dot-green {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #28c840;
+    flex-shrink: 0;
+  }
+
+  .titlebar-label {
+    margin-left: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-mute);
+    flex: 1;
+  }
+
+  /* ── Section Container ──────────────────────────────── */
+  .section-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 24px;
+  }
+
+  /* ── Section Heading ────────────────────────────────── */
+  .section-heading {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .section-heading::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 1.4em;
+    background: linear-gradient(180deg, var(--cyan), var(--purple));
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .section-heading .hash {
+    color: var(--cyan);
+    margin-right: -4px;
+  }
+
+  /* ── Dev Card ───────────────────────────────────────── */
+  .dev-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .dev-card:hover {
+    border-color: color-mix(in srgb, var(--cyan) 40%, var(--border));
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.08), 0 4px 24px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* ── Buttons ─────────────────────────────────────────── */
+  .btn-developer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid var(--border2);
+    background: var(--surface2);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+  }
+
+  .btn-developer:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    background: var(--cyan-dim);
+    box-shadow: 0 0 16px rgba(0, 212, 255, 0.2);
+  }
+
+  .btn-primary-dev {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid rgba(124, 58, 237, 0.5);
+    background: var(--purple-dim);
+    color: #a78bfa;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+  }
+
+  .btn-primary-dev:hover {
+    border-color: var(--purple);
+    color: #c4b5fd;
+    background: rgba(124, 58, 237, 0.25);
+    box-shadow: 0 0 16px rgba(124, 58, 237, 0.25);
+  }
+
+  /* ── Terminal Prompt ─────────────────────────────────── */
+  .prompt-user {
+    color: var(--green);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .prompt-host {
+    color: var(--text-mute);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .prompt-path {
+    color: var(--cyan);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .prompt-dollar {
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    margin: 0 6px;
+  }
+
+  /* ── Tag / Badge ─────────────────────────────────────── */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    border: 1px solid var(--border2);
+    background: var(--surface2);
+    color: var(--text-dim);
+    letter-spacing: 0.03em;
+  }
+
+  .tag-cyan {
+    border-color: rgba(0, 212, 255, 0.35);
+    background: var(--cyan-dim);
+    color: var(--cyan);
+  }
+
+  .tag-purple {
+    border-color: rgba(124, 58, 237, 0.35);
+    background: var(--purple-dim);
+    color: #a78bfa;
+  }
+
+  .tag-green {
+    border-color: rgba(0, 255, 136, 0.25);
+    background: var(--green-dim);
+    color: var(--green);
+  }
+
+  .tag-amber {
+    border-color: rgba(251, 191, 36, 0.3);
+    background: rgba(251, 191, 36, 0.1);
+    color: var(--amber);
+  }
+
+  /* ── Input / Textarea ────────────────────────────────── */
+  .terminal-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 11px 16px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .terminal-input::placeholder {
+    color: var(--text-mute);
+  }
+
+  .terminal-input:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.12);
+  }
+
+  /* ── Glow utilities ─────────────────────────────────── */
+  .glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.25);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.25);
+  }
+
+  /* ── Terminal text ───────────────────────────────────── */
+  .terminal-text {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--green);
+  }
+}
+
+@layer utilities {
+
+  /* Skill bar track */
+  .skill-track {
+    height: 3px;
+    border-radius: 9999px;
+    background: var(--border2);
+    overflow: hidden;
+  }
+
+  /* Custom cursor */
+  .cursor-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--cyan);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: background 0.3s;
+  }
+
+  .cursor-ring {
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid rgba(0, 212, 255, 0.5);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: width 0.25s, height 0.25s, border-color 0.25s, background 0.25s;
+  }
+
+  .cursor-ring.hovered {
+    width: 44px;
+    height: 44px;
+    border-color: var(--cyan);
+    background: rgba(0, 212, 255, 0.06);
+  }
+}
