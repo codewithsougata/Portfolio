@@ -7,6 +7,7 @@ import GitHubSnake from './components/GitHubSnake';
 import Education from './components/Education';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
+import { WebcamPixelGridDemo } from './components/WebcamPixelGridDemo';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
 import Loader from './components/Loader';
@@ -54,6 +55,7 @@ function App() {
               <Education />
               <Projects />
               <Contact />
+              <WebcamPixelGridDemo />
             </main>
             <Footer />
           </div>

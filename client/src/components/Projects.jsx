@@ -11,6 +11,7 @@ const projectsData = [
     github: '#',
     live: '#',
     color: 'var(--cyan)',
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=800&auto=format&fit=crop',
   },
   {
     name: 'task-manager',
@@ -20,6 +21,7 @@ const projectsData = [
     github: '#',
     live: '#',
     color: '#a78bfa',
+    image: 'https://images.unsplash.com/photo-1540350394557-8d14678e7f91?q=80&w=800&auto=format&fit=crop',
   },
   {
     name: 'portfolio-v2',
@@ -29,6 +31,7 @@ const projectsData = [
     github: '#',
     live: '#',
     color: 'var(--green)',
+    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop',
   },
 ];
 
@@ -68,9 +71,22 @@ const Projects = () => (
           }}
         >
           {/* Subtle gradient banner at top */}
-          <div style={{ height: 6, width: '100%', background: `linear-gradient(90deg, ${project.color}, transparent)` }} />
+          <div style={{ height: 6, width: '100%', background: `linear-gradient(90deg, ${project.color}, transparent)`, position: 'relative', zIndex: 3 }} />
 
-          <div style={{ padding: '32px 28px', flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
+          {/* Project Image Cover */}
+          <div style={{ width: '100%', height: 220, overflow: 'hidden', position: 'relative', zIndex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }}>
+            <motion.img 
+              whileHover={{ scale: 1.08 }} 
+              transition={{ duration: 0.4 }} 
+              src={project.image} 
+              alt={project.title} 
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+            />
+            {/* Elegant fade to blend image into the dark card background */}
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(20,25,40,1) 98%)', pointerEvents: 'none' }} />
+          </div>
+
+          <div style={{ padding: '0 28px 32px', marginTop: '-40px', flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 2 }}>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
               <div style={{

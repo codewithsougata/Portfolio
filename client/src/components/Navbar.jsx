@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sun, Moon, Terminal } from 'lucide-react';
+import { Menu, X, Sun, Moon, Code } from 'lucide-react';
 
 const navLinks = [
   { name: 'home', href: '#home' },
@@ -66,18 +66,18 @@ const Navbar = ({ theme, toggleTheme }) => {
               border: '1px solid rgba(0,212,255,0.3)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              <Terminal size={14} color="var(--cyan)" />
+              <Code size={14} color="var(--cyan)" />
             </span>
             <span style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 15, fontWeight: 700, color: 'var(--text)',
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 16, fontWeight: 700, color: 'var(--text)',
             }}>
-              <span style={{ color: 'var(--cyan)' }}>~/</span>sougata
+              <span style={{ color: 'var(--cyan)' }}>S</span>ougata
             </span>
           </motion.a>
 
           {/* Desktop Links */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }} className="hidden md:flex">
+          <div className="desktop-nav" style={{ alignItems: 'center', gap: 4 }}>
             {navLinks.map(link => (
               <a
                 key={link.name}
@@ -142,7 +142,7 @@ const Navbar = ({ theme, toggleTheme }) => {
           </div>
 
           {/* Mobile Controls */}
-          <div className="md:hidden" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div className="mobile-nav" style={{ alignItems: 'center', gap: 8 }}>
             <button onClick={toggleTheme} style={{ color: 'var(--text-dim)', background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
@@ -185,8 +185,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                   onMouseEnter={e => { e.currentTarget.style.color = 'var(--cyan)'; e.currentTarget.style.background = 'var(--cyan-dim)'; }}
                   onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-dim)'; e.currentTarget.style.background = 'transparent'; }}
                 >
-                  <span style={{ color: 'var(--cyan)', marginRight: 8 }}>$</span>
-                  cd {link.name}
+                  {link.name}
                 </a>
               ))}
             </div>

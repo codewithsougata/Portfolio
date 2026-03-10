@@ -190,22 +190,15 @@ const Contact = () => {
               />
             </div>
 
-            <motion.button
+            <button
               type="submit"
               disabled={status === 'sending'}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              style={{
-                marginTop: 8, width: '100%', padding: '14px', borderRadius: 12,
-                background: 'var(--cyan)', color: '#0a0e1a', fontWeight: 600, fontSize: 16,
-                border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-                opacity: status === 'sending' ? 0.7 : 1, transition: 'background 0.3s',
-                boxShadow: '0 4px 14px rgba(0, 212, 255, 0.3)'
-              }}
+              className="btn-3d"
+              style={{ width: '100%', marginTop: 8, opacity: status === 'sending' ? 0.7 : 1 }}
             >
               {status === 'sending' ? (
                 <>
-                  <span style={{ width: 16, height: 16, border: '2px solid rgba(10,14,26,0.2)', borderTopColor: '#0a0e1a', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+                  <span style={{ width: 16, height: 16, border: '2px solid rgba(255,255,255,0.2)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
                   Sending...
                 </>
               ) : (
@@ -213,7 +206,7 @@ const Contact = () => {
                   <Send size={18} /> Send Message
                 </>
               )}
-            </motion.button>
+            </button>
 
             {status === 'success' && (
               <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: 'var(--green)', fontWeight: 500, marginTop: 8 }}>

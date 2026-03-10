@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
 import { Download, ArrowRight } from 'lucide-react';
 
 const Hero = () => {
@@ -23,11 +23,29 @@ const Hero = () => {
     y.set(0);
   };
 
+  const roles = [
+    "BCA Student", 
+    "Full Stack Developer",
+    "Frontend Engineer",
+    "UI/UX Enthusiast",
+    "Backend Developer",
+    "React Specialist"
+  ];
+  
+  const [currentRole, setCurrentRole] = React.useState(roles[0]);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentRole(roles[Math.floor(Math.random() * roles.length)]);
+    }, 3000); // Change every 3 seconds
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="home" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '100px 24px 60px', position: 'relative', overflow: 'hidden' }}>
       {/* Decorative glow blobs */}
-      <div className="pointer-events-none" style={{ position: 'absolute', top: '15%', left: '5%', width: 'clamp(200px,30vw,420px)', height: 'clamp(200px,30vw,420px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%)', zIndex: 0 }} />
-      <div className="pointer-events-none" style={{ position: 'absolute', top: '30%', right: '5%', width: 'clamp(150px,25vw,350px)', height: 'clamp(150px,25vw,350px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%)', zIndex: 0 }} />
+      <div className="pointer-events-none animate-float" style={{ position: 'absolute', top: '15%', left: '5%', width: 'clamp(200px,30vw,420px)', height: 'clamp(200px,30vw,420px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%)', zIndex: 0 }} />
+      <div className="pointer-events-none animate-float" style={{ position: 'absolute', top: '30%', right: '5%', width: 'clamp(150px,25vw,350px)', height: 'clamp(150px,25vw,350px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%)', zIndex: 0, animationDelay: '3s' }} />
 
       <div style={{ maxWidth: 1100, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 40 }}>
 
@@ -50,29 +68,32 @@ const Hero = () => {
             Manna.
           </h1>
 
-          <h2 style={{ fontSize: 'clamp(1.2rem, 2vw, 1.8rem)', fontWeight: 600, color: 'var(--text-mute)', marginBottom: 24 }}>
-            Full Stack Developer <span style={{ color: 'var(--cyan)', opacity: 0.5 }}>|</span> BCA Student
-          </h2>
+          <div style={{ fontSize: 'clamp(1.2rem, 2vw, 1.8rem)', fontWeight: 600, color: 'var(--text-mute)', marginBottom: 24, display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center', height: '1.8rem' }}>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={currentRole}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.4 }}
+                style={{ color: 'var(--text-mute)' }}
+              >
+                {currentRole}
+              </motion.span>
+            </AnimatePresence>
+          </div>
 
           <p style={{ fontSize: 'clamp(1rem, 1.2vw, 1.1rem)', color: 'var(--text-dim)', lineHeight: 1.6, maxWidth: 480, marginBottom: 32 }}>
             I craft modern, robust, and scalable web solutions. Passionate about creating seamless user experiences and writing clean, efficient code.
           </p>
 
-          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            <motion.a
-              href="#projects"
-              whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 24px', background: 'var(--cyan)', color: '#0a0e1a', borderRadius: 8, fontWeight: 600, textDecoration: 'none', boxShadow: '0 4px 14px rgba(0,212,255,0.4)' }}
-            >
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 10 }}>
+            <a href="#projects" className="btn-3d" style={{ outline: 'none' }}>
               View Projects <ArrowRight size={18} />
-            </motion.a>
-            <motion.a
-              href="/resume.pdf" download
-              whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 24px', background: 'var(--surface2)', color: 'var(--text)', borderRadius: 8, fontWeight: 600, textDecoration: 'none', border: '1px solid var(--border)' }}
-            >
+            </a>
+            <a href="/resume.pdf" download className="btn-3d-secondary" style={{ outline: 'none' }}>
               Download CV <Download size={18} />
-            </motion.a>
+            </a>
           </div>
 
           <div style={{ marginTop: 40, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
