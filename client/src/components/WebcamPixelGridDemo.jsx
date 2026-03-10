@@ -33,17 +33,17 @@ export function WebcamPixelGridDemo() {
           {/* Content */}
           <div className="relative z-10 text-center max-w-2xl">
             {/* Badge */}
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/70 backdrop-blur-sm">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface2)] px-4 py-1.5 text-sm text-[var(--text-dim)] backdrop-blur-sm">
               Available for new projects &rarr;
             </div>
 
             {/* Title */}
-            <h2 className="mb-6 text-3xl font-bold tracking-tight text-white sm:text-5xl">
+            <h2 className="mb-6 text-3xl font-bold tracking-tight text-[var(--text)] sm:text-5xl">
               Let's create something <span className="text-cyan-400">amazing</span>.
             </h2>
 
             {/* Description */}
-            <p className="mb-10 text-base text-white/60 sm:text-lg">
+            <p className="mb-10 text-base text-[var(--text-dim)] sm:text-lg">
               Have a vision? I have the tools. Let's combine our skills to build the next big thing.
             </p>
 

@@ -47,14 +47,14 @@ const Hero = () => {
       <div className="pointer-events-none animate-float" style={{ position: 'absolute', top: '15%', left: '5%', width: 'clamp(200px,30vw,420px)', height: 'clamp(200px,30vw,420px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%)', zIndex: 0 }} />
       <div className="pointer-events-none animate-float" style={{ position: 'absolute', top: '30%', right: '5%', width: 'clamp(150px,25vw,350px)', height: 'clamp(150px,25vw,350px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%)', zIndex: 0, animationDelay: '3s' }} />
 
-      <div style={{ maxWidth: 1100, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 40 }}>
-
+      <div style={{ maxWidth: 1100, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: 40 }} className="md:justify-between md:text-left">
         {/* Left Side: Text */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          style={{ flex: '1 1 500px' }}
+          style={{ flex: '1 1 500px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+          className="md:items-start"
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
@@ -68,7 +68,7 @@ const Hero = () => {
             Manna.
           </h1>
 
-          <div style={{ fontSize: 'clamp(1.2rem, 2vw, 1.8rem)', fontWeight: 600, color: 'var(--text-mute)', marginBottom: 24, display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center', height: '1.8rem' }}>
+          <div style={{ fontSize: 'clamp(1.2rem, 2vw, 1.8rem)', fontWeight: 600, color: 'var(--text-mute)', marginBottom: 24, display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center', justifyContent: 'center', height: '1.8rem' }} className="md:justify-start">
             <AnimatePresence mode="wait">
               <motion.span
                 key={currentRole}
@@ -96,7 +96,7 @@ const Hero = () => {
             </a>
           </div>
 
-          <div style={{ marginTop: 40, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <div style={{ marginTop: 40, display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }} className="md:justify-start">
             {['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind', 'Framer Motion'].map((tech, i) => (
               <motion.span
                 key={tech}
@@ -109,12 +109,13 @@ const Hero = () => {
           </div>
         </motion.div>
 
-        {/* Right Side: 3D Image */}
+        {/* Right Side: 3D Image (Restored for Desktop) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          style={{ flex: '1 1 400px', display: 'flex', justifyContent: 'center', perspective: 1000 }}
+          style={{ flex: '1 1 400px', justifyContent: 'center', perspective: 1000 }}
+          className="hidden md:flex"
         >
           <motion.div
             onMouseMove={handleMouseMove}
@@ -139,25 +140,6 @@ const Hero = () => {
               alt="Sougata"
               style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '30%', border: '2px solid rgba(0,212,255,0.3)', boxShadow: '0 20px 40px rgba(0,0,0,0.5)', transform: 'translateZ(30px)' }}
             />
-            {/* Floating UI Elements for 3D depth */}
-            <motion.div
-              style={{ position: 'absolute', top: '10%', right: '-5%', background: 'rgba(10,14,26,0.8)', backdropFilter: 'blur(8px)', padding: '10px 16px', borderRadius: 12, border: '1px solid var(--border)', transform: 'translateZ(60px)', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 10px 20px rgba(0,0,0,0.3)' }}
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            >
-              <span style={{ fontSize: 20 }}>💻</span>
-              <span style={{ color: 'var(--text)', fontWeight: 600, fontSize: 13 }}>Web Dev</span>
-            </motion.div>
-
-            <motion.div
-              style={{ position: 'absolute', bottom: '15%', left: '-5%', background: 'rgba(10,14,26,0.8)', backdropFilter: 'blur(8px)', padding: '10px 16px', borderRadius: 12, border: '1px solid var(--border)', transform: 'translateZ(80px)', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 10px 20px rgba(0,0,0,0.3)' }}
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-            >
-              <span style={{ fontSize: 20 }}>🚀</span>
-              <span style={{ color: 'var(--text)', fontWeight: 600, fontSize: 13 }}>Fast & Scalable</span>
-            </motion.div>
-
           </motion.div>
         </motion.div>
       </div>

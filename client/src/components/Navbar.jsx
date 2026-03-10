@@ -43,9 +43,10 @@ const Navbar = ({ theme, toggleTheme }) => {
         top: 0, left: 0, right: 0,
         zIndex: 50,
         transition: 'background 0.3s, border-color 0.3s, backdrop-filter 0.3s',
-        background: scrolled ? 'rgba(10,14,26,0.85)' : 'transparent',
+        background: scrolled ? 'var(--bg2)' : 'transparent',
         backdropFilter: scrolled ? 'blur(16px)' : 'none',
         borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
+        opacity: scrolled ? 0.95 : 1
       }}
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -60,20 +61,32 @@ const Navbar = ({ theme, toggleTheme }) => {
             style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}
             whileHover={{ scale: 1.03 }}
           >
-            <span style={{
-              width: 30, height: 30, borderRadius: 6,
-              background: 'var(--cyan-dim)',
-              border: '1px solid rgba(0,212,255,0.3)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <Code size={14} color="var(--cyan)" />
-            </span>
-            <span style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: 16, fontWeight: 700, color: 'var(--text)',
-            }}>
-              <span style={{ color: 'var(--cyan)' }}>S</span>ougata
-            </span>
+            {/* Desktop Logo (Icon + Text) */}
+            <div className="hidden md:flex" style={{ alignItems: 'center', gap: 8 }}>
+              <span style={{
+                width: 30, height: 30, borderRadius: 6,
+                background: 'var(--cyan-dim)',
+                border: '1px solid rgba(0,212,255,0.3)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <Code size={14} color="var(--cyan)" />
+              </span>
+              <span style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 16, fontWeight: 700, color: 'var(--text)',
+              }}>
+                <span style={{ color: 'var(--cyan)' }}>S</span>ougata
+              </span>
+            </div>
+
+            {/* Mobile Logo (User Image only) */}
+            <div className="md:hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop" 
+                alt="Profile" 
+                style={{ width: 34, height: 34, borderRadius: '50%', border: '2px solid var(--cyan)', objectFit: 'cover' }}
+              />
+            </div>
           </motion.a>
 
           {/* Desktop Links */}
@@ -161,7 +174,8 @@ const Navbar = ({ theme, toggleTheme }) => {
         {isOpen && (
           <motion.div
             style={{
-              background: 'rgba(10,14,26,0.95)',
+              background: 'var(--bg2)',
+              opacity: 0.98,
               backdropFilter: 'blur(16px)',
               borderBottom: '1px solid var(--border)',
             }}
