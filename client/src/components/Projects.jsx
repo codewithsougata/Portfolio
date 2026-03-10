@@ -6,7 +6,7 @@ const projectsData = [
   {
     name: 'e-commerce-platform',
     title: 'E-Commerce Platform',
-    description: 'Full-stack e-commerce with authentication, product management, and Stripe API integration.',
+    description: 'Full-stack e-commerce with authentication, product management, and Stripe API integration. Built for scale and performance.',
     techStack: ['React', 'Node.js', 'Express', 'MongoDB'],
     github: '#',
     live: '#',
@@ -15,7 +15,7 @@ const projectsData = [
   {
     name: 'task-manager',
     title: 'Task Management App',
-    description: 'Responsive task manager with drag-and-drop, real-time updates, and team collaboration.',
+    description: 'Responsive task manager with drag-and-drop, real-time updates, and team collaboration features. Intuitive UI/UX design.',
     techStack: ['React', 'Firebase', 'Tailwind CSS'],
     github: '#',
     live: '#',
@@ -24,7 +24,7 @@ const projectsData = [
   {
     name: 'portfolio-v2',
     title: 'Portfolio Website',
-    description: 'Modern developer portfolio with terminal UI, Framer Motion animations, and dark/light mode.',
+    description: 'Modern developer portfolio with immersive 3D animations, sleek card layouts, and responsive design natively built.',
     techStack: ['React', 'Framer Motion', 'Tailwind CSS'],
     github: '#',
     live: '#',
@@ -34,74 +34,90 @@ const projectsData = [
 
 const Projects = () => (
   <section id="projects" className="section-container">
-    <motion.h2
-      className="section-heading"
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
+      style={{ textAlign: 'center', marginBottom: 50 }}
     >
-      <span className="hash">#</span>projects
-    </motion.h2>
+      <h2 style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>
+        Featured <span style={{ color: '#a78bfa' }}>Projects</span>
+      </h2>
+      <div style={{ width: 60, height: 4, background: '#a78bfa', margin: '0 auto', borderRadius: 2 }} />
+    </motion.div>
 
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: 20 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 30 }}>
       {projectsData.map((project, i) => (
         <motion.div
           key={i}
-          className="terminal-window"
-          style={{ display: 'flex', flexDirection: 'column' }}
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.45, delay: i * 0.1 }}
-          whileHover={{ y: -4 }}
+          transition={{ duration: 0.5, delay: i * 0.1 }}
+          whileHover={{ y: -8 }}
+          style={{
+            display: 'flex', flexDirection: 'column',
+            background: 'rgba(20, 25, 40, 0.4)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.05)',
+            borderRadius: 24,
+            overflow: 'hidden',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
+            position: 'relative'
+          }}
         >
-          {/* Title bar */}
-          <div className="terminal-titlebar">
-            <span className="dot-red" /><span className="dot-yellow" /><span className="dot-green" />
-            <span className="titlebar-label" style={{ color: project.color }}>~/{project.name}</span>
-          </div>
+          {/* Subtle gradient banner at top */}
+          <div style={{ height: 6, width: '100%', background: `linear-gradient(90deg, ${project.color}, transparent)` }} />
 
-          {/* Language bar */}
-          <div style={{
-            display: 'flex', gap: 0,
-            height: 3,
-            background: 'var(--border)',
-          }}>
-            <div style={{ flex: 2, background: project.color, opacity: 0.7 }} />
-            <div style={{ flex: 1, background: 'var(--purple)', opacity: 0.5 }} />
-            <div style={{ flex: 1, background: 'var(--amber)', opacity: 0.4 }} />
-          </div>
+          <div style={{ padding: '32px 28px', flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
 
-          {/* Body */}
-          <div style={{ padding: '20px 22px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-            {/* import block */}
-            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: 'var(--text-mute)', marginBottom: 16, lineHeight: 1.8 }}>
-              {project.techStack.map(t => (
-                <div key={t}>
-                  <span style={{ color: 'var(--purple)' }}>import</span>{' '}
-                  <span style={{ color: project.color }}>{t.replace(/\s/g, '')}</span>{' '}
-                  <span style={{ color: 'var(--text-mute)' }}>from</span>{' '}
-                  <span style={{ color: 'var(--amber)' }}>'{t.toLowerCase().replace(/\s/g, '-')}'</span><span style={{ color: 'var(--text-mute)' }}>;</span>
-                </div>
-              ))}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <div style={{
+                width: 48, height: 48, borderRadius: 12,
+                background: `${project.color}15`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: project.color
+              }}>
+                <ExternalLink size={24} />
+              </div>
+              <div style={{ display: 'flex', gap: 12 }}>
+                <motion.a href={project.github} target="_blank" rel="noreferrer" whileHover={{ scale: 1.1, color: project.color }} style={{ color: 'var(--text-mute)', transition: 'color 0.2s' }}>
+                  <Github size={20} />
+                </motion.a>
+              </div>
             </div>
 
             <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--text)', marginBottom: 8 }}>{project.title}</div>
-              <div style={{ fontSize: 13, color: 'var(--text-dim)', lineHeight: 1.7 }}>{project.description}</div>
+              <h3 style={{ fontWeight: 700, fontSize: 22, color: 'var(--text)', marginBottom: 12, letterSpacing: '-0.02em' }}>
+                {project.title}
+              </h3>
+              <p style={{ fontSize: 15, color: 'var(--text-dim)', lineHeight: 1.6, marginBottom: 24 }}>
+                {project.description}
+              </p>
             </div>
 
-            {/* Buttons */}
-            <div style={{ display: 'flex', gap: 10, marginTop: 20, paddingTop: 16, borderTop: '1px solid var(--border)' }}>
-              <a href={project.github} target="_blank" rel="noreferrer" className="btn-developer" style={{ flex: 1 }}>
-                <Github size={13} /> GitHub
-              </a>
-              <a href={project.live} target="_blank" rel="noreferrer" className="btn-primary-dev" style={{ flex: 1 }}>
-                <ExternalLink size={13} /> Live
-              </a>
+            {/* Tech stack tags */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 'auto' }}>
+              {project.techStack.map(t => (
+                <span key={t} style={{
+                  padding: '4px 12px',
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(255,255,255,0.05)',
+                  color: 'var(--text-mute)',
+                  borderRadius: 20,
+                  fontSize: 12,
+                  fontWeight: 500
+                }}>
+                  {t}
+                </span>
+              ))}
             </div>
+
           </div>
+
+          {/* Background decorative glow */}
+          <div style={{ position: 'absolute', bottom: -50, right: -50, width: 150, height: 150, background: project.color, filter: 'blur(80px)', opacity: 0.1, borderRadius: '50%', pointerEvents: 'none' }} />
         </motion.div>
       ))}
     </div>

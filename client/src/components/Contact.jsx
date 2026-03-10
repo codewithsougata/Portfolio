@@ -24,73 +24,89 @@ const Contact = () => {
   };
 
   const socials = [
-    { icon: <Mail size={15} />, label: 'Email', href: 'mailto:sougata@example.com', text: 'sougata@example.com' },
-    { icon: <Github size={15} />, label: 'GitHub', href: 'https://github.com/yourgithub', text: 'github.com/yourgithub' },
-    { icon: <Linkedin size={15} />, label: 'LinkedIn', href: 'https://linkedin.com/in/yourlinkedin', text: 'linkedin.com/in/yourlinkedin' },
+    { icon: <Mail size={18} />, label: 'Email', href: 'mailto:sougata@example.com', text: 'sougata@example.com' },
+    { icon: <Github size={18} />, label: 'GitHub', href: 'https://github.com/yourgithub', text: 'github.com/yourgithub' },
+    { icon: <Linkedin size={18} />, label: 'LinkedIn', href: 'https://linkedin.com/in/yourlinkedin', text: 'linkedin.com/in/yourlinkedin' },
   ];
 
   return (
     <section id="contact" className="section-container">
-      <motion.h2
-        className="section-heading"
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
+        style={{ textAlign: 'center', marginBottom: 50 }}
       >
-        <span className="hash">#</span>contact
-      </motion.h2>
+        <h2 style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>
+          Get In <span style={{ color: 'var(--cyan)' }}>Touch</span>
+        </h2>
+        <div style={{ width: 60, height: 4, background: 'var(--cyan)', margin: '0 auto', borderRadius: 2 }} />
+      </motion.div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 32 }}>
 
         {/* ── Info panel ── */}
         <motion.div
-          className="terminal-window"
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
+          style={{
+            background: 'rgba(20, 25, 40, 0.4)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.05)',
+            borderRadius: 24,
+            padding: 40,
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
         >
-          <div className="terminal-titlebar">
-            <span className="dot-red" /><span className="dot-yellow" /><span className="dot-green" />
-            <span className="titlebar-label">connect.sh</span>
-          </div>
-          <div style={{ padding: '24px 28px' }}>
-            <div style={{ fontWeight: 700, fontSize: 18, color: 'var(--text)', marginBottom: 8 }}>Let's Connect</div>
-            <p style={{ fontSize: 13, color: 'var(--text-dim)', lineHeight: 1.75, marginBottom: 28 }}>
-              I'm currently looking for new opportunities. Whether you have a project, question, or just want to say hi — I'll get back to you!
+          <div style={{ position: 'absolute', top: -100, left: -100, width: 250, height: 250, background: 'var(--cyan)', filter: 'blur(120px)', opacity: 0.1, borderRadius: '50%' }} />
+
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <h3 style={{ fontWeight: 700, fontSize: 24, color: 'var(--text)', marginBottom: 16 }}>Let's Connect</h3>
+            <p style={{ fontSize: 16, color: 'var(--text-dim)', lineHeight: 1.7, marginBottom: 32 }}>
+              I'm currently looking for new opportunities. Whether you have a project, question, or just want to say hi — I'll try my best to get back to you!
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {socials.map(s => (
-                <a
+                <motion.a
                   key={s.label}
                   href={s.href}
                   target="_blank"
                   rel="noreferrer"
+                  whileHover={{ scale: 1.02, x: 5 }}
                   style={{
-                    display: 'flex', alignItems: 'center', gap: 12,
-                    padding: '10px 14px', borderRadius: 8,
-                    background: 'var(--surface2)', border: '1px solid var(--border)',
-                    color: 'var(--text-dim)', textDecoration: 'none',
-                    fontFamily: "'JetBrains Mono',monospace", fontSize: 12,
-                    transition: 'all 0.2s',
+                    display: 'flex', alignItems: 'center', gap: 16,
+                    padding: '16px 20px', borderRadius: 16,
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255,255,255,0.05)',
+                    color: 'var(--text)', textDecoration: 'none',
+                    transition: 'all 0.3s ease',
                   }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.borderColor = 'var(--cyan)';
-                    e.currentTarget.style.color = 'var(--cyan)';
                     e.currentTarget.style.background = 'var(--cyan-dim)';
+                    e.currentTarget.style.borderColor = 'rgba(0, 212, 255, 0.2)';
+                    e.currentTarget.style.color = 'var(--cyan)';
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.borderColor = 'var(--border)';
-                    e.currentTarget.style.color = 'var(--text-dim)';
-                    e.currentTarget.style.background = 'var(--surface2)';
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)';
+                    e.currentTarget.style.color = 'var(--text)';
                   }}
                 >
-                  <span style={{ color: 'var(--cyan)' }}>$ connect --via</span>
-                  {s.icon}
-                  <span>{s.text}</span>
-                </a>
+                  <div style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    width: 40, height: 40, borderRadius: 10,
+                    background: 'rgba(255,255,255,0.05)', color: 'inherit'
+                  }}>
+                    {s.icon}
+                  </div>
+                  <span style={{ fontWeight: 500, fontSize: 15 }}>{s.text}</span>
+                </motion.a>
               ))}
             </div>
           </div>
@@ -98,78 +114,116 @@ const Contact = () => {
 
         {/* ── Form panel ── */}
         <motion.div
-          className="terminal-window"
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
+          style={{
+            background: 'rgba(20, 25, 40, 0.4)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.05)',
+            borderRadius: 24,
+            padding: 40,
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
         >
-          <div className="terminal-titlebar">
-            <span className="dot-red" /><span className="dot-yellow" /><span className="dot-green" />
-            <span className="titlebar-label">sendmail — new message</span>
-          </div>
-          <form onSubmit={handleSubmit} style={{ padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div style={{ position: 'absolute', bottom: -100, right: -100, width: 250, height: 250, background: '#a78bfa', filter: 'blur(120px)', opacity: 0.1, borderRadius: '50%' }} />
+
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20, position: 'relative', zIndex: 1 }}>
+
+            <h3 style={{ fontWeight: 700, fontSize: 24, color: 'var(--text)', marginBottom: 8 }}>Send a Message</h3>
 
             {[
-              { field: 'name', placeholder: 'your name', type: 'text', label: 'name' },
-              { field: 'email', placeholder: 'your email', type: 'email', label: 'email' },
+              { field: 'name', placeholder: 'John Doe', type: 'text', label: 'Your Name' },
+              { field: 'email', placeholder: 'john@example.com', type: 'email', label: 'Your Email' },
             ].map(({ field, placeholder, type, label }) => (
               <div key={field}>
-                <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: 'var(--text-mute)', marginBottom: 5 }}>
-                  <span style={{ color: 'var(--cyan)' }}>$</span> {label}:
-                </div>
+                <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: 'var(--text-mute)', marginBottom: 8 }}>{label}</label>
                 <input
                   type={type}
                   placeholder={placeholder}
                   value={formData[field]}
                   onChange={e => setFormData({ ...formData, [field]: e.target.value })}
                   required
-                  className="terminal-input"
+                  style={{
+                    width: '100%', padding: '14px 18px', borderRadius: 12,
+                    background: 'var(--surface2)', border: '1px solid var(--border)',
+                    color: 'var(--text)', fontSize: 15, transition: 'all 0.3s ease',
+                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)'
+                  }}
+                  onFocus={e => {
+                    e.target.style.borderColor = 'var(--cyan)';
+                    e.target.style.boxShadow = '0 0 0 3px rgba(0, 212, 255, 0.15)';
+                  }}
+                  onBlur={e => {
+                    e.target.style.borderColor = 'var(--border)';
+                    e.target.style.boxShadow = 'inset 0 2px 4px rgba(0,0,0,0.1)';
+                  }}
                 />
               </div>
             ))}
 
             <div>
-              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: 'var(--text-mute)', marginBottom: 5 }}>
-                <span style={{ color: 'var(--cyan)' }}>$</span> message:
-              </div>
+              <label style={{ display: 'block', fontSize: 14, fontWeight: 500, color: 'var(--text-mute)', marginBottom: 8 }}>Your Message</label>
               <textarea
-                placeholder="your message here..."
+                placeholder="How can I help you?"
                 value={formData.message}
                 onChange={e => setFormData({ ...formData, message: e.target.value })}
                 required
-                rows={4}
-                className="terminal-input"
-                style={{ resize: 'vertical' }}
+                rows={5}
+                style={{
+                  width: '100%', padding: '14px 18px', borderRadius: 12,
+                  background: 'var(--surface2)', border: '1px solid var(--border)',
+                  color: 'var(--text)', fontSize: 15, transition: 'all 0.3s ease',
+                  boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)', resize: 'vertical'
+                }}
+                onFocus={e => {
+                  e.target.style.borderColor = 'var(--cyan)';
+                  e.target.style.boxShadow = '0 0 0 3px rgba(0, 212, 255, 0.15)';
+                }}
+                onBlur={e => {
+                  e.target.style.borderColor = 'var(--border)';
+                  e.target.style.boxShadow = 'inset 0 2px 4px rgba(0,0,0,0.1)';
+                }}
               />
             </div>
 
-            <button
+            <motion.button
               type="submit"
               disabled={status === 'sending'}
-              className="btn-primary-dev"
-              style={{ marginTop: 4, width: '100%', opacity: status === 'sending' ? 0.7 : 1 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              style={{
+                marginTop: 8, width: '100%', padding: '14px', borderRadius: 12,
+                background: 'var(--cyan)', color: '#0a0e1a', fontWeight: 600, fontSize: 16,
+                border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+                opacity: status === 'sending' ? 0.7 : 1, transition: 'background 0.3s',
+                boxShadow: '0 4px 14px rgba(0, 212, 255, 0.3)'
+              }}
             >
-              {status === 'sending'
-                ? <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ width: 12, height: 12, border: '2px solid rgba(167,139,250,0.4)', borderTopColor: '#a78bfa', borderRadius: '50%', animation: 'spin 0.8s linear infinite', display: 'inline-block' }} />
-                  Transmitting...
-                </span>
-                : <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Send size={13} /> $ send --message
-                </span>
-              }
-            </button>
+              {status === 'sending' ? (
+                <>
+                  <span style={{ width: 16, height: 16, border: '2px solid rgba(10,14,26,0.2)', borderTopColor: '#0a0e1a', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send size={18} /> Send Message
+                </>
+              )}
+            </motion.button>
 
             {status === 'success' && (
-              <p style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: 'var(--green)' }}>
-                <CheckCircle size={13} /> Message dispatched successfully.
-              </p>
+              <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: 'var(--green)', fontWeight: 500, marginTop: 8 }}>
+                <CheckCircle size={16} /> Message sent successfully!
+              </motion.p>
             )}
             {status === 'error' && (
-              <p style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: 'var(--red)' }}>
-                <AlertCircle size={13} /> Transmission failed. Try again.
-              </p>
+              <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: 'var(--red)', fontWeight: 500, marginTop: 8 }}>
+                <AlertCircle size={16} /> Failed to send message. Please try again.
+              </motion.p>
             )}
           </form>
         </motion.div>

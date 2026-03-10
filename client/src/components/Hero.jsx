@@ -1,217 +1,143 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FolderOpen, GitBranch, Wifi } from 'lucide-react';
-
-const TYPING_SPEED = 45;
-
-const useTypewriter = (text, delay = 0) => {
-  const [displayed, setDisplayed] = useState('');
-  const [done, setDone] = useState(false);
-  useEffect(() => {
-    let timeout;
-    let i = 0;
-    timeout = setTimeout(() => {
-      const interval = setInterval(() => {
-        i++;
-        setDisplayed(text.slice(0, i));
-        if (i >= text.length) { clearInterval(interval); setDone(true); }
-      }, TYPING_SPEED);
-      return () => clearInterval(interval);
-    }, delay);
-    return () => clearTimeout(timeout);
-  }, [text, delay]);
-  return { displayed, done };
-};
+import React from 'react';
+import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { Download, ArrowRight } from 'lucide-react';
 
 const Hero = () => {
-  const [cursorOn, setCursorOn] = useState(true);
-  const [phase, setPhase] = useState(0); // 0=cmd 1=output 2=links 3=idle
+  // 3D tilt effect for the image
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
-  const cmd = useTypewriter('npm run portfolio', 400);
+  const rotateX = useTransform(y, [-150, 150], [15, -15]);
+  const rotateY = useTransform(x, [-150, 150], [-15, 15]);
 
-  useEffect(() => {
-    const t = setInterval(() => setCursorOn(p => !p), 530);
-    return () => clearInterval(t);
-  }, []);
+  const handleMouseMove = (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set(event.clientX - centerX);
+    y.set(event.clientY - centerY);
+  };
 
-  useEffect(() => {
-    if (cmd.done && phase === 0) {
-      const t = setTimeout(() => setPhase(1), 500);
-      return () => clearTimeout(t);
-    }
-  }, [cmd.done, phase]);
-
-  useEffect(() => {
-    if (phase === 1) {
-      const t = setTimeout(() => setPhase(2), 900);
-      return () => clearTimeout(t);
-    }
-    if (phase === 2) {
-      const t = setTimeout(() => setPhase(3), 800);
-      return () => clearTimeout(t);
-    }
-  }, [phase]);
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   return (
-    <section id="home" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '100px 24px 60px' }}>
-
+    <section id="home" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '100px 24px 60px', position: 'relative', overflow: 'hidden' }}>
       {/* Decorative glow blobs */}
       <div className="pointer-events-none" style={{ position: 'absolute', top: '15%', left: '5%', width: 'clamp(200px,30vw,420px)', height: 'clamp(200px,30vw,420px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%)', zIndex: 0 }} />
       <div className="pointer-events-none" style={{ position: 'absolute', top: '30%', right: '5%', width: 'clamp(150px,25vw,350px)', height: 'clamp(150px,25vw,350px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%)', zIndex: 0 }} />
 
-      <div style={{ maxWidth: 900, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 40 }}>
 
-        {/* Status bar above terminal */}
+        {/* Left Side: Text */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: 'var(--text-mute)' }}
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          style={{ flex: '1 1 500px' }}
         >
-          <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--green)', display: 'inline-block', boxShadow: '0 0 6px var(--green)' }} />
-            online
-          </span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><GitBranch size={11} /> main</span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><FolderOpen size={11} /> portfolio/</span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Wifi size={11} /> Available for opportunities</span>
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+            style={{ display: 'inline-block', padding: '6px 12px', borderRadius: 20, background: 'var(--cyan-dim)', color: 'var(--cyan)', fontFamily: "'JetBrains Mono', monospace", fontSize: 13, marginBottom: 20, border: '1px solid rgba(0,212,255,0.2)' }}
+          >
+            Available for opportunities
+          </motion.div>
 
-        {/* Main terminal window */}
-        <motion.div
-          className="terminal-window"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          style={{ boxShadow: '0 32px 80px rgba(0,0,0,0.4), 0 0 0 1px var(--border)' }}
-        >
-          {/* Title bar */}
-          <div className="terminal-titlebar">
-            <span className="dot-red" /><span className="dot-yellow" /><span className="dot-green" />
-            <span className="titlebar-label">bash — sougata@developer: ~/portfolio</span>
+          <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: 16, color: 'var(--text)' }}>
+            Hi, I'm <span style={{ color: 'var(--cyan)', textShadow: '0 0 20px rgba(0,212,255,0.3)' }}>Sougata</span><br />
+            Manna.
+          </h1>
+
+          <h2 style={{ fontSize: 'clamp(1.2rem, 2vw, 1.8rem)', fontWeight: 600, color: 'var(--text-mute)', marginBottom: 24 }}>
+            Full Stack Developer <span style={{ color: 'var(--cyan)', opacity: 0.5 }}>|</span> BCA Student
+          </h2>
+
+          <p style={{ fontSize: 'clamp(1rem, 1.2vw, 1.1rem)', color: 'var(--text-dim)', lineHeight: 1.6, maxWidth: 480, marginBottom: 32 }}>
+            I craft modern, robust, and scalable web solutions. Passionate about creating seamless user experiences and writing clean, efficient code.
+          </p>
+
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            <motion.a
+              href="#projects"
+              whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 24px', background: 'var(--cyan)', color: '#0a0e1a', borderRadius: 8, fontWeight: 600, textDecoration: 'none', boxShadow: '0 4px 14px rgba(0,212,255,0.4)' }}
+            >
+              View Projects <ArrowRight size={18} />
+            </motion.a>
+            <motion.a
+              href="/resume.pdf" download
+              whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 24px', background: 'var(--surface2)', color: 'var(--text)', borderRadius: 8, fontWeight: 600, textDecoration: 'none', border: '1px solid var(--border)' }}
+            >
+              Download CV <Download size={18} />
+            </motion.a>
           </div>
 
-          {/* Body */}
-          <div style={{ padding: '28px 32px', fontFamily: "'JetBrains Mono',monospace", fontSize: 14, lineHeight: 1.9, minHeight: 280 }}>
-
-            {/* $ npm run portfolio — typing */}
-            <div>
-              <span className="prompt-user">sougata</span>
-              <span className="prompt-host">@developer</span>
-              <span className="prompt-host">:</span>
-              <span className="prompt-path">~/portfolio</span>
-              <span className="prompt-dollar">$</span>
-              <span style={{ color: 'var(--text)' }}>{cmd.displayed}</span>
-              {!cmd.done && (
-                <span style={{ display: 'inline-block', width: 8, height: '1em', background: 'var(--cyan)', verticalAlign: 'middle', marginLeft: 2, opacity: cursorOn ? 1 : 0 }} />
-              )}
-            </div>
-
-            {/* Output lines */}
-            {phase >= 1 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                style={{ marginTop: 8 }}
+          <div style={{ marginTop: 40, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            {['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind', 'Framer Motion'].map((tech, i) => (
+              <motion.span
+                key={tech}
+                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.1 }}
+                style={{ padding: '6px 12px', background: 'var(--surface2)', color: 'var(--text-mute)', borderRadius: 6, fontSize: 13, border: '1px solid var(--border)' }}
               >
-                <div style={{ color: 'var(--text-mute)' }}>
-                  <span style={{ color: 'var(--text-mute)', marginRight: 8 }}>›</span>portfolio@1.0.0 start
-                </div>
-                <div style={{ color: 'var(--text-mute)', marginBottom: 16 }}>
-                  <span style={{ color: 'var(--text-mute)', marginRight: 8 }}>›</span>node server.js
-                </div>
-
-                <div style={{ color: 'var(--cyan)', fontWeight: 600, marginBottom: 8 }}>System Output:</div>
-                {[
-                  ['Name', 'Sougata Manna', 'var(--text)'],
-                  ['Role', 'Full Stack Developer │ BCA Student', '#a78bfa'],
-                  ['Status', 'Available for opportunities', 'var(--green)'],
-                  ['Location', 'India', 'var(--text-dim)'],
-                ].map(([key, val, col], i) => (
-                  <motion.div
-                    key={key}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.25, delay: i * 0.08 }}
-                  >
-                    <span style={{ color: 'var(--cyan)' }}>{key}:&nbsp;</span>
-                    <span style={{ color: col }}>{val}</span>
-                  </motion.div>
-                ))}
-
-                <div style={{ marginTop: 12 }}>
-                  <span style={{ color: 'var(--cyan)', fontWeight: 600 }}>Message:&nbsp;</span>
-                  <span style={{ color: 'var(--text-dim)' }}>I craft modern, robust, and scalable web solutions.</span>
-                </div>
-              </motion.div>
-            )}
-
-            {/* CTA links */}
-            {phase >= 2 && (
-              <motion.div
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35 }}
-                style={{ marginTop: 20, display: 'flex', flexWrap: 'wrap', gap: 10 }}
-              >
-                {[
-                  { label: '[View Projects]', href: '#projects' },
-                  { label: '[Contact Me]', href: '#contact' },
-                  { label: '[Download CV]', href: '/resume.pdf', download: true },
-                ].map(({ label, href, download }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    download={download}
-                    style={{
-                      fontFamily: "'JetBrains Mono',monospace", fontSize: 13,
-                      color: 'var(--cyan)', textDecoration: 'none',
-                      padding: '4px 0',
-                      transition: 'color 0.2s',
-                    }}
-                    onMouseEnter={e => e.currentTarget.style.color = 'var(--text)'}
-                    onMouseLeave={e => e.currentTarget.style.color = 'var(--cyan)'}
-                  >
-                    {label}
-                  </a>
-                ))}
-              </motion.div>
-            )}
-
-            {/* Idle prompt */}
-            {phase >= 3 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                style={{ marginTop: 16, display: 'flex', alignItems: 'center' }}
-              >
-                <span className="prompt-user">sougata</span>
-                <span className="prompt-host">@developer</span>
-                <span className="prompt-host">:</span>
-                <span className="prompt-path">~/portfolio</span>
-                <span className="prompt-dollar">$</span>
-                <motion.span
-                  animate={{ opacity: [1, 0, 1] }}
-                  transition={{ duration: 1.06, repeat: Infinity }}
-                  style={{ display: 'inline-block', width: 8, height: '1em', background: 'var(--cyan)', verticalAlign: 'middle' }}
-                />
-              </motion.div>
-            )}
+                {tech}
+              </motion.span>
+            ))}
           </div>
         </motion.div>
 
-        {/* Tech stack chips below window */}
+        {/* Right Side: 3D Image */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          style={{ marginTop: 20, display: 'flex', flexWrap: 'wrap', gap: 8 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+          style={{ flex: '1 1 400px', display: 'flex', justifyContent: 'center', perspective: 1000 }}
         >
-          {['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS', 'Framer Motion'].map(t => (
-            <span key={t} className="tag">{t}</span>
-          ))}
+          <motion.div
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{
+              rotateX, rotateY,
+              width: '100%', maxWidth: 400, aspectRatio: '1/1', position: 'relative',
+              transformStyle: "preserve-3d", cursor: 'grab'
+            }}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+          >
+            {/* Background glowing circle for the image */}
+            <motion.div
+              animate={{ scale: [1, 1.05, 1], opacity: [0.5, 0.8, 0.5] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              style={{ position: 'absolute', inset: -20, borderRadius: '35%', background: 'linear-gradient(45deg, var(--cyan), #7c3aed)', filter: 'blur(30px)', zIndex: -1, opacity: 0.5, transform: 'translateZ(-50px)' }}
+            />
+            {/* The Image (Placeholder) */}
+            <motion.img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop"
+              alt="Sougata"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '30%', border: '2px solid rgba(0,212,255,0.3)', boxShadow: '0 20px 40px rgba(0,0,0,0.5)', transform: 'translateZ(30px)' }}
+            />
+            {/* Floating UI Elements for 3D depth */}
+            <motion.div
+              style={{ position: 'absolute', top: '10%', right: '-5%', background: 'rgba(10,14,26,0.8)', backdropFilter: 'blur(8px)', padding: '10px 16px', borderRadius: 12, border: '1px solid var(--border)', transform: 'translateZ(60px)', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 10px 20px rgba(0,0,0,0.3)' }}
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            >
+              <span style={{ fontSize: 20 }}>💻</span>
+              <span style={{ color: 'var(--text)', fontWeight: 600, fontSize: 13 }}>Web Dev</span>
+            </motion.div>
+
+            <motion.div
+              style={{ position: 'absolute', bottom: '15%', left: '-5%', background: 'rgba(10,14,26,0.8)', backdropFilter: 'blur(8px)', padding: '10px 16px', borderRadius: 12, border: '1px solid var(--border)', transform: 'translateZ(80px)', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 10px 20px rgba(0,0,0,0.3)' }}
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+            >
+              <span style={{ fontSize: 20 }}>🚀</span>
+              <span style={{ color: 'var(--text)', fontWeight: 600, fontSize: 13 }}>Fast & Scalable</span>
+            </motion.div>
+
+          </motion.div>
         </motion.div>
       </div>
     </section>
