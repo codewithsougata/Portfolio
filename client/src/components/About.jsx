@@ -47,7 +47,7 @@ const About = () => (
           backdropFilter: 'blur(12px)',
           border: '1px solid rgba(255, 255, 255, 0.05)',
           borderRadius: 20,
-          padding: 32,
+          padding: 'clamp(20px, 4vw, 32px)',
           boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
           position: 'relative',
           overflow: 'hidden'
@@ -104,7 +104,7 @@ const About = () => (
           backdropFilter: 'blur(12px)',
           border: '1px solid rgba(255, 255, 255, 0.05)',
           borderRadius: 20,
-          padding: 32,
+          padding: 'clamp(20px, 4vw, 32px)',
           boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
           position: 'relative',
           overflow: 'hidden'

@@ -16,6 +16,14 @@ const Navbar = ({ theme, toggleTheme }) => {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState('home');
 
+  const handleNavClick = () => {
+    // Defer closing the menu slightly so mobile browsers can register
+    // and initiate the native anchor smooth-scroll without interruption.
+    setTimeout(() => {
+      setIsOpen(false);
+    }, 150);
+  };
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
@@ -59,6 +67,7 @@ const Navbar = ({ theme, toggleTheme }) => {
           {/* Logo */}
           <motion.a
             href="#home"
+            onClick={handleNavClick}
             style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}
             whileHover={{ scale: 1.03 }}
           >
@@ -96,6 +105,7 @@ const Navbar = ({ theme, toggleTheme }) => {
               <a
                 key={link.name}
                 href={link.href}
+                onClick={handleNavClick}
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: 13,
@@ -162,7 +172,7 @@ const Navbar = ({ theme, toggleTheme }) => {
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              style={{ color: 'var(--text-dim)', background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
+              style={{ color: 'var(--text-dim)', background: 'none', border: 'none', cursor: 'pointer', padding: 4, zIndex: 60 }}
             >
               {isOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -179,6 +189,9 @@ const Navbar = ({ theme, toggleTheme }) => {
               opacity: 0.98,
               backdropFilter: 'blur(16px)',
               borderBottom: '1px solid var(--border)',
+              overflow: 'hidden',
+              position: 'absolute',
+              top: '100%', left: 0, right: 0
             }}
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
@@ -190,7 +203,7 @@ const Navbar = ({ theme, toggleTheme }) => {
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={() => setIsOpen(false)}
+                  onClick={handleNavClick}
                   style={{
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: 13, padding: '8px 12px', borderRadius: 6,

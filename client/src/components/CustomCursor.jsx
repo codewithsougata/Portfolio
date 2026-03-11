@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const CustomCursor = () => {
+  const [isMobile, setIsMobile] = useState(false);
   const dotRef = useRef(null);
   const ringRef = useRef(null);
   const pos = useRef({ x: 0, y: 0 });
@@ -8,6 +9,18 @@ const CustomCursor = () => {
   const raf = useRef(null);
 
   useEffect(() => {
+    // Check if the device is mobile or touch-enabled
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
+
     const onMouseMove = (e) => {
       pos.current = { x: e.clientX, y: e.clientY };
     };
@@ -49,7 +62,11 @@ const CustomCursor = () => {
       window.removeEventListener('mouseover', onMouseOver);
       cancelAnimationFrame(raf.current);
     };
-  }, []);
+  }, [isMobile]);
+
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <>

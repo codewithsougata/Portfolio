@@ -29,7 +29,7 @@ const GitHubSnake = () => {
             backdropFilter: 'blur(12px)',
             border: '1px solid rgba(255, 255, 255, 0.05)',
             borderRadius: 24,
-            padding: 32,
+            padding: 'clamp(16px, 4vw, 32px)',
             boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
             position: 'relative',
             overflow: 'hidden'
@@ -60,20 +60,20 @@ const GitHubSnake = () => {
               </a>
             </div>
             
-            <div style={{ 
+            <div className="github-snake-wrap" style={{ 
               borderRadius: 16, 
-              overflow: 'hidden', 
+              overflowX: 'auto', 
               background: 'rgba(10, 14, 26, 0.6)', 
               border: '1px solid rgba(255, 255, 255, 0.03)', 
-              padding: 16,
+              padding: 'clamp(8px, 2vw, 16px)',
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
               boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.2)'
             }}>
               <img
                 src="https://raw.githubusercontent.com/sougatamanna/sougatamanna/output/github-contribution-grid-snake.svg"
                 alt="GitHub contribution snake animation"
-                style={{ width: '100%', maxWidth: 800, mixBlendMode: 'screen', opacity: 0.9, filter: 'contrast(1.2)' }}
+                style={{ width: '100%', minWidth: 500, maxWidth: 800, mixBlendMode: 'screen', opacity: 0.9, filter: 'contrast(1.2)' }}
                 onError={(e) => {
                   e.target.src = "https://profile-readme-generator.com/assets/snake.svg";
                 }}

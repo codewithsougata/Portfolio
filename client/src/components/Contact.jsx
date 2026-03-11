@@ -57,7 +57,7 @@ const Contact = () => {
             backdropFilter: 'blur(12px)',
             border: '1px solid rgba(255, 255, 255, 0.05)',
             borderRadius: 24,
-            padding: 40,
+            padding: 'clamp(20px, 4vw, 40px)',
             boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
             position: 'relative',
             overflow: 'hidden'
@@ -100,12 +100,12 @@ const Contact = () => {
                 >
                   <div style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    width: 40, height: 40, borderRadius: 10,
+                    width: 40, height: 40, borderRadius: 10, flexShrink: 0,
                     background: 'rgba(255,255,255,0.05)', color: 'inherit'
                   }}>
                     {s.icon}
                   </div>
-                  <span style={{ fontWeight: 500, fontSize: 15 }}>{s.text}</span>
+                  <span style={{ fontWeight: 500, fontSize: 15, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.text}</span>
                 </motion.a>
               ))}
             </div>
@@ -123,7 +123,7 @@ const Contact = () => {
             backdropFilter: 'blur(12px)',
             border: '1px solid rgba(255, 255, 255, 0.05)',
             borderRadius: 24,
-            padding: 40,
+            padding: 'clamp(20px, 4vw, 40px)',
             boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
             position: 'relative',
             overflow: 'hidden'
