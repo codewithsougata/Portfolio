@@ -54,9 +54,9 @@ const Footer = () => {
         {/* Right */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           {[
-            { href: 'https://github.com/yourgithub', icon: <Github size={15} /> },
-            { href: 'https://linkedin.com/in/yourlinkedin', icon: <Linkedin size={15} /> },
-            { href: 'mailto:sougata@example.com', icon: <Mail size={15} /> },
+            { href: 'https://github.com/codewithsougata', icon: <Github size={15} /> },
+            { href: 'https://www.linkedin.com/in/sougata-manna-9932s/', icon: <Linkedin size={15} /> },
+            { href: 'mailto:sougatamanna9932@gmail.com', icon: <Mail size={15} /> },
           ].map(({ href, icon }, i) => (
             <a
               key={i}

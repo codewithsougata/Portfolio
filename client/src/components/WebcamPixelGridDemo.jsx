@@ -1,5 +1,6 @@
 import React from "react";
 import { WebcamPixelGrid } from "./ui/webcam-pixel-grid";
+import { assets } from "../assets/assets";
 
 export function WebcamPixelGridDemo() {
   return (
@@ -57,7 +58,7 @@ export function WebcamPixelGridDemo() {
                 Start a Project
               </a>
               <a
-                href="/resume.pdf"
+                href={assets.resume}
                 download
                 className="btn-3d-secondary"
                 style={{ padding: '12px 32px', fontSize: 16 }}

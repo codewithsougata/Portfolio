@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Sun, Moon, Code } from 'lucide-react';
+import { assets } from '../assets/assets';
 
 const navLinks = [
   { name: 'home', href: '#home' },
@@ -82,7 +83,7 @@ const Navbar = ({ theme, toggleTheme }) => {
             {/* Mobile Logo (User Image only) */}
             <div className="md:hidden">
               <img 
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzhu4SBGYOgqjLYyCVtYc7YiTvdzQvqO4Arg&s" 
+                src={assets.profile} 
                 alt="Profile" 
                 style={{ width: 34, height: 34, borderRadius: '50%', border: '2px solid var(--cyan)', objectFit: 'cover' }}
               />

@@ -2,16 +2,22 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaNodeJs, FaGithub } from 'react-icons/fa';
 import { SiMongodb, SiExpress } from 'react-icons/si';
+import { skills_list } from '../assets/assets';
 
-const skills = [
-  { name: 'HTML5', icon: <FaHtml5 />, color: '#E34F26', level: 90 },
-  { name: 'CSS3', icon: <FaCss3Alt />, color: '#1572B6', level: 85 },
-  { name: 'JavaScript', icon: <FaJs />, color: '#F7DF1E', level: 80 },
-  { name: 'React', icon: <FaReact />, color: '#61DAFB', level: 75 },
-  { name: 'Node.js', icon: <FaNodeJs />, color: '#339933', level: 70 },
-  { name: 'Express', icon: <SiExpress />, color: '#a0aec0', level: 70 },
-  { name: 'MongoDB', icon: <SiMongodb />, color: '#47A248', level: 65 },
-];
+const skillIcons = {
+  'HTML5': <FaHtml5 />,
+  'CSS3': <FaCss3Alt />,
+  'JavaScript': <FaJs />,
+  'React': <FaReact />,
+  'Node.js': <FaNodeJs />,
+  'Express': <SiExpress />,
+  'MongoDB': <SiMongodb />,
+};
+
+const skills = skills_list.map(skill => ({
+  ...skill,
+  icon: skillIcons[skill.name]
+}));
 
 const About = () => (
   <section id="about" className="section-container">

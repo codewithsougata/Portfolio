@@ -1,42 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { AnimatedTestimonials } from './ui/animated-testimonials';
-
-const projectsData = [
-  {
-    name: 'e-commerce-platform',
-    title: 'E-Commerce Platform',
-    description: 'Full-stack e-commerce with authentication, product management, and Stripe API integration. Built for scale and performance.',
-    techStack: ['React', 'Node.js', 'Express', 'MongoDB'],
-    github: '#',
-    live: '#',
-    color: 'var(--cyan)',
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=800&auto=format&fit=crop',
-  },
-  {
-    name: 'task-manager',
-    title: 'Task Management App',
-    description: 'Responsive task manager with drag-and-drop, real-time updates, and team collaboration features. Intuitive UI/UX design.',
-    techStack: ['React', 'Firebase', 'Tailwind CSS'],
-    github: '#',
-    live: '#',
-    color: '#a78bfa',
-    image: 'https://images.unsplash.com/photo-1540350394557-8d14678e7f91?q=80&w=800&auto=format&fit=crop',
-  },
-  {
-    name: 'portfolio-v2',
-    title: 'Portfolio Website',
-    description: 'Modern developer portfolio with immersive 3D animations, sleek card layouts, and responsive design natively built.',
-    techStack: ['React', 'Framer Motion', 'Tailwind CSS'],
-    github: '#',
-    live: '#',
-    color: 'var(--green)',
-    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop',
-  },
-];
+import { assets, projects_list } from '../assets/assets';
 
 const Projects = () => {
-  const testimonials = projectsData.map(project => ({
+  const testimonials = projects_list.map(project => ({
     quote: project.description,
     name: project.title,
     designation: project.techStack.join(" • "),

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
 import { Download, ArrowRight } from 'lucide-react';
+import { assets, roles_list } from '../assets/assets';
 
 const Hero = () => {
   // 3D tilt effect for the image
@@ -23,20 +24,11 @@ const Hero = () => {
     y.set(0);
   };
 
-  const roles = [
-    "BCA Student", 
-    "Full Stack Developer",
-    "Frontend Engineer",
-    "UI/UX Enthusiast",
-    "Backend Developer",
-    "React Specialist"
-  ];
-  
-  const [currentRole, setCurrentRole] = React.useState(roles[0]);
+  const [currentRole, setCurrentRole] = React.useState(roles_list[0]);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentRole(roles[Math.floor(Math.random() * roles.length)]);
+      setCurrentRole(roles_list[Math.floor(Math.random() * roles_list.length)]);
     }, 3000); // Change every 3 seconds
     return () => clearInterval(interval);
   }, []);
@@ -91,7 +83,7 @@ const Hero = () => {
             <a href="#projects" className="btn-3d" style={{ outline: 'none' }}>
               View Projects <ArrowRight size={18} />
             </a>
-            <a href="/resume.pdf" download className="btn-3d-secondary" style={{ outline: 'none' }}>
+            <a href={assets.resume} download className="btn-3d-secondary" style={{ outline: 'none' }}>
               Download CV <Download size={18} />
             </a>
           </div>
@@ -136,7 +128,7 @@ const Hero = () => {
             />
             {/* The Image (Placeholder) */}
             <motion.img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzhu4SBGYOgqjLYyCVtYc7YiTvdzQvqO4Arg&s"
+              src={assets.profile}
               alt="Sougata"
               style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '30%', border: '2px solid rgba(0,212,255,0.3)', boxShadow: '0 20px 40px rgba(0,0,0,0.5)', transform: 'translateZ(30px)' }}
             />

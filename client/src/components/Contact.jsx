@@ -24,9 +24,9 @@ const Contact = () => {
   };
 
   const socials = [
-    { icon: <Mail size={18} />, label: 'Email', href: 'mailto:sougata@example.com', text: 'sougata@example.com' },
-    { icon: <Github size={18} />, label: 'GitHub', href: 'https://github.com/yourgithub', text: 'github.com/yourgithub' },
-    { icon: <Linkedin size={18} />, label: 'LinkedIn', href: 'https://linkedin.com/in/yourlinkedin', text: 'linkedin.com/in/yourlinkedin' },
+    { icon: <Mail size={18} />, label: 'Email', href: 'mailto:sougatamanaa9932@gmail.com', text: 'sougatamanna9932@gmail.com' },
+    { icon: <Github size={18} />, label: 'GitHub', href: 'https://github.com/codewithsougata', text: 'https://github.com/codewithsougata' },
+    { icon: <Linkedin size={18} />, label: 'LinkedIn', href: 'https://www.linkedin.com/in/sougata-manna-9932s/', text: 'https://www.linkedin.com/in/sougata-manna-9932s/' },
   ];
 
   return (
