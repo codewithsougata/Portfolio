@@ -13,7 +13,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'htttp://localhost:5000',
+        target: 'https://portfolio-7p5k-8n2du1xxh-sougata-mannas-projects.vercel.app/api',
         changeOrigin: true,
       },
     },
