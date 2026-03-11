@@ -6,12 +6,12 @@
 
 /* ─── CSS Variables ─────────────────────────────────────────────── */
 :root {
-  --bg: #0a0e1a;
-  --bg2: #0f1525;
-  --surface: #111827;
-  --surface2: #161f30;
-  --border: #1e2d3d;
-  --border2: #243447;
+  --bg: #000000;
+  --bg2: #050505;
+  --surface: #0a0a0a;
+  --surface2: #121212;
+  --border: #1a1a1a;
+  --border2: #262626;
   --cyan: #00d4ff;
   --cyan-dim: rgba(0, 212, 255, 0.15);
   --purple: #7c3aed;
@@ -132,7 +132,7 @@ html.light {
   .section-container {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 100px 24px;
+    padding: 60px 24px;
   }
 
   /* ── Status tag / Badge ─────────────────────────────────────── */
@@ -248,7 +248,7 @@ html.light {
 
   /* Glassmorphism Card Style */
   .glass-card {
-    background: rgba(20, 25, 40, 0.4);
+    background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 24px;
@@ -268,7 +268,7 @@ html.light {
   .section-box {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 20px 20px;
   }
 
   @keyframes float {

@@ -3,7 +3,7 @@ import { WebcamPixelGrid } from "./ui/webcam-pixel-grid";
 
 export function WebcamPixelGridDemo() {
   return (
-    <section className="section-container" style={{ paddingTop: 0, paddingBottom: 80 }}>
+    <section className="section-container" style={{ paddingTop: 0, paddingBottom: 40 }}>
       <div className="section-box">
         <div className="glass-card" style={{ padding: '60px 40px', minHeight: 450, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           

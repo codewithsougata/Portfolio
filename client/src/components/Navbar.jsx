@@ -82,7 +82,7 @@ const Navbar = ({ theme, toggleTheme }) => {
             {/* Mobile Logo (User Image only) */}
             <div className="md:hidden">
               <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop" 
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzhu4SBGYOgqjLYyCVtYc7YiTvdzQvqO4Arg&s" 
                 alt="Profile" 
                 style={{ width: 34, height: 34, borderRadius: '50%', border: '2px solid var(--cyan)', objectFit: 'cover' }}
               />
