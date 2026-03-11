@@ -16,9 +16,12 @@ const Contact = () => {
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY_HERE';
 
       const templateParams = {
-        from_name: formData.name,
+        from_name: formData.name,      // Standard template variables
         from_email: formData.email,
         message: formData.message,
+        user_name: formData.name,      // Fallback for default EmailJS template variables
+        user_email: formData.email,
+        reply_to: formData.email,      // Useful for hitting 'reply' in the inbox
       };
 
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
