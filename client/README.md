@@ -1,16 +1,127 @@
-# React + Vite
+# 🌐 Portfolio Website (React + 3D Animation)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern **Portfolio Website** built using **React.js**, **Vite**, **Tailwind CSS**, and **Framer Motion with 3D animations**.  
+This project showcases personal projects, skills, and interactive UI design.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Live Demo
 
-## React Compiler
+🌐 https://portfolio-seven-orpin-79.vercel.app
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 📂 Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+portfolio
+├── public → Static files
+├── src → Main source code
+├── index.html → Main HTML file
+├── package.json → Project dependencies
+├── vite.config.js → Vite configuration
+├── tailwind.config.js → Tailwind setup
+├── postcss.config.js → PostCSS config
+├── eslint.config.js → Lint rules
+└── README.md
+
+
+---
+
+## 🧰 Tech Stack
+
+| Technology | Use |
+|------------|-----|
+| ⚛️ React.js | Frontend |
+| ⚡ Vite | Fast build tool |
+| 🎨 Tailwind CSS | Styling |
+| 🎬 Framer Motion | Animations |
+| 🧊 Three.js / 3D | 3D Effects |
+| 📏 ESLint | Code quality |
+
+---
+
+## ✨ Features
+
+✨ Modern UI Design  
+🎬 Smooth Animations (Framer Motion)  
+🧊 3D Effects & Interactive Elements  
+📱 Fully Responsive  
+⚡ Fast Performance (Vite)  
+🎨 Tailwind Styling  
+
+---
+
+## ⚙️ Installation
+
+### 1️⃣ Clone Repository
+
+
+git clone https://github.com/yourusername/portfolio.git
+
+cd portfolio
+
+
+---
+
+### 2️⃣ Install Dependencies
+
+
+npm install
+
+
+---
+
+### 3️⃣ Run Development Server
+
+
+npm run dev
+
+
+---
+
+## 🔑 Environment Variables
+
+Create a `.env` file if needed:
+
+
+VITE_API_URL=your_api_url
+
+
+---
+
+## 📌 Important Files
+
+- `src/` → All components and pages  
+- `public/` → Images and static assets  
+- `index.html` → Entry HTML  
+- `vite.config.js` → Vite setup  
+- `tailwind.config.js` → Tailwind styling  
+- `eslint.config.js` → Code rules  
+
+---
+
+## 📸 Preview
+
+_Add screenshots or GIF here_
+
+---
+
+## 👨‍💻 Author
+
+**Sougata Manna**  
+BCA Student — Brainware University  
+
+---
+
+## ⭐ Support
+
+If you like this project:
+
+⭐ Star this repo  
+🍴 Fork it  
+📢 Share it  
+
+---
+
+🔥 Built with ❤️ using React + Motion + 3D
