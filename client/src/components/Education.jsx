@@ -1,104 +1,85 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { GraduationCap, Code, Calendar } from 'lucide-react';
+import { Timeline } from "./ui/timeline";
+import { Meteors } from "./ui/meteors";
 
-const educationData = [
-  {
-    title: 'Bachelor of Computer Applications (BCA)',
-    institution: 'Brainware University',
-    date: '2023 – 2026',
-    description: 'Pursuing undergraduate degree in Computer Applications, focusing on software engineering, web development, and database management.',
-    status: 'Ongoing',
-    icon: <Code size={20} />,
-  },
-  {
-    title: 'Higher Secondary Education',
-    institution: 'Chakbhabani MKN Vidyayatan',
-    date: 'Graduated 2023',
-    description: 'Completed higher secondary education with a strong foundation in science and mathematics.',
-    status: 'Completed',
-    icon: <GraduationCap size={20} />,
-  },
-];
-
-const Education = () => (
-  <section id="education" className="section-container">
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      style={{ textAlign: 'center', marginBottom: 60 }}
-    >
-      <h2 style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>
-        My <span style={{ color: 'var(--cyan)' }}>Education</span>
-      </h2>
-      <div style={{ width: 60, height: 4, background: 'var(--cyan)', margin: '0 auto', borderRadius: 2 }} />
-    </motion.div>
-
-    <div style={{ position: 'relative', maxWidth: 800, margin: '0 auto' }}>
-      {/* Central timeline line */}
-      <div style={{ position: 'absolute', top: 0, left: '24px', bottom: 0, width: 2, background: 'linear-gradient(to bottom, var(--cyan), transparent)', opacity: 0.3 }} className="timeline-line"></div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
-        {educationData.map((item, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            style={{ position: 'relative', paddingLeft: 60 }}
-          >
-            {/* Timeline Icon Node */}
-            <div style={{
-              position: 'absolute', left: 4, top: 0,
-              width: 42, height: 42, borderRadius: '50%',
-              background: item.status === 'Ongoing' ? 'var(--cyan)' : 'var(--surface2)',
-              border: `2px solid ${item.status === 'Ongoing' ? 'rgba(0, 212, 255, 0.4)' : 'var(--border)'}`,
-              color: item.status === 'Ongoing' ? '#0a0e1a' : 'var(--text-mute)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: item.status === 'Ongoing' ? '0 0 20px rgba(0, 212, 255, 0.4)' : 'none',
-              zIndex: 2
-            }}>
-              {item.icon}
+const Education = () => {
+  const data = [
+    {
+      title: "2023 – 2026",
+      content: (
+        <div className="relative w-full max-w-xl">
+          <div className="absolute inset-0 h-full w-full scale-[0.80] transform rounded-full bg-red-500 bg-gradient-to-r from-blue-500 to-teal-500 blur-3xl" />
+          <div className="relative flex h-full flex-col items-start justify-end overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 px-4 py-8 shadow-xl">
+            <div className="mb-4 flex h-5 w-5 items-center justify-center rounded-full border border-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="h-2 w-2 text-gray-300">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25" />
+              </svg>
             </div>
-
-            {/* Content Card */}
-            <div style={{
-              background: 'rgba(20, 25, 40, 0.4)',
-              backdropFilter: 'blur(12px)',
-              border: item.status === 'Ongoing' ? '1px solid rgba(0, 212, 255, 0.2)' : '1px solid rgba(255, 255, 255, 0.05)',
-              borderRadius: 20,
-              padding: 'clamp(20px, 4vw, 32px)',
-              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
-              transition: 'transform 0.3s ease',
-              position: 'relative',
-              overflow: 'hidden'
-            }} className="education-card">
-
-              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, gap: 12 }}>
-                <h3 style={{ fontWeight: 700, fontSize: 20, color: 'var(--text)', margin: 0 }}>{item.title}</h3>
-                <span style={{
-                  display: 'flex', alignItems: 'center', gap: 6,
-                  padding: '6px 12px', background: 'rgba(255, 255, 255, 0.03)',
-                  border: '1px solid rgba(255, 255, 255, 0.05)',
-                  color: 'var(--text-mute)', borderRadius: 20, fontSize: 13, fontWeight: 500
-                }}>
-                  <Calendar size={14} /> {item.date}
-                </span>
-              </div>
-
-              <h4 style={{ fontSize: 16, fontWeight: 600, color: 'var(--cyan)', marginBottom: 16 }}>{item.institution}</h4>
-
-              <p style={{ fontSize: 15, color: 'var(--text-dim)', lineHeight: 1.7, margin: 0 }}>{item.description}</p>
-
+            <h1 className="relative z-50 mb-2 text-xl font-bold text-white">
+              Bachelor of Computer Applications (BCA)
+            </h1>
+            <div className="relative z-50 flex flex-wrap items-center gap-2 mb-4">
+              <span className="px-3 py-1 bg-[var(--surface2)] text-[var(--text)] text-xs md:text-sm font-medium rounded-full border border-[var(--border2)]">
+                Brainware University
+              </span>
+              <span className="px-3 py-1 bg-purple-500/10 text-purple-400 text-xs md:text-sm font-medium rounded-full border border-purple-500/20">
+                Ongoing
+              </span>
             </div>
-          </motion.div>
-        ))}
+            <p className="relative z-50 mb-4 text-base font-normal text-slate-500">
+              Pursuing undergraduate degree in Computer Applications, focusing on software engineering, web development, and database management.
+            </p>
+            <Meteors number={20} />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Graduated 2023",
+      content: (
+        <div className="relative w-full max-w-xl">
+          <div className="absolute inset-0 h-full w-full scale-[0.80] transform rounded-full bg-red-500 bg-gradient-to-r from-blue-500 to-teal-500 blur-3xl" />
+          <div className="relative flex h-full flex-col items-start justify-end overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 px-4 py-8 shadow-xl">
+            <div className="mb-4 flex h-5 w-5 items-center justify-center rounded-full border border-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="h-2 w-2 text-gray-300">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25" />
+              </svg>
+            </div>
+            <h1 className="relative z-50 mb-2 text-xl font-bold text-white">
+              Higher Secondary Education
+            </h1>
+            <div className="relative z-50 flex flex-wrap items-center gap-2 mb-4">
+              <span className="px-3 py-1 bg-[var(--surface2)] text-[var(--text)] text-xs md:text-sm font-medium rounded-full border border-[var(--border2)]">
+                Chakbhabani MKN Vidyayatan
+              </span>
+              <span className="px-3 py-1 bg-[var(--surface2)] text-[var(--text)] text-xs md:text-sm font-medium rounded-full border border-[var(--border2)]">
+                Completed
+              </span>
+            </div>
+            <p className="relative z-50 mb-4 text-base font-normal text-slate-500">
+              Completed higher secondary education with a strong foundation in science and mathematics.
+            </p>
+            <Meteors number={20} />
+          </div>
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <section id="education" className="w-full relative py-10 md:py-20">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-10">
+        <h2 className="text-lg md:text-4xl mb-4 text-black dark:text-white max-w-4xl font-bold">
+          My <span className="text-[var(--text)]">Education</span>
+        </h2>
+        <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base max-w-2xl">
+          My academic journey and educational qualifications.
+        </p>
       </div>
-    </div>
-  </section>
-);
+
+      <Timeline data={data} />
+    </section>
+  );
+};
 
 export default Education;

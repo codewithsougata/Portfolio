@@ -1,17 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
-import GitHubSnake from './components/GitHubSnake';
 import Education from './components/Education';
 import Projects from './components/Projects';
+import { GlobeSection } from './components/GlobeSection';
 import Contact from './components/Contact';
-import { WebcamPixelGridDemo } from './components/WebcamPixelGridDemo';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
-import Loader from './components/Loader';
+import { LoaderFour } from './components/ui/loader';
 import './index.css';
+
+// Catches component render errors so the whole page doesn't go blank
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, info) {
+    console.error('Portfolio render error:', error, info);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{
+          minHeight: '100vh', display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center',
+          background: '#050505', color: '#fff', fontFamily: 'monospace', padding: 32, gap: 16
+        }}>
+          <h2 style={{ fontSize: 24, fontWeight: 700 }}>Something went wrong</h2>
+          <pre style={{
+            color: '#f87171', fontSize: 13, maxWidth: 600, whiteSpace: 'pre-wrap',
+            background: 'rgba(255,0,0,0.06)', padding: 16, borderRadius: 8,
+            border: '1px solid rgba(255,0,0,0.2)'
+          }}>
+            {this.state.error?.message}
+          </pre>
+          <button
+            onClick={() => window.location.reload()}
+            style={{ padding: '10px 24px', background: '#06b6d4', color: '#000', borderRadius: 8, border: 'none', cursor: 'pointer', fontWeight: 600 }}
+          >
+            Reload
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -26,7 +66,6 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Apply theme class to html element so CSS variables react
     document.documentElement.classList.remove('dark', 'light');
     document.documentElement.classList.add(theme);
     localStorage.setItem('portfolio-theme', theme);
@@ -40,28 +79,42 @@ function App() {
   const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
   return (
-    <>
+    <ErrorBoundary>
       <CustomCursor />
       <AnimatePresence mode="wait">
         {loading ? (
-          <Loader key="loader" />
+          <motion.div
+            key="loader"
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center"
+            style={{ background: 'var(--bg)' }}
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+          >
+            <LoaderFour text="Loading..." />
+          </motion.div>
         ) : (
-          <div key="portfolio" style={{ position: 'relative', minHeight: '100vh' }}>
+          <motion.div
+            key="portfolio"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            style={{ position: 'relative', minHeight: '100vh' }}
+          >
             <Navbar theme={theme} toggleTheme={toggleTheme} />
             <main>
               <Hero />
               <About />
-              <GitHubSnake />
               <Education />
               <Projects />
               <Contact />
-              <WebcamPixelGridDemo />
             </main>
+            <GlobeSection />
             <Footer />
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </ErrorBoundary>
   );
 }
 

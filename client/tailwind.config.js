@@ -25,6 +25,7 @@ export default {
         'blink': 'blink .75s step-end infinite',
         'spin-slow': 'spin 8s linear infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'meteor-effect': 'meteor 5s linear infinite',
       },
       keyframes: {
         gradient: {
@@ -46,6 +47,11 @@ export default {
         blink: {
           'from, to': { borderColor: 'transparent' },
           '50%': { borderColor: '#6366f1' },
+        },
+        meteor: {
+          '0%': { transform: 'rotate(215deg) translateX(0)', opacity: '1' },
+          '70%': { opacity: '1' },
+          '100%': { transform: 'rotate(215deg) translateX(-500px)', opacity: '0' },
         },
       },
       backgroundSize: {

@@ -8,6 +8,8 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
+    // Force single instances to prevent "Multiple instances of Three.js" crash
+    dedupe: ['three', 'react', 'react-dom', 'framer-motion', 'motion'],
   },
   server: {
     proxy: {

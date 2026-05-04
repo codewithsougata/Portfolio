@@ -1,7 +1,7 @@
 "use client";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 export const AnimatedTestimonials = ({
   testimonials,
@@ -28,15 +28,15 @@ export const AnimatedTestimonials = ({
     }
   }, [autoplay, testimonials.length]);
 
-  const randomRotateY = () => {
-    return Math.floor(Math.random() * 21) - 10;
-  };
+  const rotations = useMemo(() => 
+    testimonials.map(() => Math.floor(Math.random() * 21) - 10),
+  [testimonials.length]);
 
   return (
     <div className="max-w-sm md:max-w-4xl mx-auto antialiased font-sans px-4 md:px-8 lg:px-12 py-10 md:py-20 relative z-10">
       <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-20">
         <div>
-          <div className="relative h-80 w-full">
+          <div className="relative h-80 w-full [perspective:1000px]">
             <AnimatePresence>
               {testimonials.map((testimonial, index) => (
                 <motion.div
@@ -45,13 +45,13 @@ export const AnimatedTestimonials = ({
                     opacity: 0,
                     scale: 0.9,
                     z: -100,
-                    rotate: randomRotateY(),
+                    rotate: rotations[index],
                   }}
                   animate={{
                     opacity: isActive(index) ? 1 : 0.7,
                     scale: isActive(index) ? 1 : 0.95,
                     z: isActive(index) ? 0 : -100,
-                    rotate: isActive(index) ? 0 : randomRotateY(),
+                    rotate: isActive(index) ? 0 : rotations[index],
                     zIndex: isActive(index)
                       ? 999
                       : testimonials.length + 2 - index,
@@ -61,7 +61,7 @@ export const AnimatedTestimonials = ({
                     opacity: 0,
                     scale: 0.9,
                     z: 100,
-                    rotate: randomRotateY(),
+                    rotate: rotations[index],
                   }}
                   transition={{
                     duration: 0.4,
@@ -82,7 +82,7 @@ export const AnimatedTestimonials = ({
             </AnimatePresence>
           </div>
         </div>
-        <div className="flex justify-between flex-col py-4">
+        <div className="flex justify-between flex-col py-4 min-h-[350px] md:min-h-[320px]">
           <motion.div
             key={active}
             initial={{
@@ -113,12 +113,10 @@ export const AnimatedTestimonials = ({
                 <motion.span
                   key={index}
                   initial={{
-                    filter: "blur(10px)",
                     opacity: 0,
                     y: 5,
                   }}
                   animate={{
-                    filter: "blur(0px)",
                     opacity: 1,
                     y: 0,
                   }}
@@ -159,7 +157,7 @@ export const AnimatedTestimonials = ({
                )}
             </div>
           </motion.div>
-          <div className="flex gap-4 pt-12 md:pt-0">
+          <div className="relative z-20 flex gap-4 pt-12 md:pt-0">
             <button
               onClick={handlePrev}
               className="h-12 w-12 rounded-full bg-[var(--surface2)] backdrop-blur-md flex items-center justify-center group/button border border-[var(--border)] hover:border-cyan-500/50 transition-all duration-300"
