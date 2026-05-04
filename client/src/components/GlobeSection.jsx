@@ -425,7 +425,7 @@ export const GlobeSection = memo(function GlobeSection() {
         <div
           className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent to-[var(--bg)] z-40" />
 
-        <div className="absolute w-full -bottom-20 h-72 md:h-full z-10">
+        <div className="absolute w-full bottom-0 md:-bottom-20 h-80 md:h-full z-10">
           <Suspense fallback={<div className="w-full h-full flex items-center justify-center">Loading 3D Globe...</div>}>
             <World data={sampleArcs} globeConfig={globeConfig} />
           </Suspense>

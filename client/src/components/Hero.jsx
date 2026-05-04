@@ -51,15 +51,17 @@ const Hero = () => {
 
   const sparklesBackground = useMemo(() => (
     <div className="absolute inset-0 w-full h-full pointer-events-none">
-      <SparklesCore
-        id="tsparticlesfullpage"
-        background="transparent"
-        minSize={0.6}
-        maxSize={1.4}
-        particleDensity={isMobile ? 30 : 100}
-        className="w-full h-full"
-        particleColor={isDark ? '#ffffff' : '#000000'}
-      />
+      {!isMobile && (
+        <SparklesCore
+          id="tsparticlesfullpage"
+          background="transparent"
+          minSize={0.6}
+          maxSize={1.4}
+          particleDensity={100}
+          className="w-full h-full"
+          particleColor={isDark ? '#ffffff' : '#000000'}
+        />
+      )}
     </div>
   ), [isDark, isMobile]);
 
