@@ -10,6 +10,14 @@ export const Cover = ({
   className
 }) => {
   const [hovered, setHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const ref = useRef(null);
 
@@ -36,43 +44,45 @@ export const Cover = ({
       onMouseLeave={() => setHovered(false)}
       ref={ref}
       className="relative hover:bg-neutral-800 dark:hover:bg-neutral-800 group/cover inline-block dark:bg-neutral-900 bg-neutral-200 px-2 py-2 transition duration-200 rounded-sm">
-      {/* Sparkles background kept mounted to prevent WebGL crash on hover */}
-      <motion.div
-        animate={{ opacity: hovered ? 1 : 0 }}
-        transition={{
-          opacity: {
-            duration: 0.2,
-          },
-        }}
-        className="h-full w-full overflow-hidden absolute inset-0 pointer-events-none">
+      {/* Sparkles background kept mounted to prevent WebGL crash on hover, but unmounted on mobile to prevent resize crashes */}
+      {!isMobile && (
         <motion.div
-          animate={{
-            translateX: ["-50%", "0%"],
-          }}
+          animate={{ opacity: hovered ? 1 : 0 }}
           transition={{
-            translateX: {
-              duration: 10,
-              ease: "linear",
-              repeat: Infinity,
+            opacity: {
+              duration: 0.2,
             },
           }}
-          className="w-[200%] h-full flex">
-          <SparklesCore
-            background="transparent"
-            minSize={0.4}
-            maxSize={1}
-            particleDensity={500}
-            className="w-full h-full"
-            particleColor="#FFFFFF" />
-          <SparklesCore
-            background="transparent"
-            minSize={0.4}
-            maxSize={1}
-            particleDensity={500}
-            className="w-full h-full"
-            particleColor="#FFFFFF" />
+          className="h-full w-full overflow-hidden absolute inset-0 pointer-events-none">
+          <motion.div
+            animate={{
+              translateX: ["-50%", "0%"],
+            }}
+            transition={{
+              translateX: {
+                duration: 10,
+                ease: "linear",
+                repeat: Infinity,
+              },
+            }}
+            className="w-[200%] h-full flex">
+            <SparklesCore
+              background="transparent"
+              minSize={0.4}
+              maxSize={1}
+              particleDensity={500}
+              className="w-full h-full"
+              particleColor="#FFFFFF" />
+            <SparklesCore
+              background="transparent"
+              minSize={0.4}
+              maxSize={1}
+              particleDensity={500}
+              className="w-full h-full"
+              particleColor="#FFFFFF" />
+          </motion.div>
         </motion.div>
-      </motion.div>
+      )}
       {beamPositions.map((position, index) => (
         <Beam
           key={index}

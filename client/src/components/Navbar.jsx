@@ -22,6 +22,14 @@ const navItems = [
 
 const Navbar = ({ theme, toggleTheme }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const Logo = () => (
     <a href="#home" className="relative z-20 flex flex-col justify-center text-decoration-none group">
@@ -39,16 +47,18 @@ const Navbar = ({ theme, toggleTheme }) => {
           <div className="absolute inset-x-0 top-0 mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent h-[3px] w-1/4 blur-sm" />
           <div className="absolute inset-x-0 top-0 w-1/4 h-px mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent" />
 
-          <div className="absolute inset-0 w-full h-full [mask-image:radial-gradient(80px_20px_at_top,white,transparent_100%)]">
-            <SparklesCore
-              background="transparent"
-              minSize={0.2}
-              maxSize={1}
-              particleDensity={800}
-              className="w-full h-full"
-              particleColor="#ffffff"
-            />
-          </div>
+          {!isMobile && (
+            <div className="absolute inset-0 w-full h-full [mask-image:radial-gradient(80px_20px_at_top,white,transparent_100%)]">
+              <SparklesCore
+                background="transparent"
+                minSize={0.2}
+                maxSize={1}
+                particleDensity={800}
+                className="w-full h-full"
+                particleColor="#ffffff"
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="md:hidden">
