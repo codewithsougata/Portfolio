@@ -81,11 +81,11 @@ function App() {
   return (
     <ErrorBoundary>
       <CustomCursor />
-      <AnimatePresence mode="wait">
-        {loading ? (
+      <AnimatePresence>
+        {loading && (
           <motion.div
             key="loader"
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center"
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center"
             style={{ background: 'var(--bg)' }}
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
@@ -93,27 +93,27 @@ function App() {
           >
             <LoaderFour text="Loading..." />
           </motion.div>
-        ) : (
-          <motion.div
-            key="portfolio"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            style={{ position: 'relative', minHeight: '100vh' }}
-          >
-            <Navbar theme={theme} toggleTheme={toggleTheme} />
-            <main>
-              <Hero />
-              <About />
-              <Education />
-              <Projects />
-              <Contact />
-            </main>
-            <GlobeSection />
-            <Footer />
-          </motion.div>
         )}
       </AnimatePresence>
+
+      <motion.div
+        key="portfolio"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: loading ? 0 : 1 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        style={{ position: 'relative', minHeight: '100vh' }}
+      >
+        <Navbar theme={theme} toggleTheme={toggleTheme} />
+        <main>
+          <Hero />
+          <About />
+          <Education />
+          <Projects />
+          <Contact />
+        </main>
+        <GlobeSection />
+        <Footer />
+      </motion.div>
     </ErrorBoundary>
   );
 }

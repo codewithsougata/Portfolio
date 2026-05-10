@@ -6,7 +6,8 @@ import { Cover } from './ui/cover';
 import { CometCard } from './ui/comet-card';
 import { SparklesCore } from './ui/sparkles';
 import { FloatingDock } from './ui/floating-dock';
-import ChromaSnakeButton from '../uicomponents/buttons/chroma-snake-button';
+import { TextGenerateEffect } from './ui/text-generate-effect';
+import Button from '../uicomponents/buttons/button-commons';
 import {
   IconBrandReact,
   IconBrandNodejs,
@@ -51,17 +52,15 @@ const Hero = () => {
 
   const sparklesBackground = useMemo(() => (
     <div className="absolute inset-0 w-full h-full pointer-events-none">
-      {!isMobile && (
-        <SparklesCore
-          id="tsparticlesfullpage"
-          background="transparent"
-          minSize={0.6}
-          maxSize={1.4}
-          particleDensity={100}
-          className="w-full h-full"
-          particleColor={isDark ? '#ffffff' : '#000000'}
-        />
-      )}
+      <SparklesCore
+        id="tsparticlesfullpage"
+        background="transparent"
+        minSize={0.6}
+        maxSize={1.4}
+        particleDensity={isMobile ? 40 : 100}
+        className="w-full h-full"
+        particleColor={isDark ? '#ffffff' : '#000000'}
+      />
     </div>
   ), [isDark, isMobile]);
 
@@ -82,13 +81,9 @@ const Hero = () => {
         }}
       />
 
-      {/* Decorative glow blobs - hidden on mobile to improve performance */}
-      {!isMobile && (
-        <>
-          <div className="pointer-events-none animate-float" style={{ position: 'absolute', top: '15%', left: '5%', width: 'clamp(200px,30vw,420px)', height: 'clamp(200px,30vw,420px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)', zIndex: 0 }} />
-          <div className="pointer-events-none animate-float" style={{ position: 'absolute', top: '30%', right: '5%', width: 'clamp(150px,25vw,350px)', height: 'clamp(150px,25vw,350px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)', zIndex: 0, animationDelay: '3s' }} />
-        </>
-      )}
+      {/* Decorative glow blobs */}
+      <div className="pointer-events-none animate-float" style={{ position: 'absolute', top: '15%', left: '5%', width: 'clamp(200px,30vw,420px)', height: 'clamp(200px,30vw,420px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)', zIndex: 0 }} />
+      <div className="pointer-events-none animate-float" style={{ position: 'absolute', top: '30%', right: '5%', width: 'clamp(150px,25vw,350px)', height: 'clamp(150px,25vw,350px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)', zIndex: 0, animationDelay: '3s' }} />
 
       <div style={{ maxWidth: 1100, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: 40 }} className="md:justify-between md:text-left">
         {/* Left Side: Text */}
@@ -126,17 +121,17 @@ const Hero = () => {
             </AnimatePresence>
           </div>
 
-          <p style={{ fontSize: 'clamp(1rem, 1.2vw, 1.1rem)', color: 'var(--text-dim)', lineHeight: 1.6, maxWidth: 480, marginBottom: 32 }}>
-            I craft modern, robust, and scalable web solutions. Passionate about creating seamless user experiences and writing clean, efficient code.
-          </p>
+          <div style={{ fontSize: 'clamp(1rem, 1.2vw, 1.1rem)', color: 'var(--text-dim)', lineHeight: 1.6, maxWidth: 480, marginBottom: 32 }}>
+            <TextGenerateEffect className="!mt-0 font-normal" words="I am a BCA student at Brainware University and a fresher passionate about web development. I am eager to learn new technologies, improve my skills, and build a successful career in the IT industry." />
+          </div>
 
-          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 10 }}>
-            <ChromaSnakeButton className="w-40" onClick={() => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })}>
-              View Projects <ArrowRight size={16} />
-            </ChromaSnakeButton>
-            <ChromaSnakeButton className="w-40" onClick={() => { const a = document.createElement('a'); a.href = assets.resume; a.download = ''; a.click(); }}>
-              Download CV <Download size={16} />
-            </ChromaSnakeButton>
+          <div className="flex flex-col sm:flex-row gap-4 mt-6 w-full sm:w-auto">
+            <Button size="lg" variant="solid" effect="sparkle" className="w-full sm:w-auto sm:min-w-[180px]" onClick={() => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })}>
+              View Projects <ArrowRight size={18} />
+            </Button>
+            <Button size="lg" variant="slate" effect="sparkle" className="w-full sm:w-auto sm:min-w-[180px]" onClick={() => { const a = document.createElement('a'); a.href = assets.resume; a.download = ''; a.click(); }}>
+              Download CV <Download size={18} />
+            </Button>
           </div>
 
           <motion.div

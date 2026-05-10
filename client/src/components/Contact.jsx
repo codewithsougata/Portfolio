@@ -164,9 +164,12 @@ const Contact = () => {
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <label style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 500 }}>Full name</label>
+                <label htmlFor="name" style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 500 }}>Full name</label>
                 <input
+                  id="name"
+                  name="name"
                   type="text"
+                  autoComplete="name"
                   placeholder="Manu Arora"
                   value={formData.name}
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
@@ -188,9 +191,12 @@ const Contact = () => {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <label style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 500 }}>Email Address</label>
+                <label htmlFor="email" style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 500 }}>Email Address</label>
                 <input
+                  id="email"
+                  name="email"
                   type="email"
+                  autoComplete="email"
                   placeholder="support@aceternity.com"
                   value={formData.email}
                   onChange={e => setFormData({ ...formData, email: e.target.value })}
@@ -212,9 +218,12 @@ const Contact = () => {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <label style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 500 }}>Company</label>
+                <label htmlFor="company" style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 500 }}>Company</label>
                 <input
+                  id="company"
+                  name="company"
                   type="text"
+                  autoComplete="organization"
                   placeholder="Aceternity Labs LLC"
                   value={formData.company}
                   onChange={e => setFormData({ ...formData, company: e.target.value })}
@@ -235,8 +244,10 @@ const Contact = () => {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <label style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 500 }}>Message</label>
+                <label htmlFor="message" style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 500 }}>Message</label>
                 <textarea
+                  id="message"
+                  name="message"
                   placeholder="Type your message here"
                   value={formData.message}
                   onChange={e => setFormData({ ...formData, message: e.target.value })}
