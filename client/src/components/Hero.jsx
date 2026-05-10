@@ -52,15 +52,17 @@ const Hero = () => {
 
   const sparklesBackground = useMemo(() => (
     <div className="absolute inset-0 w-full h-full pointer-events-none">
-      <SparklesCore
-        id="tsparticlesfullpage"
-        background="transparent"
-        minSize={0.6}
-        maxSize={1.4}
-        particleDensity={isMobile ? 40 : 100}
-        className="w-full h-full"
-        particleColor={isDark ? '#ffffff' : '#000000'}
-      />
+      {!isMobile && (
+        <SparklesCore
+          id="tsparticlesfullpage"
+          background="transparent"
+          minSize={0.6}
+          maxSize={1.4}
+          particleDensity={100}
+          className="w-full h-full"
+          particleColor={isDark ? '#ffffff' : '#000000'}
+        />
+      )}
     </div>
   ), [isDark, isMobile]);
 
@@ -81,9 +83,13 @@ const Hero = () => {
         }}
       />
 
-      {/* Decorative glow blobs */}
-      <div className="pointer-events-none animate-float" style={{ position: 'absolute', top: '15%', left: '5%', width: 'clamp(200px,30vw,420px)', height: 'clamp(200px,30vw,420px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)', zIndex: 0 }} />
-      <div className="pointer-events-none animate-float" style={{ position: 'absolute', top: '30%', right: '5%', width: 'clamp(150px,25vw,350px)', height: 'clamp(150px,25vw,350px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)', zIndex: 0, animationDelay: '3s' }} />
+      {/* Decorative glow blobs - hidden on mobile to improve performance */}
+      {!isMobile && (
+        <>
+          <div className="pointer-events-none animate-float" style={{ position: 'absolute', top: '15%', left: '5%', width: 'clamp(200px,30vw,420px)', height: 'clamp(200px,30vw,420px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)', zIndex: 0 }} />
+          <div className="pointer-events-none animate-float" style={{ position: 'absolute', top: '30%', right: '5%', width: 'clamp(150px,25vw,350px)', height: 'clamp(150px,25vw,350px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)', zIndex: 0, animationDelay: '3s' }} />
+        </>
+      )}
 
       <div style={{ maxWidth: 1100, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: 40 }} className="md:justify-between md:text-left">
         {/* Left Side: Text */}
