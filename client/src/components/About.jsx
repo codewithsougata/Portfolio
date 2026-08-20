@@ -25,22 +25,22 @@ const About = () => {
   const [hovered, setHovered] = useState(null);
 
   return (
-    <section id="about" className="section-container relative w-full pt-10">
+    <section id="about" className="section-container relative w-full pt-4">
       <BackgroundLines className="w-full flex-col items-center justify-center h-full px-4 md:px-10 z-0">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        style={{ textAlign: 'center', marginBottom: 40 }}
+        style={{ textAlign: 'center', marginBottom: 24 }}
       >
-        <h2 style={{ fontSize: 'clamp(2rem, 3vw, 2.5rem)', fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>
+        <h2 style={{ fontSize: 'clamp(1.8rem, 2.5vw, 2.2rem)', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>
           About <span style={{ color: 'var(--cyan)' }}>Me</span>
         </h2>
-        <div style={{ width: 60, height: 4, background: 'var(--cyan)', margin: '0 auto', borderRadius: 2 }} />
+        <div style={{ width: 50, height: 3, background: 'var(--cyan)', margin: '0 auto', borderRadius: 2 }} />
       </motion.div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24 }}>
 
         {/* ── Bio card ── */}
         <motion.div
@@ -58,8 +58,8 @@ const About = () => {
             background: 'rgba(20, 25, 40, 0.4)',
             backdropFilter: 'blur(12px)',
             border: '1px solid rgba(255, 255, 255, 0.05)',
-            borderRadius: 20,
-            padding: 'clamp(20px, 4vw, 32px)',
+            borderRadius: 18,
+            padding: 'clamp(16px, 3vw, 22px)',
             boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
             position: 'relative',
             overflow: 'hidden'
@@ -121,8 +121,8 @@ const About = () => {
             background: 'rgba(20, 25, 40, 0.4)',
             backdropFilter: 'blur(12px)',
             border: '1px solid rgba(255, 255, 255, 0.05)',
-            borderRadius: 20,
-            padding: 'clamp(20px, 4vw, 32px)',
+            borderRadius: 18,
+            padding: 'clamp(16px, 3vw, 22px)',
             boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
             position: 'relative',
             overflow: 'hidden'

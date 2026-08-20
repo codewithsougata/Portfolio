@@ -1,58 +1,38 @@
 "use client";
-import { useEffect, useState } from "react";
-import { motion, stagger, useAnimate } from "framer-motion";
-
-const cn = (...classes) => classes.filter(Boolean).join(" ");
+import { useEffect } from "react";
+import { motion, stagger, useAnimate } from "motion/react";
+import { cn } from "@/lib/utils";
 
 export const TextGenerateEffect = ({
   words,
   className,
   filter = true,
-  duration = 0.5,
+  duration = 0.5
 }) => {
   const [scope, animate] = useAnimate();
-  const [animKey, setAnimKey] = useState(0);
   let wordsArray = words.split(" ");
-
-  // Re-trigger animation on theme change
   useEffect(() => {
-    const observer = new MutationObserver(() => {
-      setAnimKey((prev) => prev + 1);
+    animate("span", {
+      opacity: 1,
+      filter: filter ? "blur(0px)" : "none",
+    }, {
+      duration: duration ? duration : 0.8,
+      delay: stagger(0.06),
     });
-    observer.observe(document.documentElement, { attributeFilter: ["class"] });
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!scope.current) return;
-    animate(
-      "span",
-      {
-        opacity: 1,
-        filter: filter ? "blur(0px)" : "none",
-      },
-      {
-        duration: duration ? duration : 1,
-        delay: stagger(0.08),
-      }
-    );
-  }, [scope.current, animKey]);
+  }, [scope.current]);
 
   const renderWords = () => {
     return (
-      <motion.div ref={scope} style={{ wordSpacing: 'normal' }}>
+      <motion.div ref={scope}>
         {wordsArray.map((word, idx) => {
           return (
             <motion.span
-              key={word + idx + animKey}
-              className="opacity-0 transition-colors duration-300 ease-in-out"
+              key={word + idx}
+              className="opacity-0 inline-block mr-1 text-inherit"
               style={{
-                display: 'inline',
-                filter: filter ? "blur(10px)" : "none",
-                whiteSpace: 'pre-wrap',
-              }}
-            >
-              {word + " "}
+                filter: filter ? "blur(8px)" : "none",
+              }}>
+              {word}
             </motion.span>
           );
         })}
@@ -62,7 +42,7 @@ export const TextGenerateEffect = ({
 
   return (
     <div className={cn("font-normal", className)}>
-      <div className="leading-snug tracking-wide">
+      <div className="leading-relaxed tracking-normal">
         {renderWords()}
       </div>
     </div>

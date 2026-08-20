@@ -15,6 +15,7 @@ import {
 import { DraggableCardBody, DraggableCardContainer } from './ui/draggable-card';
 import { projects_list } from '../assets/assets';
 
+
 // ── constants ──────────────────────────────────────────────────────────────
 const GLOW = {
   position: 'absolute',
@@ -107,8 +108,9 @@ const Projects = () => {
     <section
       id="projects"
       className="section-container"
-      style={{ position: 'relative', overflow: 'hidden', padding: '5rem 0' }}
+      style={{ position: 'relative', overflow: 'hidden', padding: '2.5rem 0', maxWidth: '960px' }}
     >
+
       {/* Glows — no animation, pure CSS, zero reflow */}
       <div style={{ ...GLOW, top: '4%', right: '-8%', width: 480, height: 480 }} />
       <div style={{ ...GLOW, bottom: '8%', left: '-6%', width: 380, height: 380, opacity: 0.035 }} />
@@ -119,20 +121,20 @@ const Projects = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
-        style={{ textAlign: 'center', marginBottom: 36 }}
+        style={{ textAlign: 'center', marginBottom: 20 }}
       >
         <p style={{
           fontSize: '0.72rem', letterSpacing: '0.28em',
           textTransform: 'uppercase', color: 'var(--cyan)',
-          marginBottom: 10, fontWeight: 600,
+          marginBottom: 8, fontWeight: 600,
         }}>
           What I've Built
         </p>
 
         <h2 style={{
-          fontSize: 'clamp(1.9rem, 4vw, 2.75rem)',
+          fontSize: 'clamp(1.8rem, 3.5vw, 2.4rem)',
           fontWeight: 800, color: 'var(--text)',
-          marginBottom: 14, lineHeight: 1.15,
+          marginBottom: 10, lineHeight: 1.15,
         }}>
           Featured <span style={{ color: 'var(--text)' }}>Projects</span>
         </h2>
@@ -141,7 +143,7 @@ const Projects = () => {
         <motion.div
           variants={barVariants}
           style={{
-            width: 56, height: 3,
+            width: 50, height: 3,
             background: 'var(--cyan)',
             margin: '0 auto', borderRadius: 2,
             transformOrigin: 'center',   // ← key fix
@@ -158,7 +160,7 @@ const Projects = () => {
         style={{
           display: 'flex',
           justifyContent: 'center',
-          marginBottom: 44,
+          marginBottom: 20,
           width: '100%',
           zIndex: 50,
           position: 'relative'
@@ -199,10 +201,10 @@ const Projects = () => {
           initial="hidden"
           animate="visible"
           exit="exit"
-          style={{ position: 'relative', zIndex: 10, minHeight: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          style={{ position: 'relative', zIndex: 10, minHeight: '540px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
           {filteredProjects.length > 0 ? (
-            <DraggableCardContainer className="relative flex h-[600px] w-full items-center justify-center overflow-hidden rounded-2xl">
+            <DraggableCardContainer className="relative flex h-[540px] w-full items-center justify-center overflow-hidden rounded-2xl">
               <p className="absolute top-1/2 mx-auto max-w-sm -translate-y-1/2 text-center text-xl md:text-2xl font-black text-[var(--text-mute)] opacity-50 pointer-events-none">
                 Drag the project cards around!
               </p>

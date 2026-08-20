@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, CheckCircle, AlertCircle } from 'lucide-react';
 import emailjs from '@emailjs/browser';
-import { MacbookScroll } from './ui/macbook-scroll';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', company: '', message: '' });
@@ -38,8 +37,8 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" style={{ padding: '100px 5% 0', background: 'var(--bg)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '80px' }}>
+    <section id="contact" style={{ padding: '100px 32px 80px', background: 'var(--bg)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ maxWidth: 960, width: '100%', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '60px' }}>
 
         {/* Left Panel */}
         <motion.div
@@ -333,24 +332,6 @@ const Contact = () => {
           to { transform: rotate(360deg); }
         }
       `}</style>
-
-      {/* ── MacBook Scroll ── */}
-      <div className="w-full overflow-hidden bg-transparent">
-        <MacbookScroll
-          title={
-            <span className="text-neutral-800 dark:text-white">
-              Built with passion. <br /> Crafted for impact.
-            </span>
-          }
-          badge={
-            <div className="flex h-10 w-10 -rotate-12 transform items-center justify-center rounded-full bg-cyan-500 text-white font-bold text-lg shadow-lg shadow-cyan-500/50">
-              SM
-            </div>
-          }
-          src="/fro.png"
-          showGradient={false}
-        />
-      </div>
     </section>
   );
 };

@@ -5,7 +5,6 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Education from './components/Education';
 import Projects from './components/Projects';
-import { GlobeSection } from './components/GlobeSection';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
@@ -81,39 +80,42 @@ function App() {
   return (
     <ErrorBoundary>
       <CustomCursor />
-      <AnimatePresence>
-        {loading && (
+      <AnimatePresence mode="wait">
+        {loading ? (
           <motion.div
             key="loader"
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center"
             style={{ background: 'var(--bg)' }}
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
           >
             <LoaderFour text="Loading..." />
           </motion.div>
+        ) : (
+          <motion.div
+            key="portfolio"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            style={{ position: 'relative', minHeight: '100vh' }}
+          >
+            <Navbar theme={theme} toggleTheme={toggleTheme} />
+            <main>
+              <Hero />
+              <div className="border-t border-[var(--border2)] max-w-[960px] mx-auto opacity-60" />
+              <About />
+              <div className="border-t border-[var(--border2)] max-w-[960px] mx-auto opacity-60" />
+              <Education />
+              <div className="border-t border-[var(--border2)] max-w-[960px] mx-auto opacity-60" />
+              <Projects />
+              <div className="border-t border-[var(--border2)] max-w-[960px] mx-auto opacity-60" />
+              <Contact />
+            </main>
+            <Footer />
+          </motion.div>
         )}
       </AnimatePresence>
-
-      <motion.div
-        key="portfolio"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: loading ? 0 : 1 }}
-        transition={{ duration: 0.4, ease: 'easeOut' }}
-        style={{ position: 'relative', minHeight: '100vh' }}
-      >
-        <Navbar theme={theme} toggleTheme={toggleTheme} />
-        <main>
-          <Hero />
-          <About />
-          <Education />
-          <Projects />
-          <Contact />
-        </main>
-        <GlobeSection />
-        <Footer />
-      </motion.div>
     </ErrorBoundary>
   );
 }
