@@ -4,9 +4,9 @@ import React, { useEffect, useState, useRef } from "react";
 
 export const ShootingStars = ({
   minSpeed = 10,
-  maxSpeed = 30,
-  minDelay = 1200,
-  maxDelay = 4200,
+  maxSpeed = 20,
+  minDelay = 200,
+  maxDelay = 800,
   starColor = "#9E00FF",
   trailColor = "#2EB9DF",
   starWidth = 10,

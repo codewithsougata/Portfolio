@@ -6,13 +6,12 @@ import {
   NavItems,
   MobileNav,
   MobileNavHeader,
-  MobileNavToggle,
-  MobileNavMenu,
 } from "./ui/resizable-navbar";
-import { Sun, Moon, Heart, Search, X, ArrowUpRight, FolderGit2, User, BookOpen, Mail, FileText } from 'lucide-react';
+import { Sun, Moon, Heart, Search, X, ArrowUpRight, FolderGit2, User, BookOpen, FileText, Award, Mail } from 'lucide-react';
 import { IconBrandGithub, IconBrandX } from '@tabler/icons-react';
 import { assets } from '../assets/assets';
 import { SparklesCore } from './ui/sparkles';
+import StaggeredMenu from './StaggeredMenu';
 
 const formatCount = (num) => {
   if (num >= 1000000) {
@@ -30,15 +29,33 @@ const navItems = [
   { name: 'Contact', link: '#contact' },
 ];
 
+const mobileMenuItems = [
+  { label: 'Home', ariaLabel: 'Go to home page', link: '#home' },
+  { label: 'About & Skills', ariaLabel: 'Learn about background and skills', link: '#about' },
+  { label: 'Education', ariaLabel: 'View academic background', link: '#education' },
+  { label: 'Projects', ariaLabel: 'View featured projects', link: '#projects' },
+  { label: 'Certifications', ariaLabel: 'View credentials and courses', link: '#certifications' },
+  { label: 'Contact', ariaLabel: 'Get in touch', link: '#contact' },
+];
+
+const mobileSocialItems = [
+  { label: 'GitHub', link: 'https://github.com/codewithsougata' },
+  { label: 'LinkedIn', link: 'https://www.linkedin.com/in/sougata-manna-9932s/' },
+  { label: 'Twitter / X', link: 'https://x.com' },
+];
+
 const searchLinks = [
   { name: 'Portfolio (Home)', link: '#home', icon: <User size={15} />, desc: 'Intro, bio and overview' },
   { name: 'About Me & Skills', link: '#about', icon: <User size={15} />, desc: 'Background & technical stack' },
   { name: 'Education', link: '#education', icon: <BookOpen size={15} />, desc: 'BCA & academic journey' },
   { name: 'Projects', link: '#projects', icon: <FolderGit2 size={15} />, desc: 'Featured full-stack projects' },
-  { name: 'Contact', link: '#contact', icon: <Mail size={15} />, desc: 'Send message & get in touch' },
+  { name: 'Certifications & Learning', link: '#certifications', icon: <Award size={15} />, desc: 'Credentials & ongoing learning' },
+  { name: 'Contact Me', link: '#contact', icon: <Mail size={15} />, desc: 'Send a direct message or project inquiry' },
   { name: 'Download CV / Resume', action: 'resume', icon: <FileText size={15} />, desc: 'Download PDF resume' },
   { name: 'GitHub Profile', url: 'https://github.com/codewithsougata', icon: <IconBrandGithub size={15} />, desc: 'View source code & repos' },
 ];
+
+
 
 const Navbar = ({ theme, toggleTheme }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -224,11 +241,10 @@ const Navbar = ({ theme, toggleTheme }) => {
               >
                 <Heart
                   size={12}
-                  className={`transition-colors ${
-                    isLiked
+                  className={`transition-colors ${isLiked
                       ? "fill-rose-500 text-rose-500 drop-shadow-[0_0_6px_rgba(244,63,94,0.6)]"
                       : "text-neutral-400 group-hover:text-rose-400"
-                  }`}
+                    }`}
                 />
               </motion.div>
             </button>
@@ -261,11 +277,10 @@ const Navbar = ({ theme, toggleTheme }) => {
               <motion.div
                 layout
                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                className={`absolute top-[2px] w-5 h-5 rounded-full shadow-sm flex items-center justify-center ${
-                  theme === 'dark'
+                className={`absolute top-[2px] w-5 h-5 rounded-full shadow-sm flex items-center justify-center ${theme === 'dark'
                     ? 'left-[25px] bg-[#ffffff] text-black'
                     : 'left-[2px] bg-[#000000] text-white'
-                }`}
+                  }`}
               >
                 {theme === 'dark' ? (
                   <Moon size={11} className="text-black" />
@@ -323,33 +338,34 @@ const Navbar = ({ theme, toggleTheme }) => {
                 <motion.div
                   layout
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  className={`w-4 h-4 rounded-full flex items-center justify-center ${
-                    theme === 'dark'
+                  className={`w-4 h-4 rounded-full flex items-center justify-center ${theme === 'dark'
                       ? 'ml-auto bg-white text-black'
                       : 'mr-auto bg-black text-white'
-                  }`}
+                    }`}
                 >
                   {theme === 'dark' ? <Moon size={9} className="text-black" /> : <Sun size={9} className="text-white" />}
                 </motion.div>
               </button>
 
-              <MobileNavToggle
-                isOpen={isMobileMenuOpen}
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+              {/* StaggeredMenu Mobile Menu Button & Sliding Animated Drawer */}
+              <StaggeredMenu
+                position="right"
+                items={mobileMenuItems}
+                socialItems={mobileSocialItems}
+                displaySocials={true}
+                displayItemNumbering={true}
+                menuButtonColor={theme === 'dark' ? '#ffffff' : '#111827'}
+                openMenuButtonColor="#ffffff"
+                changeMenuColorOnOpen={true}
+                colors={['#5227FF', '#B497CF', '#12111a']}
+                logoUrl={assets.profile}
+                logoText="Sougata"
+                accentColor="#5227FF"
+                onMenuOpen={() => console.log('Menu opened')}
+                onMenuClose={() => console.log('Menu closed')}
+              />
             </div>
           </MobileNavHeader>
-
-          <MobileNavMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)}>
-            {navItems.map((item, idx) => (
-              <a
-                key={`mobile-link-${idx}`}
-                href={item.link}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="relative text-[var(--text-dim)] hover:text-[var(--text)] font-mono text-sm py-2 px-4 hover:bg-[var(--surface2)] rounded-md transition-colors w-full">
-                <span className="block">{item.name}</span>
-              </a>
-            ))}
-          </MobileNavMenu>
         </MobileNav>
       </ResizableNavbar>
 

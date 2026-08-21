@@ -1,0 +1,127 @@
+/* LogoLoop styles */
+.logoloop-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  user-select: none;
+}
+
+.logoloop-track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--logoloop-gap, 48px);
+  will-change: transform;
+}
+
+.logoloop-horizontal {
+  flex-direction: row;
+}
+
+.logoloop-vertical {
+  flex-direction: column;
+}
+
+/* Horizontal animation */
+.logoloop-horizontal .logoloop-track-left {
+  animation: logoloop-scroll-left var(--logoloop-duration, 25s) linear infinite;
+}
+
+.logoloop-horizontal .logoloop-track-right {
+  animation: logoloop-scroll-right var(--logoloop-duration, 25s) linear infinite;
+}
+
+/* Vertical animation */
+.logoloop-vertical .logoloop-track-up {
+  animation: logoloop-scroll-up var(--logoloop-duration, 25s) linear infinite;
+}
+
+.logoloop-vertical .logoloop-track-down {
+  animation: logoloop-scroll-down var(--logoloop-duration, 25s) linear infinite;
+}
+
+/* Hover deceleration / pause */
+.logoloop-container:hover .logoloop-track {
+  animation-play-state: var(--logoloop-hover-state, running);
+}
+
+@keyframes logoloop-scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% - var(--logoloop-gap, 48px)));
+  }
+}
+
+@keyframes logoloop-scroll-right {
+  0% {
+    transform: translateX(calc(-100% - var(--logoloop-gap, 48px)));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes logoloop-scroll-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(calc(-100% - var(--logoloop-gap, 48px)));
+  }
+}
+
+@keyframes logoloop-scroll-down {
+  0% {
+    transform: translateY(calc(-100% - var(--logoloop-gap, 48px)));
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Item styling */
+.logoloop-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logoloop-scale-on-hover .logoloop-item:hover {
+  transform: scale(1.15);
+  z-index: 10;
+}
+
+/* Fade gradients */
+.logoloop-fade-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.logoloop-horizontal .logoloop-fade-overlay {
+  background: linear-gradient(
+    to right,
+    var(--logoloop-fade-color, var(--bg, transparent)) 0%,
+    transparent 12%,
+    transparent 88%,
+    var(--logoloop-fade-color, var(--bg, transparent)) 100%
+  );
+}
+
+.logoloop-vertical .logoloop-fade-overlay {
+  background: linear-gradient(
+    to bottom,
+    var(--logoloop-fade-color, var(--bg, transparent)) 0%,
+    transparent 12%,
+    transparent 88%,
+    var(--logoloop-fade-color, var(--bg, transparent)) 100%
+  );
+}

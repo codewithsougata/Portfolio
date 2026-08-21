@@ -29,13 +29,18 @@ const Hero = () => {
 
   return (
     <section id="home" style={{ minHeight: '85vh', display: 'flex', alignItems: 'center', padding: '48px 20px 24px', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ maxWidth: 960, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: 32 }} className="md:justify-between md:text-left">
+      <div style={{ maxWidth: 960, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: 32, overflow: 'hidden' }} className="md:justify-between md:text-left">
+        <div className="absolute inset-0 z-0 w-full h-full overflow-hidden pointer-events-none">
+          <ShootingStars />
+          <StarsBackground />
+        </div>
+
         {/* Left Side: Text */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          style={{ flex: '1 1 450px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+          style={{ flex: '1 1 450px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 1 }}
           className="md:items-start"
         >
           <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 800, lineHeight: 1.15, marginBottom: 12, color: 'var(--text)' }}>
@@ -98,22 +103,16 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          style={{ flex: '1 1 280px', display: 'flex', justifyContent: 'center' }}
+          style={{ flex: '1 1 280px', display: 'flex', justifyContent: 'center', position: 'relative', zIndex: 1 }}
         >
-          <div className="relative w-56 sm:w-64">
+          <div className="relative w-56 sm:w-64 aspect-square rounded-full overflow-hidden">
             <img
               src={assets.profile}
               alt="Sougata Manna"
-              className="w-full aspect-square rounded-2xl object-cover object-top shadow-xl border border-[var(--border2)]"
+              className="w-full h-full rounded-full object-cover object-top shadow-xl border border-[var(--border2)]"
             />
           </div>
         </motion.div>
-      </div>
-
-      {/* Shooting Stars & Stars Background (Strictly confined only inside Home section div) */}
-      <div className="absolute inset-0 z-0 w-full h-full overflow-hidden pointer-events-none">
-        <ShootingStars />
-        <StarsBackground />
       </div>
     </section>
   );

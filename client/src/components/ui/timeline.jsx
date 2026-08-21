@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import { useScroll, useTransform, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -26,28 +26,28 @@ export const Timeline = ({
 
   return (
     <div
-      className="w-full bg-transparent font-sans md:px-10"
+      className="w-full bg-transparent font-sans md:px-6 relative"
       ref={containerRef}>
 
-      <div ref={ref} className="relative max-w-[960px] mx-auto pb-20">
+      <div ref={ref} className="relative max-w-[960px] mx-auto pb-4">
         {data.map((item, index) => (
-          <div key={index} className="flex justify-start pt-6 md:pt-16 md:gap-8">
+          <div key={index} className="flex justify-start pt-4 md:pt-6 md:gap-6">
             <div
               className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
               <div
-                className="h-8 absolute left-4 md:left-4 w-8 rounded-full bg-[var(--surface2)] dark:bg-[var(--surface2)] flex items-center justify-center">
+                className="h-7 absolute left-4 md:left-4 w-7 rounded-full bg-black border border-white/20 backdrop-blur-md flex items-center justify-center shadow-md">
                 <div
-                  className="h-3.5 w-3.5 rounded-full bg-cyan-500/20 dark:bg-cyan-500/20 border border-cyan-500 dark:border-cyan-500 p-1.5" />
+                  className="h-2 w-2 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]" />
               </div>
               <h3
-                className="hidden md:block text-lg md:pl-16 md:text-2xl font-bold text-neutral-500 dark:text-neutral-500 ">
+                className="hidden md:block text-base md:pl-14 md:text-lg font-bold text-white/70">
                 {item.title}
               </h3>
             </div>
 
-            <div className="relative pl-20 pr-4 md:pl-12 w-full">
+            <div className="relative pl-16 pr-3 md:pl-10 w-full">
               <h3
-                className="md:hidden block text-xl mb-3 text-left font-bold text-neutral-500 dark:text-neutral-500">
+                className="md:hidden block text-base mb-2 text-left font-bold text-white/70">
                 {item.title}
               </h3>
               {item.content}{" "}
@@ -58,15 +58,18 @@ export const Timeline = ({
           style={{
             height: height + "px",
           }}
-          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200 dark:via-neutral-700 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] ">
+          className="absolute md:left-7 left-7 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-800 to-transparent to-[99%] [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] ">
           <motion.div
             style={{
               height: heightTransform,
               opacity: opacityTransform,
             }}
-            className="absolute inset-x-0 top-0  w-[2px] bg-gradient-to-t from-purple-500 via-blue-500 to-transparent from-[0%] via-[10%] rounded-full" />
+            className="absolute inset-x-0 top-0 w-[2px] bg-gradient-to-t from-white via-white/60 to-transparent from-[0%] via-[10%] rounded-full" />
         </div>
       </div>
     </div>
   );
 };
+
+
+

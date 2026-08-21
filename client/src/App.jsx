@@ -5,6 +5,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Education from './components/Education';
 import Projects from './components/Projects';
+import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
@@ -110,6 +111,8 @@ function App() {
               <div className="border-t border-[var(--border2)] max-w-[960px] mx-auto opacity-60" />
               <Projects />
               <div className="border-t border-[var(--border2)] max-w-[960px] mx-auto opacity-60" />
+              <Certifications />
+              <div className="border-t border-[var(--border2)] max-w-[960px] mx-auto opacity-60" />
               <Contact />
             </main>
             <Footer />
@@ -121,3 +124,4 @@ function App() {
 }
 
 export default App;
+

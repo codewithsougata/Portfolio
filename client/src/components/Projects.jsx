@@ -1,285 +1,316 @@
-import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FloatingDock } from './ui/floating-dock';
-import {
-  IconLayoutDashboard,
-  IconBrandReact,
-  IconBrandNodejs,
-  IconServer,
-  IconBrandMongodb,
-  IconBrandCss3,
-  IconBrandFramerMotion,
-  IconBrandTailwind,
-  IconCode
-} from '@tabler/icons-react';
-import { DraggableCardBody, DraggableCardContainer } from './ui/draggable-card';
-import { projects_list } from '../assets/assets';
+import React, { useEffect, useId, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useOutsideClick } from "../hooks/use-outside-click";
+import { projects_list } from "../assets/assets";
+import { ExternalLink, Github } from "lucide-react";
 
-
-// ── constants ──────────────────────────────────────────────────────────────
-const GLOW = {
-  position: 'absolute',
-  borderRadius: '50%',
-  pointerEvents: 'none',
-  filter: 'blur(140px)',
-  background: 'var(--cyan)',
-  opacity: 0.05,
+export const CloseIcon = () => {
+  return (
+    <motion.svg
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.05 } }}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-4 w-4 text-black"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M18 6l-12 12" />
+      <path d="M6 6l12 12" />
+    </motion.svg>
+  );
 };
 
-const PILL_BASE = {
-  padding: '6px 20px',
-  borderRadius: 999,
-  fontSize: '0.8rem',
-  fontWeight: 500,
-  cursor: 'pointer',
-  letterSpacing: '0.05em',
-  outline: 'none',
-  transition: 'background 0.2s, color 0.2s, border-color 0.2s',
-  backdropFilter: 'blur(8px)',
-  border: '1.5px solid transparent',
-};
-
-const pillStyle = (isActive) => ({
-  ...PILL_BASE,
-  background: isActive ? 'rgba(0,255,255,0.1)' : 'rgba(255,255,255,0.04)',
-  borderColor: isActive ? 'var(--cyan)' : 'rgba(255,255,255,0.1)',
-  color: isActive ? 'var(--cyan)' : 'rgba(255,255,255,0.55)',
-  fontWeight: isActive ? 700 : 400,
-});
-
-// ── variants (defined outside component — no re-creation on render) ─────────
-const sectionVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } },
-};
-
-const barVariants = {
-  hidden: { scaleX: 0, opacity: 0 },
-  visible: { scaleX: 1, opacity: 1, transition: { duration: 0.4, delay: 0.25, ease: 'easeOut' } },
-};
-
-const filterContainerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.045 } },
-};
-
-const pillVariants = {
-  hidden: { opacity: 0, scale: 0.82 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.28, ease: 'easeOut' } },
-};
-
-const listVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.38, ease: 'easeOut' } },
-  exit: { opacity: 0, y: -14, transition: { duration: 0.22, ease: 'easeIn' } },
-};
-
-const countVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { delay: 0.32, duration: 0.3 } },
-};
-
-// ── component ──────────────────────────────────────────────────────────────
 const Projects = () => {
-  const [activeFilter, setActiveFilter] = useState('All');
+  const [active, setActive] = useState(null);
+  const ref = useRef(null);
+  const id = useId();
 
-  const allTags = useMemo(() => {
-    const tags = new Set();
-    projects_list.forEach(p => p.techStack.forEach(t => tags.add(t)));
-    return ['All', ...Array.from(tags)];
-  }, []);
+  useEffect(() => {
+    function onKeyDown(event) {
+      if (event.key === "Escape") {
+        setActive(null);
+      }
+    }
 
-  const filteredProjects = useMemo(() => (
-    activeFilter === 'All'
-      ? projects_list
-      : projects_list.filter(p => p.techStack.includes(activeFilter))
-  ), [activeFilter]);
+    if (active) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
 
-  const testimonials = filteredProjects.map(({ description, title, techStack, image, github, live }) => ({
-    quote: description,
-    name: title,
-    designation: techStack.join(' • '),
-    src: image,
-    github,
-    live,
-  }));
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [active]);
+
+  useOutsideClick(ref, () => setActive(null));
 
   return (
     <section
       id="projects"
-      className="section-container"
-      style={{ position: 'relative', overflow: 'hidden', padding: '2.5rem 0', maxWidth: '960px' }}
+      className="section-container relative w-full py-12 md:py-16"
+      style={{ maxWidth: "960px", margin: "0 auto" }}
     >
-
-      {/* Glows — no animation, pure CSS, zero reflow */}
-      <div style={{ ...GLOW, top: '4%', right: '-8%', width: 480, height: 480 }} />
-      <div style={{ ...GLOW, bottom: '8%', left: '-6%', width: 380, height: 380, opacity: 0.035 }} />
-
-      {/* ── Header ── */}
+      {/* ── Section Header ── */}
       <motion.div
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        style={{ textAlign: 'center', marginBottom: 20 }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        style={{ textAlign: "center", marginBottom: 32 }}
       >
-        <p style={{
-          fontSize: '0.72rem', letterSpacing: '0.28em',
-          textTransform: 'uppercase', color: 'var(--cyan)',
-          marginBottom: 8, fontWeight: 600,
-        }}>
+        <p
+          style={{
+            fontSize: "0.72rem",
+            letterSpacing: "0.28em",
+            textTransform: "uppercase",
+            color: "var(--cyan)",
+            marginBottom: 8,
+            fontWeight: 600,
+          }}
+        >
           What I've Built
         </p>
 
-        <h2 style={{
-          fontSize: 'clamp(1.8rem, 3.5vw, 2.4rem)',
-          fontWeight: 800, color: 'var(--text)',
-          marginBottom: 10, lineHeight: 1.15,
-        }}>
-          Featured <span style={{ color: 'var(--text)' }}>Projects</span>
+        <h2
+          style={{
+            fontSize: "clamp(1.8rem, 3.5vw, 2.4rem)",
+            fontWeight: 800,
+            color: "var(--text)",
+            marginBottom: 10,
+            lineHeight: 1.15,
+          }}
+        >
+          Featured <span style={{ color: "var(--text)" }}>Projects</span>
         </h2>
 
-        {/* Bar — transformOrigin: center prevents layout reflow */}
-        <motion.div
-          variants={barVariants}
+        <div
           style={{
-            width: 50, height: 3,
-            background: 'var(--cyan)',
-            margin: '0 auto', borderRadius: 2,
-            transformOrigin: 'center',   // ← key fix
+            width: 50,
+            height: 3,
+            background: "var(--cyan)",
+            margin: "0 auto",
+            borderRadius: 2,
           }}
         />
       </motion.div>
 
-      {/* ── Filter Dock ── */}
-      <motion.div
-        variants={filterContainerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginBottom: 20,
-          width: '100%',
-          zIndex: 50,
-          position: 'relative'
-        }}
-      >
-        <FloatingDock 
-           items={allTags.map(tag => {
-              const active = activeFilter === tag;
-              const className = `h-full w-full transition-colors ${active ? 'opacity-100' : 'opacity-50 dark:opacity-40'} text-[var(--text)]`;
-              
-              let icon;
-              if (tag === 'All') icon = <IconLayoutDashboard className={className} />;
-              else if (tag === 'React') icon = <IconBrandReact className={className} />;
-              else if (tag === 'Node.js') icon = <IconBrandNodejs className={className} />;
-              else if (tag === 'Express') icon = <IconServer className={className} />;
-              else if (tag === 'MongoDB') icon = <IconBrandMongodb className={className} />;
-              else if (tag === 'CSS') icon = <IconBrandCss3 className={className} />;
-              else if (tag === 'Framer Motion') icon = <IconBrandFramerMotion className={className} />;
-              else if (tag === 'Tailwind CSS') icon = <IconBrandTailwind className={className} />;
-              else icon = <IconCode className={className} />;
+      {/* ── Overlay Backdrop ── */}
+      <AnimatePresence>
+        {active && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm h-full w-full z-50"
+          />
+        )}
+      </AnimatePresence>
 
-              return {
-                title: tag,
-                icon,
-                onClick: () => setActiveFilter(tag)
-              };
-           })} 
-           desktopClassName="bg-[var(--surface)] border border-[var(--border2)]" 
-           mobileClassName="mx-auto" 
-        />
-      </motion.div>
+      {/* ── Expanded Card Modal ── */}
+      <AnimatePresence>
+        {active ? (
+          <div className="fixed inset-0 grid place-items-center z-50 p-4">
+            <motion.button
+              key={`button-${active.title}-${id}`}
+              layout
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.05 } }}
+              className="flex absolute top-4 right-4 md:top-6 md:right-6 items-center justify-center bg-white rounded-full h-8 w-8 shadow-2xl z-[60] cursor-pointer hover:scale-110 transition-transform"
+              onClick={() => setActive(null)}
+              aria-label="Close modal"
+            >
+              <CloseIcon />
+            </motion.button>
 
-      {/* ── Project List ── */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeFilter}
-          variants={listVariants}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          style={{ position: 'relative', zIndex: 10, minHeight: '540px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-          {filteredProjects.length > 0 ? (
-            <DraggableCardContainer className="relative flex h-[540px] w-full items-center justify-center overflow-hidden rounded-2xl">
-              <p className="absolute top-1/2 mx-auto max-w-sm -translate-y-1/2 text-center text-xl md:text-2xl font-black text-[var(--text-mute)] opacity-50 pointer-events-none">
-                Drag the project cards around!
-              </p>
-              {filteredProjects.map((project, i) => {
-                const positions = [
-                  "absolute top-10 left-[10%] md:left-[20%] rotate-[-5deg]",
-                  "absolute top-40 left-[20%] md:left-[25%] rotate-[-7deg]",
-                  "absolute top-5 left-[30%] md:left-[40%] rotate-[8deg]",
-                  "absolute top-32 left-[40%] md:left-[55%] rotate-[10deg]",
-                  "absolute top-20 right-[15%] md:right-[35%] rotate-[2deg]",
-                  "absolute top-24 left-[50%] md:left-[45%] rotate-[-7deg]",
-                  "absolute top-8 left-[15%] md:left-[30%] rotate-[4deg]",
-                  "absolute top-16 right-[5%] md:right-[20%] rotate-[-4deg]",
-                ];
-                const className = positions[i % positions.length];
-                return (
-                  <DraggableCardBody key={project.title} className={className}>
-                    <div className="bg-[var(--surface)] border border-[var(--border2)] rounded-xl overflow-hidden shadow-2xl flex flex-col p-2 pointer-events-auto">
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="pointer-events-none relative z-10 h-48 w-64 md:h-64 md:w-80 object-cover rounded-lg"
-                      />
-                      <div className="mt-3 flex flex-col px-1 h-full">
-                        <h3 className="text-lg font-bold text-[var(--text)]">
-                          {project.title}
-                        </h3>
-                        <p className="text-xs text-[var(--text-dim)] mt-1 mb-3 line-clamp-2">
-                           {project.description}
-                        </p>
-                        <div className="mt-auto flex gap-2">
-                          {project.live && (
-                             <a href={project.live} target="_blank" rel="noreferrer" className="flex-1 text-center text-xs font-semibold text-black bg-cyan-400 px-3 py-1.5 rounded hover:bg-cyan-300 transition pointer-events-auto">Demo</a>
-                          )}
-                          {project.github && (
-                             <a href={project.github} target="_blank" rel="noreferrer" className="flex-1 text-center text-xs font-semibold text-cyan-400 border border-cyan-500/30 px-3 py-1.5 rounded hover:bg-cyan-500/10 transition pointer-events-auto">Code</a>
-                          )}
-                        </div>
+            <motion.div
+              layoutId={`card-${active.title}-${id}`}
+              ref={ref}
+              className="w-full max-w-[460px] h-full md:h-fit md:max-h-[88vh] flex flex-col dark:bg-neutral-950 bg-white dark:border-white/10 border-neutral-200 rounded-3xl overflow-hidden shadow-2xl"
+            >
+              <motion.div layoutId={`image-${active.title}-${id}`}>
+                <img
+                  src={active.image}
+                  alt={active.title}
+                  className="w-full h-44 md:h-52 rounded-tr-2xl rounded-tl-2xl object-cover object-top"
+                />
+              </motion.div>
+
+              <div>
+                <div className="flex justify-between items-start p-4 md:p-5 pb-2">
+                  <div className="pr-3">
+                    <motion.h3
+                      layoutId={`title-${active.title}-${id}`}
+                      className="font-bold dark:text-white text-neutral-900 text-base md:text-lg leading-tight"
+                    >
+                      {active.title}
+                    </motion.h3>
+                    <motion.p
+                      layoutId={`description-${active.title}-${id}`}
+                      className="dark:text-neutral-400 text-neutral-600 text-xs md:text-sm mt-0.5"
+                    >
+                      {active.name || active.techStack.join(" • ")}
+                    </motion.p>
+                  </div>
+
+                  {active.live && active.live !== "#" ? (
+                    <motion.a
+                      layoutId={`button-${active.title}-${id}`}
+                      href={active.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 text-xs md:text-sm rounded-full font-bold dark:bg-white dark:text-black bg-neutral-900 text-white hover:opacity-90 transition-colors shrink-0 flex items-center gap-1.5"
+                    >
+                      Live <ExternalLink size={12} />
+                    </motion.a>
+                  ) : active.github ? (
+                    <motion.a
+                      layoutId={`button-${active.title}-${id}`}
+                      href={active.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 text-xs md:text-sm rounded-full font-bold dark:bg-white dark:text-black bg-neutral-900 text-white hover:opacity-90 transition-colors shrink-0 flex items-center gap-1.5"
+                    >
+                      Code <Github size={12} />
+                    </motion.a>
+                  ) : (
+                    <motion.button
+                      layoutId={`button-${active.title}-${id}`}
+                      className="px-4 py-2 text-xs md:text-sm rounded-full font-bold dark:bg-white dark:text-black bg-neutral-900 text-white shrink-0"
+                    >
+                      View
+                    </motion.button>
+                  )}
+                </div>
+
+                {/* Extended Details Content */}
+                <div className="pt-2 px-4 md:px-5 pb-5">
+                  <motion.div
+                    layout
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="dark:text-neutral-300 text-neutral-700 text-xs md:text-sm flex flex-col gap-3.5"
+                  >
+                    <p className="leading-relaxed dark:text-neutral-300/90 text-neutral-600">
+                      {active.description}
+                    </p>
+
+                    {/* Tech stack badges */}
+                    <div>
+                      <span className="text-[11px] font-semibold dark:text-neutral-400 text-neutral-500 uppercase tracking-wider block mb-1.5">
+                        Technologies Used
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {active.techStack.map((tech, idx) => (
+                          <span
+                            key={idx}
+                            className="px-2 py-0.5 text-[11px] font-medium rounded-md dark:bg-white/5 bg-black/5 dark:border-white/10 border-black/10 dark:text-neutral-200 text-neutral-800"
+                          >
+                            {tech}
+                          </span>
+                        ))}
                       </div>
                     </div>
-                  </DraggableCardBody>
-                );
-              })}
-            </DraggableCardContainer>
-          ) : (
-            <p style={{
-              textAlign: 'center',
-              color: 'rgba(255,255,255,0.35)',
-              fontSize: '0.95rem',
-            }}>
-              No projects tagged{' '}
-              <strong style={{ color: 'var(--cyan)' }}>{activeFilter}</strong>.
-            </p>
-          )}
-        </motion.div>
+
+                    {/* Action buttons footer */}
+                    <div className="flex gap-2.5 pt-1.5">
+                      {active.live && active.live !== "#" && (
+                        <a
+                          href={active.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3.5 rounded-xl bg-cyan-500 text-white font-semibold text-xs hover:bg-cyan-600 transition-colors"
+                        >
+                          <ExternalLink size={13} /> View Live App
+                        </a>
+                      )}
+                      {active.github && (
+                        <a
+                          href={active.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3.5 rounded-xl dark:bg-white/10 bg-black/5 dark:border-white/15 border-black/10 dark:text-white text-neutral-800 font-semibold text-xs hover:bg-black/10 dark:hover:bg-white/15 transition-colors"
+                        >
+                          <Github size={13} /> Source Code
+                        </a>
+                      )}
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        ) : null}
       </AnimatePresence>
 
-      {/* ── Count badge ── */}
-      <AnimatePresence mode="wait">
-        <motion.p
-          key={activeFilter + '-count'}
-          variants={countVariants}
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-          style={{
-            textAlign: 'center', marginTop: 20,
-            fontSize: '0.75rem', letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.3)',
-          }}
-        >
-          Showing {filteredProjects.length} of {projects_list.length} projects
-        </motion.p>
-      </AnimatePresence>
+      {/* ── Standard List of Expandable Cards matching 960px width ── */}
+      <ul className="w-full max-w-[960px] mx-auto flex flex-col gap-2.5 px-3 md:px-4">
+        {projects_list.map((card) => (
+          <motion.li
+            layoutId={`card-${card.title}-${id}`}
+            key={`card-${card.title}-${id}`}
+            onClick={() => setActive(card)}
+            className="p-3.5 md:p-4 flex flex-row justify-between items-center dark:hover:bg-neutral-800/50 hover:bg-neutral-200/50 rounded-2xl cursor-pointer transition-colors group"
+          >
+            <div className="flex gap-4 items-center min-w-0 pr-3">
+              <motion.div layoutId={`image-${card.title}-${id}`} className="shrink-0">
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="h-14 w-14 rounded-xl object-cover object-top shrink-0"
+                />
+              </motion.div>
+              <div className="min-w-0">
+                <motion.h3
+                  layoutId={`title-${card.title}-${id}`}
+                  className="font-semibold dark:text-white text-neutral-900 text-base leading-snug truncate"
+                >
+                  {card.title}
+                </motion.h3>
+                <motion.p
+                  layoutId={`description-${card.title}-${id}`}
+                  className="dark:text-neutral-400 text-neutral-600 text-sm mt-0.5 truncate"
+                >
+                  {card.description}
+                </motion.p>
+              </div>
+            </div>
+            <motion.button
+              layoutId={`button-${card.title}-${id}`}
+              className="px-5 py-2 text-sm rounded-full font-bold dark:bg-white dark:text-black bg-neutral-900 text-white dark:hover:bg-neutral-200 hover:bg-neutral-800 shrink-0 transition-colors cursor-pointer"
+            >
+              View
+            </motion.button>
+          </motion.li>
+        ))}
+      </ul>
+
+      {/* ── Footer count ── */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3, duration: 0.3 }}
+        style={{
+          textAlign: "center",
+          marginTop: 24,
+          fontSize: "0.75rem",
+          letterSpacing: "0.1em",
+          textTransform: "uppercase",
+          color: "rgba(255,255,255,0.3)",
+        }}
+      >
+        {projects_list.length} Projects • Click to expand details
+      </motion.p>
     </section>
   );
 };

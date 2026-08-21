@@ -1,180 +1,225 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaNodeJs, FaGithub } from 'react-icons/fa';
-import { SiMongodb, SiExpress } from 'react-icons/si';
-import { skills_list } from '../assets/assets';
+import {
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiTailwindcss,
+  SiJavascript,
+  SiHtml5,
+  SiCss,
+  SiNodedotjs,
+  SiExpress,
+  SiMongodb,
+  SiFramer,
+  SiGit,
+  SiGithub,
+  SiVite,
+  SiPostman,
+  SiPython
+} from 'react-icons/si';
 import { cn } from "@/lib/utils";
 import { BackgroundLines } from './ui/background-lines';
+import { LinkPreview } from './ui/link-preview';
+import LogoLoop from './LogoLoop';
 
-const skillIcons = {
-  'HTML5': <FaHtml5 />,
-  'CSS3': <FaCss3Alt />,
-  'JavaScript': <FaJs />,
-  'React': <FaReact />,
-  'Node.js': <FaNodeJs />,
-  'Express': <SiExpress />,
-  'MongoDB': <SiMongodb />,
-};
+const techLogosRow1 = [
+  { node: <SiReact />, title: "React", href: "https://react.dev", color: "#61DAFB" },
+  { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org", color: "var(--text)" },
+  { node: <SiJavascript />, title: "JavaScript", href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript", color: "#F7DF1E" },
+  { node: <SiTypescript />, title: "TypeScript", href: "https://www.typescriptlang.org", color: "#3178C6" },
+  { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com", color: "#06B6D4" },
+  { node: <SiHtml5 />, title: "HTML5", href: "https://developer.mozilla.org/en-US/docs/Web/HTML", color: "#E34F26" },
+  { node: <SiCss />, title: "CSS3", href: "https://developer.mozilla.org/en-US/docs/Web/CSS", color: "#1572B6" },
+];
 
-const skills = skills_list.map(skill => ({
-  ...skill,
-  icon: skillIcons[skill.name]
-}));
+const techLogosRow2 = [
+  { node: <SiNodedotjs />, title: "Node.js", href: "https://nodejs.org", color: "#339933" },
+  { node: <SiExpress />, title: "Express", href: "https://expressjs.com", color: "var(--text)" },
+  { node: <SiMongodb />, title: "MongoDB", href: "https://www.mongodb.com", color: "#47A248" },
+  { node: <SiFramer />, title: "Motion", href: "https://motion.dev", color: "#EA4C89" },
+  { node: <SiGit />, title: "Git", href: "https://git-scm.com", color: "#F05032" },
+  { node: <SiGithub />, title: "GitHub", href: "https://github.com", color: "var(--text)" },
+  { node: <SiVite />, title: "Vite", href: "https://vitejs.dev", color: "#646CFF" },
+  { node: <SiPostman />, title: "Postman", href: "https://www.postman.com", color: "#FF6C37" },
+  { node: <SiPython />, title: "Python", href: "https://www.python.org", color: "#3776AB" },
+];
 
 const About = () => {
   const [hovered, setHovered] = useState(null);
 
   return (
-    <section id="about" className="section-container relative w-full pt-4">
-      <BackgroundLines className="w-full flex-col items-center justify-center h-full px-4 md:px-10 z-0">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        style={{ textAlign: 'center', marginBottom: 24 }}
-      >
-        <h2 style={{ fontSize: 'clamp(1.8rem, 2.5vw, 2.2rem)', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>
-          About <span style={{ color: 'var(--cyan)' }}>Me</span>
-        </h2>
-        <div style={{ width: 50, height: 3, background: 'var(--cyan)', margin: '0 auto', borderRadius: 2 }} />
-      </motion.div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24 }}>
-
-        {/* ── Bio card ── */}
+    <section id="about" className="relative z-30 w-full pt-4 section-container overflow-visible">
+      <BackgroundLines className="z-0 flex-col items-center justify-center w-full px-4 md:px-10 py-4 overflow-visible" svgClassName="h-[70%] md:h-[80%] my-auto">
         <motion.div
-          onMouseEnter={() => setHovered(0)}
-          onMouseLeave={() => setHovered(null)}
-          initial={{ opacity: 0, x: -24 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className={cn(
-            "transition-all duration-300 ease-out",
-            hovered !== null && hovered !== 0 && "blur-[2px] scale-[0.98]"
-          )}
-          style={{
-            background: 'rgba(20, 25, 40, 0.4)',
-            backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255, 255, 255, 0.05)',
-            borderRadius: 18,
-            padding: 'clamp(16px, 3vw, 22px)',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
-            position: 'relative',
-            overflow: 'hidden'
-          }}
-          whileHover={{ translateY: -5 }}
+          style={{ textAlign: 'center', marginBottom: 24 }}
         >
-          <div style={{ position: 'absolute', top: -100, left: -100, width: 200, height: 200, background: 'var(--cyan)', filter: 'blur(100px)', opacity: 0.1, borderRadius: '50%' }} />
-
-          {/* Avatar */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24, position: 'relative', zIndex: 1 }}>
-            <div style={{
-              width: 60, height: 60, borderRadius: 12,
-              background: 'var(--cyan-dim)', border: '1px solid rgba(0,212,255,0.3)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 700, fontSize: 22, color: 'var(--cyan)',
-              boxShadow: '0 4px 14px rgba(0,212,255,0.2)'
-            }}>SM</div>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: 18, color: 'var(--text)', marginBottom: 4 }}>Sougata Manna</div>
-              <div style={{ fontSize: 14, color: 'var(--cyan)', fontWeight: 500 }}>Full Stack Developer</div>
-            </div>
-          </div>
-
-          {/* Bio text */}
-          <div style={{ color: 'var(--text-dim)', fontSize: 15, lineHeight: 1.8, marginBottom: 24, position: 'relative', zIndex: 1 }}>
-            <p style={{ marginBottom: 16 }}>
-              I'm a passionate <span style={{ color: 'var(--cyan)', fontWeight: 600 }}>BCA Student</span> at{' '}
-              <span style={{ color: 'var(--cyan)', fontWeight: 600 }}>Brainware University</span> and an enthusiastic{' '}
-              <span style={{ color: '#a78bfa', fontWeight: 600 }}>Full Stack Developer</span>. I love building
-              functional, user-centric, and scalable web apps that solve real-world problems.
-            </p>
-            <p>
-              When I'm not coding, I explore new technologies, develop personal projects, and
-              grow my skill set in this ever-evolving landscape.
-            </p>
-          </div>
-
-          {/* Status badges */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, position: 'relative', zIndex: 1 }}>
-            <span style={{ padding: '6px 14px', background: 'rgba(34, 197, 94, 0.1)', color: '#4ade80', borderRadius: 20, fontSize: 13, fontWeight: 500, border: '1px solid rgba(34, 197, 94, 0.2)' }}>✓ Open to Work</span>
-            <span style={{ padding: '6px 14px', background: 'rgba(0, 212, 255, 0.1)', color: 'var(--cyan)', borderRadius: 20, fontSize: 13, fontWeight: 500, border: '1px solid rgba(0, 212, 255, 0.2)' }}>✓ Freelance</span>
-            <span style={{ padding: '6px 14px', background: 'rgba(167, 139, 250, 0.1)', color: '#a78bfa', borderRadius: 20, fontSize: 13, fontWeight: 500, border: '1px solid rgba(167, 139, 250, 0.2)' }}>✓ India</span>
-          </div>
+          <h2 style={{ fontSize: 'clamp(1.8rem, 2.5vw, 2.2rem)', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>
+            About <span style={{ color: 'var(--cyan)' }}>Me</span>
+          </h2>
+          <div style={{ width: 50, height: 3, background: 'var(--cyan)', margin: '0 auto', borderRadius: 2 }} />
         </motion.div>
 
-        {/* ── Skills card ── */}
-        <motion.div
-          onMouseEnter={() => setHovered(1)}
-          onMouseLeave={() => setHovered(null)}
-          initial={{ opacity: 0, x: 24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className={cn(
-            "transition-all duration-300 ease-out",
-            hovered !== null && hovered !== 1 && "blur-[2px] scale-[0.98]"
-          )}
-          style={{
-            background: 'rgba(20, 25, 40, 0.4)',
-            backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255, 255, 255, 0.05)',
-            borderRadius: 18,
-            padding: 'clamp(16px, 3vw, 22px)',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
-            position: 'relative',
-            overflow: 'hidden'
-          }}
-          whileHover={{ translateY: -5 }}
-        >
-          <div style={{ position: 'absolute', bottom: -100, right: -100, width: 250, height: 250, background: '#a78bfa', filter: 'blur(120px)', opacity: 0.1, borderRadius: '50%' }} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24, alignItems: 'center', width: '100%' }}>
 
-          <div style={{ fontWeight: 600, fontSize: 18, color: 'var(--text)', marginBottom: 24, position: 'relative', zIndex: 1 }}>
-            Technical Skills
-          </div>
+          {/* ── Bio card ── */}
+          <motion.div
+            onMouseEnter={() => setHovered(0)}
+            onMouseLeave={() => setHovered(null)}
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className={cn(
+              "transition-all duration-300 ease-out dark:bg-black/50 bg-white/80 dark:border-white/10 border-black/10 backdrop-blur-xl rounded-2xl shadow-xl p-5 md:p-6 w-full max-w-[960px] relative z-20 border overflow-visible",
+              hovered !== null && hovered !== 0 && "blur-[2px] scale-[0.98]"
+            )}
+            whileHover={{ translateY: -4 }}
+          >
+            <div style={{ position: 'absolute', top: -80, left: -80, width: 180, height: 180, background: 'var(--cyan)', filter: 'blur(90px)', opacity: 0.15, borderRadius: '50%', pointerEvents: 'none' }} />
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, position: 'relative', zIndex: 1 }}>
-            {skills.map((skill, i) => (
-              <motion.div
-                key={skill.name}
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: i * 0.07 }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <span style={{ color: skill.color, fontSize: 18, filter: `drop-shadow(0 0 8px ${skill.color}80)` }}>{skill.icon}</span>
-                    <span style={{ fontWeight: 500, fontSize: 15, color: 'var(--text)' }}>{skill.name}</span>
-                  </div>
-                  <span style={{ fontSize: 13, color: 'var(--text-mute)', fontWeight: 600 }}>
-                    {skill.level}<span style={{ color: skill.color }}>%</span>
+            {/* Bio text */}
+            <div
+              className="flex flex-col items-start text-left w-full px-1"
+              style={{ color: 'var(--text-dim)', marginBottom: 20, position: 'relative', zIndex: 1 }}
+            >
+              <ul className="flex flex-col gap-3.5 w-full list-none p-0 m-0">
+                <li className="flex items-start gap-3 text-sm md:text-base leading-relaxed text-[var(--text-dim)] font-normal">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-[var(--cyan)] shrink-0 shadow-[0_0_8px_var(--cyan)]" />
+                  <span>
+                    BCA graduate from{' '}
+                    <LinkPreview
+                      url="https://www.brainwareuniversity.ac.in/"
+                      title="Brainware University"
+                      image="https://api.microlink.io/?url=https://www.brainwareuniversity.ac.in/&screenshot=true&meta=false&embed=screenshot.url"
+                      linkClassName="font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-600 dark:from-cyan-400 dark:to-blue-500 no-underline"
+                    >
+                      Brainware University
+                    </LinkPreview>
+                    {', with a strong foundation in '}
+                    <LinkPreview
+                      url="https://www.python.org"
+                      title="Python"
+                      image="https://api.microlink.io/?url=https://www.python.org&screenshot=true&meta=false&embed=screenshot.url"
+                      linkClassName="font-bold text-[var(--text)] no-underline hover:text-[var(--cyan)]"
+                    >
+                      Python
+                    </LinkPreview>
+                    {', '}
+                    <span className="font-bold text-[var(--text)]">Data Science</span>
+                    {', and '}
+                    <span className="font-bold text-[var(--text)]">Computer Applications</span>.
                   </span>
-                </div>
-                <div style={{ height: 6, background: 'rgba(255,255,255,0.05)', borderRadius: 9999, overflow: 'hidden' }}>
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${skill.level}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.2 + i * 0.07, ease: 'easeOut' }}
-                    style={{
-                      height: '100%',
-                      background: `linear-gradient(90deg, ${skill.color}80, ${skill.color})`,
-                      borderRadius: 9999,
-                      boxShadow: `0 0 10px ${skill.color}80`
-                    }}
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
+                </li>
+
+                <li className="flex items-start gap-3 text-sm md:text-base leading-relaxed text-[var(--text-dim)] font-normal">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-[var(--cyan)] shrink-0 shadow-[0_0_8px_var(--cyan)]" />
+                  <span>
+                    Completed{' '}
+                    <LinkPreview
+                      url="https://www.ibm.com/training/badge/data-science-foundations"
+                      title="IBM Data Science Virtual Internship"
+                      description="Hands-on virtual internship covering exploratory data analysis and Python analytics workflows."
+                      image="https://api.microlink.io/?url=https://www.ibm.com/training&screenshot=true&meta=false&embed=screenshot.url"
+                      linkClassName="font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-600 dark:from-cyan-400 dark:to-blue-500 no-underline"
+                    >
+                      IBM Data Science Internship
+                    </LinkPreview>{' '}
+                    and{' '}
+                    <LinkPreview
+                      url="https://nptel.ac.in/courses/106/106/106106183/"
+                      title="NPTEL Python for Data Science"
+                      description="4-Week Certified Course covering scientific computing and data analytics."
+                      image="https://api.microlink.io/?url=https://nptel.ac.in&screenshot=true&meta=false&embed=screenshot.url"
+                      linkClassName="font-bold text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-pink-600 dark:from-purple-500 dark:to-pink-500 no-underline"
+                    >
+                      NPTEL Data Science for Python
+                    </LinkPreview>{' '}
+                    course, with a passion for technology and continuous learning.
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Status badges */}
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 relative z-10 pt-2 border-t border-[var(--border2)]">
+              <span className="px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-emerald-500/10 bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                ✓ Open to Work
+              </span>
+              <span className="px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-cyan-500/10 bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
+                ✓ Freelance
+              </span>
+              <span className="px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-purple-500/10 bg-purple-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/20">
+                ✓ India
+              </span>
+            </div>
+          </motion.div>
+
+          {/* ── Skills card with LogoLoop Effect ── */}
+          <motion.div
+            onMouseEnter={() => setHovered(1)}
+            onMouseLeave={() => setHovered(null)}
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className={cn(
+              "transition-all duration-300 ease-out dark:bg-black/50 bg-white/80 dark:border-white/10 border-black/10 backdrop-blur-xl rounded-2xl shadow-xl p-5 md:p-6 w-full max-w-[960px] relative z-20 border overflow-hidden",
+              hovered !== null && hovered !== 1 && "blur-[2px] scale-[0.98]"
+            )}
+            whileHover={{ translateY: -4 }}
+          >
+            <div style={{ position: 'absolute', bottom: -80, right: -80, width: 200, height: 200, background: '#a78bfa', filter: 'blur(100px)', opacity: 0.15, borderRadius: '50%', pointerEvents: 'none' }} />
+
+            <div className="flex items-center justify-between mb-5 relative z-10">
+              <h3 style={{ fontWeight: 700, fontSize: 17, color: 'var(--text)' }}>
+                Technical Skills & Stack
+              </h3>
+              <span className="text-[11px] dark:text-white/60 text-neutral-600 dark:bg-white/5 bg-black/5 px-2.5 py-1 rounded-full border dark:border-white/10 border-black/10 font-medium">
+                Hover to pause • Click to explore
+              </span>
+            </div>
+
+            {/* LogoLoop marquee tracks */}
+            <div className="flex flex-col gap-3 py-1 relative z-10 overflow-hidden">
+              {/* Top Loop: scrolling left */}
+              <LogoLoop
+                logos={techLogosRow1}
+                speed={75}
+                direction="left"
+                logoHeight={46}
+                gap={24}
+                hoverSpeed={0}
+                scaleOnHover={true}
+                fadeOut={true}
+                fadeOutColor="var(--bg)"
+                ariaLabel="Frontend technologies"
+              />
+
+              {/* Bottom Loop: scrolling right */}
+              <LogoLoop
+                logos={techLogosRow2}
+                speed={65}
+                direction="right"
+                logoHeight={46}
+                gap={24}
+                hoverSpeed={0}
+                scaleOnHover={true}
+                fadeOut={true}
+                fadeOutColor="var(--bg)"
+                ariaLabel="Backend and developer tools"
+              />
+            </div>
+          </motion.div>
+        </div>
       </BackgroundLines>
     </section>
   );
 };
 
 export default About;
+
