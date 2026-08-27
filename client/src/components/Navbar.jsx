@@ -354,13 +354,13 @@ const Navbar = ({ theme, toggleTheme }) => {
                 socialItems={mobileSocialItems}
                 displaySocials={true}
                 displayItemNumbering={true}
-                menuButtonColor={theme === 'dark' ? '#ffffff' : '#111827'}
-                openMenuButtonColor="#ffffff"
+                menuButtonColor={theme === 'dark' ? '#00d4ff' : '#0891b2'}
+                openMenuButtonColor="#00d4ff"
                 changeMenuColorOnOpen={true}
-                colors={['#5227FF', '#B497CF', '#12111a']}
+                colors={['#00d4ff', '#0891b2', '#050b14']}
                 logoUrl={assets.profile}
-                logoText="Sougata"
-                accentColor="#5227FF"
+                logoText="Sougata Manna"
+                accentColor="#00d4ff"
                 onMenuOpen={() => console.log('Menu opened')}
                 onMenuClose={() => console.log('Menu closed')}
               />

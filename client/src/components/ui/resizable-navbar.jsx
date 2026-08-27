@@ -33,8 +33,7 @@ export const Navbar = ({
   return (
     <motion.div
       ref={ref}
-      // IMPORTANT: Changed from sticky to fixed for persistent top navbar
-      className={cn("fixed inset-x-0 top-2 z-[100] w-full px-4 md:px-8", className)}>
+      className={cn("fixed inset-x-0 top-2 z-[100] w-full px-2 sm:px-4 md:px-8", className)}>
       {React.Children.map(children, (child) =>
         React.isValidElement(child)
           ? React.cloneElement(child, { visible })
@@ -51,12 +50,9 @@ export const NavBody = ({
   return (
     <motion.div
       animate={{
-        backdropFilter: visible ? "blur(10px)" : "none",
-        boxShadow: visible
-          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
-          : "none",
+        backdropFilter: visible ? "blur(12px)" : "none",
         width: visible ? "40%" : "100%",
-        y: visible ? 20 : 0,
+        y: visible ? 10 : 0,
       }}
       transition={{
         type: "spring",
@@ -68,7 +64,7 @@ export const NavBody = ({
       }}
       className={cn(
         "relative z-[60] mx-auto hidden w-full max-w-[960px] flex-row items-center justify-between self-start rounded-full px-3 py-2 lg:flex transition-colors",
-        visible ? "bg-[var(--surface)] shadow-md border border-[var(--border2)]" : "bg-transparent",
+        visible ? "bg-[var(--surface)] border border-[var(--border2)]" : "bg-transparent",
         className
       )}>
       {children}
@@ -119,15 +115,8 @@ export const MobileNav = ({
   return (
     <motion.div
       animate={{
-        backdropFilter: visible ? "blur(10px)" : "none",
-        boxShadow: visible
-          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
-          : "none",
-        width: visible ? "90%" : "100%",
-        paddingRight: visible ? "12px" : "0px",
-        paddingLeft: visible ? "12px" : "0px",
-        borderRadius: visible ? "4px" : "2rem",
-        y: visible ? 20 : 0,
+        backdropFilter: "blur(12px)",
+        y: visible ? 4 : 0,
       }}
       transition={{
         type: "spring",
@@ -135,8 +124,7 @@ export const MobileNav = ({
         damping: 50,
       }}
       className={cn(
-        "relative z-50 mx-auto flex w-full max-w-[960px] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-        visible && "bg-[var(--surface)] shadow-md",
+        "relative z-50 mx-auto flex w-full max-w-[960px] flex-col items-center justify-between bg-[var(--surface)]/90 border border-[var(--border2)] rounded-full px-3 py-1.5 lg:hidden",
         className
       )}>
       {children}

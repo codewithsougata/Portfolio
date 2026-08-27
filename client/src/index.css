@@ -298,39 +298,6 @@ html.light {
     overflow: hidden;
   }
 
-  /* Custom cursor */
-  .cursor-dot {
-    width: 7px;
-    height: 7px;
-    background: var(--cyan);
-    border-radius: 50%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    transition: background 0.3s;
-  }
-
-  .cursor-ring {
-    width: 32px;
-    height: 32px;
-    border: 1.5px solid rgba(0, 212, 255, 0.5);
-    border-radius: 50%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 9998;
-    transition: width 0.25s, height 0.25s, border-color 0.25s, background 0.25s;
-  }
-
-  .cursor-ring.hovered {
-    width: 44px;
-    height: 44px;
-    border-color: var(--cyan);
-    background: rgba(0, 212, 255, 0.06);
-  }
 
   @media (max-width: 768px) {
     .desktop-nav {

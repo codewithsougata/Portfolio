@@ -7,14 +7,15 @@ import { FloatingDock } from './ui/floating-dock';
 import { TextGenerateEffect } from './ui/text-generate-effect';
 import { ShootingStars } from './ui/shooting-stars';
 import { StarsBackground } from './ui/stars-background';
-import Button from '../uicomponents/buttons/button-commons';
+import ChromaSnakeButton from '../uicomponents/buttons/chroma-snake-button';
+import ElectricBorder from './ElectricBorder';
+import CircularText from './CircularText';
 import {
-  IconBrandReact,
-  IconBrandNodejs,
-  IconServer,
-  IconBrandMongodb,
-  IconBrandTailwind,
-  IconBrandFramerMotion
+  IconBrandLinkedin,
+  IconBrandX,
+  IconBrandInstagram,
+  IconBrandFacebook,
+  IconBrandGithub
 } from '@tabler/icons-react';
 
 const Hero = () => {
@@ -67,13 +68,19 @@ const Hero = () => {
             <TextGenerateEffect className="!mt-0 font-normal" words="I am a BCA student at Brainware University and a fresher passionate about web development. I am eager to learn new technologies, improve my skills, and build a successful career in the IT industry." />
           </div>
 
-          <div className="flex flex-col w-full gap-3 mt-4 sm:flex-row sm:w-auto">
-            <Button size="md" variant="solid" effect="sparkle" className="w-full sm:w-auto sm:min-w-[140px]" onClick={() => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })}>
-              View Projects <ArrowRight size={15} />
-            </Button>
-            <Button size="md" variant="slate" effect="sparkle" className="w-full sm:w-auto sm:min-w-[140px]" onClick={() => { const a = document.createElement('a'); a.href = assets.resume; a.download = ''; a.click(); }}>
-              Download CV <Download size={15} />
-            </Button>
+          <div className="flex flex-col w-full gap-3 mt-4 sm:flex-row sm:w-auto items-center">
+            <ChromaSnakeButton
+              onClick={() => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })}
+              icon={<ArrowRight className="w-4 h-4" />}
+            >
+              View Projects
+            </ChromaSnakeButton>
+            <ChromaSnakeButton
+              onClick={() => { const a = document.createElement('a'); a.href = assets.resume; a.download = ''; a.click(); }}
+              icon={<Download className="w-4 h-4" />}
+            >
+              Download CV
+            </ChromaSnakeButton>
           </div>
 
           <motion.div
@@ -85,12 +92,31 @@ const Hero = () => {
           >
             <FloatingDock
               items={[
-                { title: 'React', icon: <IconBrandReact className="h-full w-full text-[var(--text)]" /> },
-                { title: 'Node.js', icon: <IconBrandNodejs className="h-full w-full text-[var(--text)]" /> },
-                { title: 'Express', icon: <IconServer className="h-full w-full text-[var(--text)]" /> },
-                { title: 'MongoDB', icon: <IconBrandMongodb className="h-full w-full text-[var(--text)]" /> },
-                { title: 'Tailwind CSS', icon: <IconBrandTailwind className="h-full w-full text-[var(--text)]" /> },
-                { title: 'Framer Motion', icon: <IconBrandFramerMotion className="h-full w-full text-[var(--text)]" /> },
+                {
+                  title: 'LinkedIn',
+                  icon: <IconBrandLinkedin className="h-full w-full text-[var(--text)]" />,
+                  href: 'https://www.linkedin.com/in/sougata-manna-9932s/'
+                },
+                {
+                  title: 'Twitter / X',
+                  icon: <IconBrandX className="h-full w-full text-[var(--text)]" />,
+                  href: 'https://x.com'
+                },
+                {
+                  title: 'Instagram',
+                  icon: <IconBrandInstagram className="h-full w-full text-[var(--text)]" />,
+                  href: 'https://instagram.com'
+                },
+                {
+                  title: 'Facebook',
+                  icon: <IconBrandFacebook className="h-full w-full text-[var(--text)]" />,
+                  href: 'https://facebook.com'
+                },
+                {
+                  title: 'GitHub',
+                  icon: <IconBrandGithub className="h-full w-full text-[var(--text)]" />,
+                  href: 'https://github.com/codewithsougata'
+                }
               ]}
               desktopClassName="bg-[var(--surface)] border border-[var(--border2)]"
               mobileClassName="mx-auto"
@@ -98,19 +124,43 @@ const Hero = () => {
           </motion.div>
         </motion.div>
 
-        {/* Right Side: Clean Profile Photo */}
+        {/* Right Side: Clean Profile Photo with Circular Text — hidden on mobile */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          style={{ flex: '1 1 280px', display: 'flex', justifyContent: 'center', position: 'relative', zIndex: 1 }}
+          className="hidden sm:flex items-center justify-center"
+          style={{ flex: '1 1 280px', position: 'relative', zIndex: 1 }}
         >
-          <div className="relative w-56 sm:w-64 aspect-square rounded-full overflow-hidden">
-            <img
-              src={assets.profile}
-              alt="Sougata Manna"
-              className="w-full h-full rounded-full object-cover object-top shadow-xl border border-[var(--border2)]"
-            />
+          <div className="relative flex items-center justify-center p-8">
+            {/* Spinning Circular Text Ring */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <CircularText
+                text="SOUGATA*MANNA*DEVELOPER*"
+                onHover="speedUp"
+                spinDuration={20}
+                className="w-[260px] h-[260px] sm:w-[280px] sm:h-[280px] pointer-events-auto"
+                letterClassName="text-[11px] sm:text-xs font-bold tracking-widest text-[var(--cyan)] uppercase"
+              />
+            </div>
+
+            {/* Decreased Profile Photo with Electric Border */}
+            <ElectricBorder
+              color="#7df9ff"
+              speed={1}
+              chaos={0.12}
+              thickness={2}
+              style={{ borderRadius: '50%' }}
+              borderRadius={9999}
+            >
+              <div className="relative w-40 sm:w-44 aspect-square rounded-full overflow-hidden">
+                <img
+                  src={assets.profile}
+                  alt="Sougata Manna"
+                  className="w-full h-full rounded-full object-cover object-top shadow-xl border border-[var(--border2)]"
+                />
+              </div>
+            </ElectricBorder>
           </div>
         </motion.div>
       </div>

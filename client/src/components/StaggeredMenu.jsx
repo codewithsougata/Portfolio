@@ -419,7 +419,7 @@ export const StaggeredMenu = ({
       <aside
         id="staggered-menu-panel"
         ref={panelRef}
-        className="staggered-menu-panel fixed top-0 right-0 h-screen w-[clamp(280px,85vw,420px)] bg-[#0d0d13] text-white flex flex-col p-6 md:p-8 overflow-y-auto z-[99999] backdrop-blur-[24px] pointer-events-auto border-l border-white/10 shadow-2xl"
+        className="staggered-menu-panel fixed top-0 right-0 h-screen w-[clamp(280px,85vw,420px)] bg-[#0d0d13] text-white flex flex-col p-6 md:p-8 overflow-y-auto z-[99999] backdrop-blur-[24px] pointer-events-auto border-l border-white/10"
         style={{
           WebkitBackdropFilter: 'blur(24px)',
           height: '100vh',
@@ -435,7 +435,7 @@ export const StaggeredMenu = ({
                 <img
                   src={logoUrl}
                   alt="Logo"
-                  className="w-8 h-8 rounded-full border-2 border-[var(--sm-accent,#5227FF)] object-cover"
+                  className="w-8 h-8 rounded-full border-2 border-[var(--cyan,#00d4ff)] object-cover"
                 />
               ) : null}
               <span className="font-bold text-base text-white tracking-tight font-sans">
@@ -513,7 +513,7 @@ export const StaggeredMenu = ({
       <div className={`sm-toggle-container relative inline-flex items-center z-[100] ${className}`}>
         <button
           ref={toggleBtnRef}
-          className="sm-toggle relative w-8 h-8 rounded-full flex items-center justify-center bg-[var(--surface2,rgba(255,255,255,0.06))] border border-[var(--border2,rgba(255,255,255,0.12))] cursor-pointer text-[#e9e9ef] overflow-visible hover:border-[var(--sm-accent,#5227FF)] transition-all active:scale-95"
+          className="sm-toggle relative w-8 h-8 rounded-full flex items-center justify-center bg-[var(--surface2,rgba(255,255,255,0.06))] border border-[var(--border2,rgba(255,255,255,0.12))] cursor-pointer text-[#e9e9ef] overflow-visible hover:border-[var(--cyan,#00d4ff)] transition-all active:scale-95 shadow-none"
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
           aria-controls="staggered-menu-panel"
@@ -543,9 +543,9 @@ export const StaggeredMenu = ({
       <style>{`
 .sm-scope [data-position='left'] .staggered-menu-panel { right: auto; left: 0; border-left: none; border-right: 1px solid rgba(255,255,255,0.1); }
 .sm-scope [data-position='left'] .sm-prelayers { right: auto; left: 0; }
-.sm-scope .sm-prelayer { position: absolute; top: 0; right: 0; height: 100%; width: 100%; transform: translateX(0); box-shadow: -10px 0 30px rgba(0,0,0,0.4); }
+.sm-scope .sm-prelayer { position: absolute; top: 0; right: 0; height: 100%; width: 100%; transform: translateX(0); box-shadow: none; }
 .sm-scope .sm-panel-list[data-numbering] { counter-reset: smItem; }
-.sm-scope .sm-panel-list[data-numbering] .sm-panel-item::after { counter-increment: smItem; content: counter(smItem, decimal-leading-zero); position: absolute; top: 0.15em; right: 0.2em; font-size: 13px; font-weight: 600; font-family: monospace; color: var(--sm-accent, #5227FF); letter-spacing: 0; pointer-events: none; user-select: none; opacity: var(--sm-num-opacity, 0); }
+.sm-scope .sm-panel-list[data-numbering] .sm-panel-item::after { counter-increment: smItem; content: counter(smItem, decimal-leading-zero); position: absolute; top: 0.15em; right: 0.2em; font-size: 13px; font-weight: 600; font-family: monospace; color: var(--cyan, #00d4ff); letter-spacing: 0; pointer-events: none; user-select: none; opacity: var(--sm-num-opacity, 0); }
       `}</style>
     </>
   );
