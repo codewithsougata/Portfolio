@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Navbar as ResizableNavbar,
@@ -12,6 +12,135 @@ import { IconBrandGithub, IconBrandX } from '@tabler/icons-react';
 import { assets } from '../assets/assets';
 import { SparklesCore } from './ui/sparkles';
 import StaggeredMenu from './StaggeredMenu';
+
+// ─── Web Audio Sound Synthesizer ─────────────────────────────────────────────
+const getAudioContext = (() => {
+  let ctx = null;
+  return () => {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    // Resume if suspended (browser autoplay policy)
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  };
+})();
+
+/** Like sound: warm pop + a rising sparkle shimmer */
+const playLikeSound = () => {
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+
+    // Pop body
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(320, now);
+    osc1.frequency.exponentialRampToValueAtTime(180, now + 0.12);
+    gain1.gain.setValueAtTime(0.35, now);
+    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+    osc1.start(now);
+    osc1.stop(now + 0.2);
+
+    // Sparkle shimmer
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.type = 'triangle';
+    osc2.frequency.setValueAtTime(880, now + 0.05);
+    osc2.frequency.exponentialRampToValueAtTime(1320, now + 0.22);
+    gain2.gain.setValueAtTime(0.0, now);
+    gain2.gain.linearRampToValueAtTime(0.18, now + 0.07);
+    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+    osc2.start(now + 0.05);
+    osc2.stop(now + 0.3);
+
+    // High-pitched ping
+    const osc3 = ctx.createOscillator();
+    const gain3 = ctx.createGain();
+    osc3.connect(gain3);
+    gain3.connect(ctx.destination);
+    osc3.type = 'sine';
+    osc3.frequency.setValueAtTime(1600, now + 0.1);
+    osc3.frequency.exponentialRampToValueAtTime(2200, now + 0.25);
+    gain3.gain.setValueAtTime(0.0, now + 0.1);
+    gain3.gain.linearRampToValueAtTime(0.1, now + 0.14);
+    gain3.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
+    osc3.start(now + 0.1);
+    osc3.stop(now + 0.35);
+  } catch (_) {}
+};
+
+/** Unlike sound: soft muted thud — descending dull thump */
+const playUnlikeSound = () => {
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(200, now);
+    osc.frequency.exponentialRampToValueAtTime(80, now + 0.15);
+    gain.gain.setValueAtTime(0.22, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+    osc.start(now);
+    osc.stop(now + 0.22);
+  } catch (_) {}
+};
+
+/** Light mode sound: bright ascending chime — airy and warm */
+const playLightModeSound = () => {
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+
+    const notes = [523.25, 659.25, 783.99]; // C5 E5 G5
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, now + i * 0.07);
+      gain.gain.setValueAtTime(0.0, now + i * 0.07);
+      gain.gain.linearRampToValueAtTime(0.18, now + i * 0.07 + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.22);
+      osc.start(now + i * 0.07);
+      osc.stop(now + i * 0.07 + 0.25);
+    });
+  } catch (_) {}
+};
+
+/** Dark mode sound: deep descending click — smooth and cool */
+const playDarkModeSound = () => {
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+
+    const notes = [392.0, 293.66, 196.0]; // G4 D4 G3
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now + i * 0.07);
+      gain.gain.setValueAtTime(0.0, now + i * 0.07);
+      gain.gain.linearRampToValueAtTime(0.2, now + i * 0.07 + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.2);
+      osc.start(now + i * 0.07);
+      osc.stop(now + i * 0.07 + 0.22);
+    });
+  } catch (_) {}
+};
+// ─────────────────────────────────────────────────────────────────────────────
 
 const formatCount = (num) => {
   if (num >= 1000000) {
@@ -62,6 +191,7 @@ const Navbar = ({ theme, toggleTheme }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // GitHub Likes / Love React State
   const [likes, setLikes] = useState(() => {
@@ -114,6 +244,12 @@ const Navbar = ({ theme, toggleTheme }) => {
     setIsLiked(nextLiked);
     setLikes(nextLikes);
     setDisplayCount(nextLikes);
+    // 🔊 Sound effect
+    if (nextLiked) {
+      playLikeSound();
+    } else {
+      playUnlikeSound();
+    }
     if (typeof window !== 'undefined') {
       localStorage.setItem('portfolio_is_liked', String(nextLiked));
       localStorage.setItem('portfolio_likes', String(nextLikes));
@@ -125,6 +261,12 @@ const Navbar = ({ theme, toggleTheme }) => {
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 80);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Cmd+K / Ctrl+K keyboard shortcut
@@ -163,34 +305,64 @@ const Navbar = ({ theme, toggleTheme }) => {
 
   const Logo = () => (
     <a href="#home" className="relative z-20 flex flex-col justify-center text-decoration-none group">
-      <div className="flex-col items-center hidden mt-2 md:flex">
-        <div className="relative z-10 flex items-center gap-2">
-          <span className="font-sans text-base md:text-lg font-bold text-[var(--text)] tracking-tight">
-            Sougata
-          </span>
-        </div>
-
-        {/* Sparkles Underline */}
-        <div className="relative w-32 h-6 mt-1">
-          <div className="absolute inset-x-0 top-0 mx-auto bg-gradient-to-r from-transparent via-white to-transparent h-[2px] w-3/4 blur-sm" />
-          <div className="absolute inset-x-0 top-0 w-3/4 h-px mx-auto bg-gradient-to-r from-transparent via-white to-transparent" />
-          <div className="absolute inset-x-0 top-0 mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent h-[3px] w-1/4 blur-sm" />
-          <div className="absolute inset-x-0 top-0 w-1/4 h-px mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent" />
-
-          {!isMobile && (
-            <div className="absolute inset-0 w-full h-full [mask-image:radial-gradient(80px_20px_at_top,white,transparent_100%)]">
-              <SparklesCore
-                background="transparent"
-                minSize={0.2}
-                maxSize={1}
-                particleDensity={800}
-                className="w-full h-full"
-                particleColor="#ffffff"
+      {/* Desktop: show name when at top, profile pic when scrolled */}
+      <div className="hidden md:flex flex-col items-center">
+        <AnimatePresence mode="wait">
+          {isScrolled ? (
+            <motion.div
+              key="profile-pic"
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.7 }}
+              transition={{ duration: 0.2 }}
+            >
+              <img
+                src={assets.profile}
+                alt="Sougata"
+                className="object-cover w-8 h-8 border-2 rounded-full border-[var(--border2)] shadow-md"
               />
-            </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="logo-text"
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2 }}
+              className="flex flex-col items-center mt-2"
+            >
+              <div className="relative z-10 flex items-center gap-2">
+                <span className="font-sans text-base md:text-lg font-bold text-[var(--text)] tracking-tight">
+                  Sougata
+                </span>
+              </div>
+
+              {/* Sparkles Underline */}
+              <div className="relative w-32 h-6 mt-1">
+                <div className="absolute inset-x-0 top-0 mx-auto bg-gradient-to-r from-transparent via-white to-transparent h-[2px] w-3/4 blur-sm" />
+                <div className="absolute inset-x-0 top-0 w-3/4 h-px mx-auto bg-gradient-to-r from-transparent via-white to-transparent" />
+                <div className="absolute inset-x-0 top-0 mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent h-[3px] w-1/4 blur-sm" />
+                <div className="absolute inset-x-0 top-0 w-1/4 h-px mx-auto bg-gradient-to-r from-transparent via-gray-400 to-transparent" />
+
+                {!isMobile && (
+                  <div className="absolute inset-0 w-full h-full [mask-image:radial-gradient(80px_20px_at_top,white,transparent_100%)]">
+                    <SparklesCore
+                      background="transparent"
+                      minSize={0.2}
+                      maxSize={1}
+                      particleDensity={800}
+                      className="w-full h-full"
+                      particleColor="#ffffff"
+                    />
+                  </div>
+                )}
+              </div>
+            </motion.div>
           )}
-        </div>
+        </AnimatePresence>
       </div>
+
+      {/* Mobile: always show profile pic */}
       <div className="md:hidden">
         <img
           src={assets.profile}
@@ -262,7 +434,15 @@ const Navbar = ({ theme, toggleTheme }) => {
 
             {/* Dark / Light Mode Pill Slider Toggle */}
             <button
-              onClick={toggleTheme}
+              onClick={() => {
+                // 🔊 Sound effect — plays BEFORE the theme flips so we can read current theme
+                if (theme === 'dark') {
+                  playLightModeSound();
+                } else {
+                  playDarkModeSound();
+                }
+                toggleTheme();
+              }}
               className="relative flex items-center w-12 h-6 px-1 rounded-full bg-[var(--surface2)] border border-[var(--border2)] cursor-pointer transition-colors focus:outline-none"
               aria-label="Toggle Theme"
               title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
@@ -331,7 +511,15 @@ const Navbar = ({ theme, toggleTheme }) => {
 
               {/* Mobile Theme Toggle */}
               <button
-                onClick={toggleTheme}
+                onClick={() => {
+                  // 🔊 Sound effect
+                  if (theme === 'dark') {
+                    playLightModeSound();
+                  } else {
+                    playDarkModeSound();
+                  }
+                  toggleTheme();
+                }}
                 className="relative flex items-center w-10 h-5 px-0.5 rounded-full bg-[var(--surface2)] border border-[var(--border2)]"
                 aria-label="Toggle Theme"
               >

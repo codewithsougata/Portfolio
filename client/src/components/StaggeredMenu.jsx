@@ -393,7 +393,6 @@ export const StaggeredMenu = ({
         className="sm-prelayers fixed top-0 right-0 bottom-0 pointer-events-none z-[99995] overflow-hidden"
         style={{
           width: 'clamp(280px, 85vw, 420px)',
-          height: '100vh',
           height: '100dvh',
         }}
         aria-hidden="true"
@@ -422,7 +421,6 @@ export const StaggeredMenu = ({
         className="staggered-menu-panel fixed top-0 right-0 h-screen w-[clamp(280px,85vw,420px)] bg-[#0d0d13] text-white flex flex-col p-6 md:p-8 overflow-y-auto z-[99999] backdrop-blur-[24px] pointer-events-auto border-l border-white/10"
         style={{
           WebkitBackdropFilter: 'blur(24px)',
-          height: '100vh',
           height: '100dvh',
         }}
         aria-hidden={!open}

@@ -140,10 +140,6 @@ const Contact = () => {
           className="hidden lg:flex flex-col justify-between col-span-5 h-[500px] relative p-5 rounded-2xl border border-[var(--border2)] bg-[var(--surface)]/30 backdrop-blur-xl shadow-input"
         >
           <div className="mb-2">
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[11px] font-semibold uppercase tracking-wider mb-2">
-              <Sparkles size={11} />
-              <span>Select Topic</span>
-            </div>
             <h3 className="text-lg font-bold text-[var(--text)] leading-snug">
               What would you like to discuss?
             </h3>
@@ -162,7 +158,7 @@ const Contact = () => {
                 'Job Opportunity',
                 'UI/UX Design',
                 "Let's Collaborate",
-                'Say Hello 👋'
+                'Say Hello'
               ]}
               defaultSelected={0}
               textColor="#71717a"

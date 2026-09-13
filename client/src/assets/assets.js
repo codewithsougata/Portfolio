@@ -3,18 +3,20 @@
 
 // Import local assets here (when available)
 import profile_img from './sou.jpeg';
-import resume_pdf from './BWU_BCA_23_221_SOUGATA_MANNA web.pdf';
+import resume_pdf from './SOUGATA_MANNA_CV.pdf';
 import Quiz_img from './Quiz.png';
 import Food_img from './food.png';
 import Portfolio_img from './fro.png';
+import Marksheet_img from './marksheet.pdf';
 
 export const assets = {
     // Images & Icons
     profile: profile_img,
     logo_text: "Sougata",
-    
+
     // PDF Assets
     resume: resume_pdf,
+    marksheet: Marksheet_img,
 
     // Project Thumbnails
     projects: {
@@ -26,7 +28,7 @@ export const assets = {
 
 // Roles for the Hero section typing effect
 export const roles_list = [
-    "BCA Student", 
+    "BCA Student",
     "Full Stack Developer",
     "Frontend Engineer",
     "UI/UX Enthusiast",

@@ -95,7 +95,7 @@ const About = () => {
                     <LinkPreview
                       url="https://www.brainwareuniversity.ac.in/"
                       title="Brainware University"
-                      image="https://api.microlink.io/?url=https://www.brainwareuniversity.ac.in/&screenshot=true&meta=false&embed=screenshot.url"
+                      image="https://dfhe5ze0n4pxu.cloudfront.net/College/Background-Images/Background-Image-1773483246908.jpg"
                       linkClassName="font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyan-500 to-blue-600 dark:from-cyan-400 dark:to-blue-500 no-underline"
                     >
                       Brainware University
@@ -121,7 +121,7 @@ const About = () => {
                   <span>
                     Completed{' '}
                     <LinkPreview
-                      url="https://www.ibm.com/training/badge/data-science-foundations"
+                      url="https://ibmlearning.skillsnetwork.site/certificates/6341d0f5-9098-4f0e-ba00-cef788a5a777"
                       title="IBM Data Science Virtual Internship"
                       description="Hands-on virtual internship covering exploratory data analysis and Python analytics workflows."
                       image="https://api.microlink.io/?url=https://www.ibm.com/training&screenshot=true&meta=false&embed=screenshot.url"

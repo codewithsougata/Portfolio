@@ -66,8 +66,8 @@ const certs = [
       <BarChart3 key="analytics" size={17} style={{ color: 'var(--text-dim)' }} />,
     ],
     issuer: "IBM",
-    link: "https://www.ibm.com/training/badge/data-science-foundations",
-    previewImage: `https://api.microlink.io/?url=${encodeURIComponent('https://www.ibm.com/training')}&screenshot=true&meta=false&embed=screenshot.url`,
+    link: "https://ibmlearning.skillsnetwork.site/certificates/6341d0f5-9098-4f0e-ba00-cef788a5a777",
+    previewImage: `https://api.microlink.io/?url=${encodeURIComponent('https://ibmlearning.skillsnetwork.site/certificates/6341d0f5-9098-4f0e-ba00-cef788a5a777')}&screenshot=true&meta=false&embed=screenshot.url`,
   },
   {
     id: 2,
@@ -80,8 +80,8 @@ const certs = [
       <BarChart3 key="analytics" size={17} style={{ color: 'var(--text-dim)' }} />,
     ],
     issuer: "NPTEL",
-    link: "https://nptel.ac.in/courses/106/106/106106183/",
-    previewImage: `https://api.microlink.io/?url=${encodeURIComponent('https://nptel.ac.in')}&screenshot=true&meta=false&embed=screenshot.url`,
+    link: "https://nptel.ac.in/noc/E_Certificate/NPTEL25CS104S43960083809130006",
+    previewImage: `https://api.microlink.io/?url=${encodeURIComponent('https://nptel.ac.in/noc/E_Certificate/NPTEL25CS104S43960083809130006')}&screenshot=true&meta=false&embed=screenshot.url`,
   },
 ];
 

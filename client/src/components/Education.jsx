@@ -1,50 +1,60 @@
 import React from 'react';
 import { Timeline } from "./ui/timeline";
 import { Meteors } from "./ui/meteors";
-import { FileText, GraduationCap, School, Check } from 'lucide-react';
-import marksheetPdf from '../assets/BWU_BCA_23_221_SOUGATA_MANNA web.pdf';
+import { FileText, GraduationCap, School, Check, ExternalLink, Award } from 'lucide-react';
+import marksheetPdf from '../assets/marksheet.pdf';
 
 const Education = () => {
   const data = [
     {
       title: "2023 – 2026",
       content: (
-        <div className="relative w-full max-w-[360px]">
-          <div className="relative flex h-full flex-col items-start justify-end overflow-hidden rounded-xl border dark:border-white/15 border-black/10 dark:bg-black/60 bg-white/80 backdrop-blur-md p-4 md:p-5 shadow-xl transition-all duration-300 hover:dark:border-white/30 hover:border-black/20 group">
-            {/* Top row with degree logo + marksheet logo only */}
-            <div className="w-full flex items-center justify-between mb-2.5 z-10">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg border dark:border-white/20 border-black/15 dark:bg-white/5 bg-black/5 dark:text-white text-neutral-800 shadow-sm">
-                <GraduationCap className="h-3.5 w-3.5" />
+        <div className="relative w-full max-w-[420px]">
+          <div className="relative flex flex-col items-start justify-end h-full p-5 overflow-hidden transition-all duration-300 border shadow-xl rounded-2xl dark:border-cyan-500/20 border-cyan-600/20 dark:bg-gradient-to-br dark:from-neutral-900/90 dark:to-neutral-950/90 bg-white/90 backdrop-blur-md hover:shadow-cyan-500/10 hover:border-cyan-500/40 group">
+            {/* Top row with degree icon + View Marksheet button */}
+            <div className="w-full flex items-center justify-between gap-2 mb-3.5 z-10">
+              <div className="flex items-center gap-2.5">
+                <div className="flex items-center justify-center rounded-xl shadow-sm h-9 w-9 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
+                  <GraduationCap className="h-5 w-5" />
+                </div>
+                <div>
+                  <span className="text-[11px] font-semibold tracking-wider uppercase text-cyan-600 dark:text-cyan-400">
+                    Undergraduate Degree
+                  </span>
+                </div>
               </div>
 
-              {/* Only logo for marksheet */}
+              {/* View Marksheet Action Button */}
               <a
                 href={marksheetPdf}
                 target="_blank"
                 rel="noopener noreferrer"
-                title="View Marksheet"
-                aria-label="View Marksheet"
-                className="flex h-7 w-7 items-center justify-center rounded-lg border dark:border-white/20 border-black/15 dark:bg-white/5 bg-black/5 dark:text-white/80 text-neutral-700 hover:text-black dark:hover:text-black hover:bg-neutral-200 dark:hover:bg-white transition-all duration-200 shadow-sm"
+                title="View Marksheet (PDF)"
+                aria-label="View Marksheet PDF"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 bg-cyan-500/15 hover:bg-cyan-500 text-cyan-700 dark:text-cyan-300 hover:text-white dark:hover:text-black border border-cyan-500/30 hover:border-cyan-500 shadow-sm active:scale-95"
               >
                 <FileText className="h-3.5 w-3.5" />
+                <span>View Marksheet</span>
+                <ExternalLink className="h-3 w-3 opacity-70" />
               </a>
             </div>
 
-            <h3 className="relative z-10 mb-1.5 text-base md:text-[17px] font-bold dark:text-white text-neutral-900 tracking-tight leading-snug">
+            <h3 className="relative z-10 mb-2 text-base md:text-lg font-bold dark:text-white text-neutral-900 tracking-tight leading-snug">
               Bachelor of Computer Applications (BCA)
             </h3>
 
-            <div className="relative z-10 flex flex-wrap items-center gap-1.5 mb-2.5">
-              <span className="px-2 py-0.5 dark:bg-white/5 bg-black/5 dark:text-white/90 text-neutral-800 text-[11px] font-medium rounded-full border dark:border-white/15 border-black/10">
+            <div className="relative z-10 flex flex-wrap items-center gap-2 mb-3">
+              <span className="px-2.5 py-1 bg-cyan-500/10 dark:bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 text-xs font-medium rounded-md border border-cyan-500/20 flex items-center gap-1">
+                <Award className="h-3 w-3 text-cyan-500" />
                 Brainware University
               </span>
-              <span className="px-2 py-0.5 dark:bg-white/10 bg-black/10 dark:text-white text-neutral-900 text-[11px] font-medium rounded-full border dark:border-white/20 border-black/15 flex items-center gap-1">
-                <Check className="h-2.5 w-2.5" /> Completed
+              <span className="px-2.5 py-1 bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-xs font-medium rounded-md border border-emerald-500/20 flex items-center gap-1">
+                <Check className="h-3 w-3 text-emerald-500" /> Pursuing / 2023-2026
               </span>
             </div>
 
-            <p className="relative z-10 text-xs font-normal dark:text-white/60 text-neutral-600 leading-relaxed">
-              Completed undergraduate degree in Computer Applications, specializing in full-stack web development, data structures, and software engineering principles.
+            <p className="relative z-10 text-xs md:text-sm font-normal leading-relaxed dark:text-neutral-300 text-neutral-600">
+              Pursuing undergraduate degree in Computer Applications, specializing in full-stack web development, data structures, algorithm design, and modern software engineering practices.
             </p>
 
             <Meteors number={6} />
@@ -53,31 +63,38 @@ const Education = () => {
       ),
     },
     {
-      title: "Graduated 2023",
+      title: "2023",
       content: (
-        <div className="relative w-full max-w-[360px]">
-          <div className="relative flex h-full flex-col items-start justify-end overflow-hidden rounded-xl border dark:border-white/15 border-black/10 dark:bg-black/60 bg-white/80 backdrop-blur-md p-4 md:p-5 shadow-xl transition-all duration-300 hover:dark:border-white/30 hover:border-black/20 group">
-            <div className="w-full flex items-center justify-between mb-2.5 z-10">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg border dark:border-white/20 border-black/15 dark:bg-white/5 bg-black/5 dark:text-white text-neutral-800 shadow-sm">
-                <School className="h-3.5 w-3.5" />
+        <div className="relative w-full max-w-[420px]">
+          <div className="relative flex flex-col items-start justify-end h-full p-5 overflow-hidden transition-all duration-300 border shadow-xl rounded-2xl dark:border-indigo-500/20 border-indigo-600/20 dark:bg-gradient-to-br dark:from-neutral-900/90 dark:to-neutral-950/90 bg-white/90 backdrop-blur-md hover:shadow-indigo-500/10 hover:border-indigo-500/40 group">
+            <div className="w-full flex items-center justify-between gap-2 mb-3.5 z-10">
+              <div className="flex items-center gap-2.5">
+                <div className="flex items-center justify-center rounded-xl shadow-sm h-9 w-9 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+                  <School className="h-5 w-5" />
+                </div>
+                <div>
+                  <span className="text-[11px] font-semibold tracking-wider uppercase text-indigo-600 dark:text-indigo-400">
+                    High School
+                  </span>
+                </div>
               </div>
             </div>
 
-            <h3 className="relative z-10 mb-1.5 text-base md:text-[17px] font-bold dark:text-white text-neutral-900 tracking-tight leading-snug">
-              Higher Secondary Education
+            <h3 className="relative z-10 mb-2 text-base md:text-lg font-bold dark:text-white text-neutral-900 tracking-tight leading-snug">
+              Higher Secondary Education (10+2)
             </h3>
 
-            <div className="relative z-10 flex flex-wrap items-center gap-1.5 mb-2.5">
-              <span className="px-2 py-0.5 dark:bg-white/5 bg-black/5 dark:text-white/90 text-neutral-800 text-[11px] font-medium rounded-full border dark:border-white/15 border-black/10">
+            <div className="relative z-10 flex flex-wrap items-center gap-2 mb-3">
+              <span className="px-2.5 py-1 bg-indigo-500/10 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 text-xs font-medium rounded-md border border-indigo-500/20">
                 Chakbhabani M.K.N Vidyayatan
               </span>
-              <span className="px-2 py-0.5 dark:bg-white/10 bg-black/10 dark:text-white text-neutral-900 text-[11px] font-medium rounded-full border dark:border-white/20 border-black/15 flex items-center gap-1">
-                <Check className="h-2.5 w-2.5" /> Completed
+              <span className="px-2.5 py-1 bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-xs font-medium rounded-md border border-emerald-500/20 flex items-center gap-1">
+                <Check className="h-3 w-3 text-emerald-500" /> Completed
               </span>
             </div>
 
-            <p className="relative z-10 text-xs font-normal dark:text-white/60 text-neutral-600 leading-relaxed">
-              Completed higher secondary education with a strong academic foundation in science, computer applications, and mathematics.
+            <p className="relative z-10 text-xs md:text-sm font-normal leading-relaxed dark:text-neutral-300 text-neutral-600">
+              Completed higher secondary education with a strong academic foundation in science, computer science, and mathematics.
             </p>
 
             <Meteors number={6} />
@@ -88,12 +105,12 @@ const Education = () => {
   ];
 
   return (
-    <section id="education" className="w-full relative py-8 md:py-12 section-container">
-      <div className="text-center mb-5">
+    <section id="education" className="relative w-full py-12 md:py-16 section-container">
+      <div className="mb-8 text-center">
         <h2 style={{ fontSize: 'clamp(1.5rem, 2.2vw, 1.85rem)', fontWeight: 700, color: 'var(--text)', marginBottom: 5 }}>
           My Education
         </h2>
-        <div style={{ width: 40, height: 2, background: 'var(--text)', margin: '0 auto', borderRadius: 2, opacity: 0.8 }} />
+        <div style={{ width: 40, height: 2, background: 'var(--cyan, #00d4ff)', margin: '0 auto', borderRadius: 2, opacity: 0.9 }} />
       </div>
 
       <Timeline data={data} />
@@ -102,6 +119,3 @@ const Education = () => {
 };
 
 export default Education;
-
-
-

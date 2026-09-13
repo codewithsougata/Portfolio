@@ -68,7 +68,7 @@ const Hero = () => {
             <TextGenerateEffect className="!mt-0 font-normal" words="I am a BCA student at Brainware University and a fresher passionate about web development. I am eager to learn new technologies, improve my skills, and build a successful career in the IT industry." />
           </div>
 
-          <div className="flex flex-col w-full gap-3 mt-4 sm:flex-row sm:w-auto items-center">
+          <div className="flex flex-col items-center w-full gap-3 mt-4 sm:flex-row sm:w-auto">
             <ChromaSnakeButton
               onClick={() => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })}
               icon={<ArrowRight className="w-4 h-4" />}
@@ -100,17 +100,17 @@ const Hero = () => {
                 {
                   title: 'Twitter / X',
                   icon: <IconBrandX className="h-full w-full text-[var(--text)]" />,
-                  href: 'https://x.com'
+                  href: 'https://x.com/sougata_manna1'
                 },
                 {
                   title: 'Instagram',
                   icon: <IconBrandInstagram className="h-full w-full text-[var(--text)]" />,
-                  href: 'https://instagram.com'
+                  href: 'https://www.instagram.com/sougata_manna_1/?hl=en'
                 },
                 {
                   title: 'Facebook',
                   icon: <IconBrandFacebook className="h-full w-full text-[var(--text)]" />,
-                  href: 'https://facebook.com'
+                  href: 'https://www.facebook.com/sougata.manna.75286'
                 },
                 {
                   title: 'GitHub',
@@ -129,7 +129,7 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="hidden sm:flex items-center justify-center"
+          className="items-center justify-center hidden sm:flex"
           style={{ flex: '1 1 280px', position: 'relative', zIndex: 1 }}
         >
           <div className="relative flex items-center justify-center p-8">
@@ -153,7 +153,7 @@ const Hero = () => {
               style={{ borderRadius: '50%' }}
               borderRadius={9999}
             >
-              <div className="relative w-40 sm:w-44 aspect-square rounded-full overflow-hidden">
+              <div className="relative w-40 overflow-hidden rounded-full sm:w-44 aspect-square">
                 <img
                   src={assets.profile}
                   alt="Sougata Manna"
