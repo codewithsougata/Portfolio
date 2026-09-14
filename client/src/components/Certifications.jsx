@@ -117,9 +117,9 @@ const Certifications = () => {
           Credentials & Growth
         </p>
 
-        <h2 style={{
-          fontSize: 'clamp(1.5rem, 2.5vw, 1.9rem)',
-          fontWeight: 800, color: 'var(--text)',
+        <h2 className="rouge-script-regular" style={{
+          fontSize: 'clamp(1.8rem, 2.8vw, 2.4rem)',
+          fontWeight: 400, color: 'var(--text)',
           marginBottom: 8, lineHeight: 1.15,
         }}>
           Certifications & <span style={{ color: 'var(--text)' }}>Learning</span>

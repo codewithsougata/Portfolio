@@ -107,7 +107,7 @@ const Education = () => {
   return (
     <section id="education" className="relative w-full py-12 md:py-16 section-container">
       <div className="mb-8 text-center">
-        <h2 style={{ fontSize: 'clamp(1.5rem, 2.2vw, 1.85rem)', fontWeight: 700, color: 'var(--text)', marginBottom: 5 }}>
+        <h2 className="rouge-script-regular" style={{ fontSize: 'clamp(1.8rem, 2.5vw, 2.4rem)', fontWeight: 400, color: 'var(--text)', marginBottom: 5 }}>
           My Education
         </h2>
         <div style={{ width: 40, height: 2, background: 'var(--cyan, #00d4ff)', margin: '0 auto', borderRadius: 2, opacity: 0.9 }} />

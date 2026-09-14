@@ -107,9 +107,10 @@ const Contact = () => {
         </p>
 
         <h2
+          className="rouge-script-regular"
           style={{
-            fontSize: 'clamp(1.5rem, 2.5vw, 1.9rem)',
-            fontWeight: 800,
+            fontSize: 'clamp(1.8rem, 2.8vw, 2.4rem)',
+            fontWeight: 400,
             color: 'var(--text)',
             marginBottom: 8,
             lineHeight: 1.15,
@@ -356,21 +357,21 @@ const Contact = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="relative w-full max-w-[960px] mx-auto mt-12 sm:mt-16 px-2 sm:px-4"
+        className="relative w-full max-w-[960px] mx-auto mt-10 sm:mt-14 px-3 sm:px-4"
       >
-        <div className="relative w-full h-[180px] sm:h-[240px] md:h-[260px] overflow-hidden flex items-center justify-center">
+        <div className="relative w-full h-[90px] sm:h-[130px] md:h-[160px] flex items-center justify-center overflow-visible">
           <TextPressure
             text="THANK YOU"
             flex
             alpha={false}
             stroke={false}
-            scale
+            scale={false}
             width
             weight
             italic
             textColor="var(--text)"
-            strokeColor="#06b6d4"
-            minFontSize={42}
+            strokeColor="#00d4ff"
+            minFontSize={24}
           />
         </div>
       </motion.div>

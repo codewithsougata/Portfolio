@@ -186,6 +186,10 @@ const searchLinks = [
 
 
 
+// Global Likes Counter API Endpoint & Unique Key
+const LIKE_COUNTER_API = 'https://countapi.mileshilliard.com/api/v1';
+const LIKE_COUNTER_KEY = 'codewithsougata-portfolio-likes';
+
 const Navbar = ({ theme, toggleTheme }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -193,15 +197,7 @@ const Navbar = ({ theme, toggleTheme }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // GitHub Likes / Love React State
-  const [likes, setLikes] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('portfolio_likes');
-      if (saved) return parseInt(saved, 10);
-    }
-    return 4178;
-  });
-
+  // GitHub Likes State (synchronized with global counter API)
   const [isLiked, setIsLiked] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('portfolio_is_liked') === 'true';
@@ -209,50 +205,92 @@ const Navbar = ({ theme, toggleTheme }) => {
     return false;
   });
 
-  const [displayCount, setDisplayCount] = useState(0);
-
-  // Count up animation runs ONLY ONCE when the project opens / refreshes
-  useEffect(() => {
-    let frame = 0;
-    const duration = 1400; // 1.4s
-    const totalFrames = 60;
-    const frameInterval = duration / totalFrames;
-    const target = likes;
-
-    const timer = setInterval(() => {
-      frame++;
-      const progress = frame / totalFrames;
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      const current = Math.round(target * easeOut);
-      setDisplayCount(current);
-
-      if (frame >= totalFrames) {
-        clearInterval(timer);
-        setDisplayCount(target);
+  const [likes, setLikes] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedLikes = localStorage.getItem('portfolio_likes');
+      if (savedLikes !== null) {
+        const parsed = parseInt(savedLikes, 10);
+        // Clear any old fake random 4178 value
+        if (!isNaN(parsed) && parsed < 1000) {
+          return Math.max(0, parsed);
+        }
       }
-    }, frameInterval);
+    }
+    return 0;
+  });
 
-    return () => clearInterval(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // Fetch real global total likes when any user opens the site
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`${LIKE_COUNTER_API}/get/${LIKE_COUNTER_KEY}`)
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to fetch global likes');
+        return res.json();
+      })
+      .then((data) => {
+        if (isMounted && typeof data.value === 'number') {
+          setLikes(data.value);
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('portfolio_likes', String(data.value));
+          }
+        }
+      })
+      .catch((err) => {
+        console.warn('Could not fetch global likes:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const handleLikeToggle = (e) => {
+  const handleLikeToggle = async (e) => {
     e.stopPropagation();
     e.preventDefault();
     const nextLiked = !isLiked;
-    const nextLikes = nextLiked ? likes + 1 : likes - 1;
+    const nextLikes = nextLiked ? likes + 1 : Math.max(0, likes - 1);
+
+    // Optimistic UI update immediately
     setIsLiked(nextLiked);
     setLikes(nextLikes);
-    setDisplayCount(nextLikes);
+
     // 🔊 Sound effect
     if (nextLiked) {
       playLikeSound();
     } else {
       playUnlikeSound();
     }
+
     if (typeof window !== 'undefined') {
       localStorage.setItem('portfolio_is_liked', String(nextLiked));
       localStorage.setItem('portfolio_likes', String(nextLikes));
+    }
+
+    // Persist to global counter API so any new user sees the updated total likes
+    try {
+      if (nextLiked) {
+        // Increment global counter by 1
+        const res = await fetch(`${LIKE_COUNTER_API}/hit/${LIKE_COUNTER_KEY}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (typeof data.value === 'number') {
+            setLikes(data.value);
+            localStorage.setItem('portfolio_likes', String(data.value));
+          }
+        }
+      } else {
+        // Decrement / set global counter
+        const res = await fetch(`${LIKE_COUNTER_API}/set/${LIKE_COUNTER_KEY}?value=${Math.max(0, nextLikes)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (typeof data.value === 'number') {
+            setLikes(data.value);
+            localStorage.setItem('portfolio_likes', String(data.value));
+          }
+        }
+      }
+    } catch (err) {
+      console.warn('Could not sync like to server:', err);
     }
   };
 
@@ -332,7 +370,7 @@ const Navbar = ({ theme, toggleTheme }) => {
               className="flex flex-col items-center mt-2"
             >
               <div className="relative z-10 flex items-center gap-2">
-                <span className="font-sans text-base md:text-lg font-bold text-[var(--text)] tracking-tight">
+                <span className="rouge-script-regular text-xl md:text-2xl text-[var(--text)] tracking-tight">
                   Sougata
                 </span>
               </div>
@@ -398,12 +436,12 @@ const Navbar = ({ theme, toggleTheme }) => {
               type="button"
               onClick={handleLikeToggle}
               className="flex items-center gap-1.5 px-2 py-1 rounded-md text-xs text-[var(--text-dim)] hover:text-[var(--text)] bg-[var(--surface2)] border border-[var(--border2)] hover:border-rose-500/40 transition-all cursor-pointer group"
-              title={isLiked ? "Liked! Click to unlike" : "Love this portfolio"}
-              aria-label="Love React"
+              title={isLiked ? "Liked! Click to dislike" : "Like this portfolio"}
+              aria-label="GitHub Like"
             >
               <IconBrandGithub size={13} className="text-[var(--text)]" />
               <span className="font-mono text-[11px] font-medium text-[var(--text-dim)] group-hover:text-[var(--text)]">
-                {formatCount(displayCount)}
+                {formatCount(likes)}
               </span>
               <motion.div
                 key={isLiked ? "liked" : "unliked"}
@@ -491,11 +529,11 @@ const Navbar = ({ theme, toggleTheme }) => {
                 type="button"
                 onClick={handleLikeToggle}
                 className="flex items-center gap-1 px-1.5 py-1 rounded-md text-xs text-[var(--text-dim)] bg-[var(--surface2)] border border-[var(--border2)] active:scale-95 transition-all"
-                title="Love React"
-                aria-label="Love React"
+                title={isLiked ? "Liked! Click to dislike" : "Like this portfolio"}
+                aria-label="GitHub Like"
               >
                 <IconBrandGithub size={12} />
-                <span className="font-mono text-[10px] font-medium">{formatCount(displayCount)}</span>
+                <span className="font-mono text-[10px] font-medium">{formatCount(likes)}</span>
                 <motion.div
                   key={isLiked ? "m-liked" : "m-unliked"}
                   initial={{ scale: 0.8 }}

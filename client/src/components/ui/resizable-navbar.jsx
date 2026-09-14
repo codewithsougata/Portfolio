@@ -154,11 +154,12 @@ export const MobileNavMenu = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={{ opacity: 0, scale: 0.95, y: -8 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: -8 }}
+          transition={{ duration: 0.2 }}
           className={cn(
-            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-[var(--surface)] px-4 py-8 shadow-xl border border-[var(--border2)]",
+            "absolute right-2 top-14 z-50 flex w-[260px] max-w-[calc(100vw-32px)] flex-col items-start justify-start gap-3 rounded-2xl bg-[var(--surface)] p-5 shadow-2xl border border-[var(--border2)] backdrop-blur-xl",
             className
           )}>
           {children}

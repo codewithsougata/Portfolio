@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['Fira Code', 'monospace'],
+        script: ['"Rouge Script"', 'cursive'],
       },
       animation: {
         'gradient': 'gradient 6s ease infinite',

@@ -22,21 +22,23 @@ const Footer = () => {
     }}>
       {/* Status bar row */}
       <div style={{
-        maxWidth: 1100,
+        maxWidth: 960,
         margin: '0 auto',
-        padding: '0 24px',
-        height: 42,
+        padding: '0 20px',
+        minHeight: 42,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         fontFamily: "'JetBrains Mono', monospace",
         fontSize: 12,
         color: 'var(--text-mute)',
+        flexWrap: 'wrap',
+        gap: 12,
       }}>
         {/* Left */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
           <span style={{ color: 'var(--text-dim)', fontWeight: 600 }}>
-            © {new Date().getFullYear()} Sougata Manna
+            © {new Date().getFullYear()} <span className="rouge-script-regular" style={{ fontSize: '1.1em' }}>Sougata Manna</span>
           </span>
         </div>
 

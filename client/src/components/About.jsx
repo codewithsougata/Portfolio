@@ -58,7 +58,7 @@ const About = () => {
           transition={{ duration: 0.5 }}
           style={{ textAlign: 'center', marginBottom: 24 }}
         >
-          <h2 style={{ fontSize: 'clamp(1.8rem, 2.5vw, 2.2rem)', fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>
+          <h2 className="rouge-script-regular" style={{ fontSize: 'clamp(2rem, 2.8vw, 2.6rem)', fontWeight: 400, color: 'var(--text)', marginBottom: 6 }}>
             About <span style={{ color: 'var(--cyan)' }}>Me</span>
           </h2>
           <div style={{ width: 50, height: 3, background: 'var(--cyan)', margin: '0 auto', borderRadius: 2 }} />

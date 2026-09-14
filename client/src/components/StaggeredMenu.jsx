@@ -392,7 +392,7 @@ export const StaggeredMenu = ({
         ref={preLayersRef}
         className="sm-prelayers fixed top-0 right-0 bottom-0 pointer-events-none z-[99995] overflow-hidden"
         style={{
-          width: 'clamp(280px, 85vw, 420px)',
+          width: 'clamp(220px, 68vw, 280px)',
           height: '100dvh',
         }}
         aria-hidden="true"
@@ -418,25 +418,25 @@ export const StaggeredMenu = ({
       <aside
         id="staggered-menu-panel"
         ref={panelRef}
-        className="staggered-menu-panel fixed top-0 right-0 h-screen w-[clamp(280px,85vw,420px)] bg-[#0d0d13] text-white flex flex-col p-6 md:p-8 overflow-y-auto z-[99999] backdrop-blur-[24px] pointer-events-auto border-l border-white/10"
+        className="staggered-menu-panel fixed top-0 right-0 h-screen w-[clamp(220px,68vw,280px)] bg-[#0d0d13] text-white flex flex-col p-4 sm:p-6 overflow-y-auto z-[99999] backdrop-blur-[24px] pointer-events-auto border-l border-white/10"
         style={{
           WebkitBackdropFilter: 'blur(24px)',
           height: '100dvh',
         }}
         aria-hidden={!open}
       >
-        <div className="sm-panel-inner flex-1 flex flex-col justify-between gap-6">
+        <div className="sm-panel-inner flex-1 flex flex-col justify-between gap-5">
           {/* Drawer Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-white/10">
+          <div className="flex items-center justify-between pb-3 border-b border-white/10">
             <div className="flex items-center gap-2.5">
               {logoUrl ? (
                 <img
                   src={logoUrl}
                   alt="Logo"
-                  className="w-8 h-8 rounded-full border-2 border-[var(--cyan,#00d4ff)] object-cover"
+                  className="w-7 h-7 rounded-full border-2 border-[var(--cyan,#00d4ff)] object-cover"
                 />
               ) : null}
-              <span className="font-bold text-base text-white tracking-tight font-sans">
+              <span className="font-bold text-sm sm:text-base text-white tracking-tight font-sans">
                 {logoText}
               </span>
             </div>
@@ -444,16 +444,16 @@ export const StaggeredMenu = ({
             <button
               type="button"
               onClick={closeMenu}
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white cursor-pointer transition-transform hover:rotate-90"
+              className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white cursor-pointer transition-transform hover:rotate-90"
               aria-label="Close menu"
             >
-              <X size={16} />
+              <X size={15} />
             </button>
           </div>
 
           {/* Nav Items List */}
           <ul
-            className="sm-panel-list list-none m-0 p-0 flex flex-col gap-3 my-auto"
+            className="sm-panel-list list-none m-0 p-0 flex flex-col gap-2.5 my-auto"
             role="list"
             data-numbering={displayItemNumbering || undefined}
           >
@@ -461,7 +461,7 @@ export const StaggeredMenu = ({
               items.map((it, idx) => (
                 <li className="sm-panel-itemWrap relative overflow-hidden leading-none" key={it.label + idx}>
                   <a
-                    className="sm-panel-item relative text-white font-bold text-[2rem] md:text-[2.6rem] cursor-pointer leading-none tracking-[-0.03em] uppercase transition-colors duration-150 inline-block no-underline pr-8 hover:text-[var(--sm-accent,#5227FF)]"
+                    className="sm-panel-item relative text-white font-bold text-[1.25rem] sm:text-[1.5rem] cursor-pointer leading-tight tracking-[-0.02em] uppercase transition-colors duration-150 inline-block no-underline pr-7 hover:text-[var(--sm-accent,#5227FF)]"
                     href={it.link}
                     aria-label={it.ariaLabel}
                     data-index={idx + 1}

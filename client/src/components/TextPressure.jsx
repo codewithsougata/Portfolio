@@ -1,4 +1,4 @@
-// Component ported from https://codepen.io/JuanFuentes/full/rgXKGQ
+// Component ported and enhanced from https://codepen.io/JuanFuentes/full/rgXKGQ
 
 import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 
@@ -8,24 +8,9 @@ const dist = (a, b) => {
   return Math.sqrt(dx * dx + dy * dy);
 };
 
-const getAttr = (distance, maxDist, minVal, maxVal) => {
-  const val = maxVal - Math.abs((maxVal * distance) / maxDist);
-  return Math.max(minVal, val + minVal);
-};
-
-const debounce = (func, delay) => {
-  let timeoutId;
-  return (...args) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      func.apply(this, args);
-    }, delay);
-  };
-};
-
 const TextPressure = ({
   text = 'Thank you',
-  fontFamily = 'Roboto Flex',
+  fontFamily = "'Roboto Flex', system-ui, sans-serif",
   fontUrl = 'https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap',
 
   width = true,
@@ -37,8 +22,8 @@ const TextPressure = ({
   stroke = false,
   scale = false,
 
-  textColor = '#FFFFFF',
-  strokeColor = '#FF0000',
+  textColor = 'var(--text, #FFFFFF)',
+  strokeColor = '#00d4ff',
   strokeWidth = 2,
   className = '',
 
@@ -50,85 +35,111 @@ const TextPressure = ({
 
   const mouseRef = useRef({ x: 0, y: 0 });
   const cursorRef = useRef({ x: 0, y: 0 });
+  const isInteractingRef = useRef(false);
+  const lastInteractionTimeRef = useRef(0);
 
   const [fontSize, setFontSize] = useState(minFontSize);
-  const [scaleY, setScaleY] = useState(1);
-  const [lineHeight, setLineHeight] = useState(1);
 
-  const chars = text.split('');
+  const chars = useMemo(() => text.split(''), [text]);
 
+  // Handle pointer & touch events
   useEffect(() => {
     const handleMouseMove = e => {
       cursorRef.current.x = e.clientX;
       cursorRef.current.y = e.clientY;
+      isInteractingRef.current = true;
+      lastInteractionTimeRef.current = Date.now();
     };
+
     const handleTouchMove = e => {
-      const t = e.touches[0];
-      cursorRef.current.x = t.clientX;
-      cursorRef.current.y = t.clientY;
+      if (e.touches && e.touches[0]) {
+        cursorRef.current.x = e.touches[0].clientX;
+        cursorRef.current.y = e.touches[0].clientY;
+        isInteractingRef.current = true;
+        lastInteractionTimeRef.current = Date.now();
+      }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    const handleTouchStart = e => {
+      if (e.touches && e.touches[0]) {
+        cursorRef.current.x = e.touches[0].clientX;
+        cursorRef.current.y = e.touches[0].clientY;
+        mouseRef.current.x = cursorRef.current.x;
+        mouseRef.current.y = cursorRef.current.y;
+        isInteractingRef.current = true;
+        lastInteractionTimeRef.current = Date.now();
+      }
+    };
 
-    if (containerRef.current) {
-      const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-      mouseRef.current.x = left + width / 2;
-      mouseRef.current.y = top + height / 2;
-      cursorRef.current.x = mouseRef.current.x;
-      cursorRef.current.y = mouseRef.current.y;
-    }
+    const handleTouchEnd = () => {
+      lastInteractionTimeRef.current = Date.now();
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
   }, []);
 
+  // Compute responsive font size that perfectly fits the container on mobile and desktop
   const setSize = useCallback(() => {
-    if (!containerRef.current || !titleRef.current) return;
+    if (!containerRef.current) return;
 
-    const { width: containerW, height: containerH } = containerRef.current.getBoundingClientRect();
+    const containerW = containerRef.current.getBoundingClientRect().width;
+    if (!containerW || containerW <= 0) return;
 
-    let newFontSize = containerW / (chars.length / 2);
-    newFontSize = Math.max(newFontSize, minFontSize);
+    // Available safe width with 8% safe margins
+    const safeW = containerW * 0.92;
+    // In Roboto Flex at wdth 110, char width is ~0.62 * fontSize
+    let calculated = safeW / (chars.length * 0.62);
+    // Clamp to prevent overflow on mobile and oversized text on desktop
+    calculated = Math.max(minFontSize, Math.min(calculated, 115));
 
-    setFontSize(newFontSize);
-    setScaleY(1);
-    setLineHeight(1);
-
-    requestAnimationFrame(() => {
-      if (!titleRef.current) return;
-      const textRect = titleRef.current.getBoundingClientRect();
-
-      if (scale && textRect.height > 0) {
-        const yRatio = containerH / textRect.height;
-        setScaleY(yRatio);
-        setLineHeight(yRatio);
-      }
-    });
-  }, [chars.length, minFontSize, scale]);
+    setFontSize(Math.round(calculated));
+  }, [chars.length, minFontSize]);
 
   useEffect(() => {
-    const debouncedSetSize = debounce(setSize, 100);
-    debouncedSetSize();
-    window.addEventListener('resize', debouncedSetSize);
-    return () => window.removeEventListener('resize', debouncedSetSize);
+    setSize();
+    const onResize = () => setSize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, [setSize]);
 
+  // Dynamic Variable Font Animation (Interactive + Idle Breathing Wave)
   useEffect(() => {
     let rafId;
+
     const animate = () => {
-      mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
-      mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15;
+      const now = Date.now();
+      // If no pointer interaction in last 2.5s, fall back to smooth wave animation
+      const isActivelyInteracting = isInteractingRef.current && (now - lastInteractionTimeRef.current < 2500);
 
-      if (titleRef.current) {
-        const titleRect = titleRef.current.getBoundingClientRect();
-        const maxDist = titleRect.width / 2;
+      // Smooth lerp towards cursor
+      mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 12;
+      mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 12;
 
-        spansRef.current.forEach(span => {
-          if (!span) return;
+      const titleEl = titleRef.current;
+      const titleRect = titleEl ? titleEl.getBoundingClientRect() : null;
+      const maxDist = titleRect ? Math.max(titleRect.width / 2, 140) : 200;
 
+      const time = now * 0.0025;
+
+      spansRef.current.forEach((span, i) => {
+        if (!span) return;
+
+        let wght = 700;
+        let wdth = 105;
+        let italVal = 0;
+        let alphaVal = 1;
+
+        if (isActivelyInteracting) {
           const rect = span.getBoundingClientRect();
           const charCenter = {
             x: rect.x + rect.width / 2,
@@ -136,27 +147,35 @@ const TextPressure = ({
           };
 
           const d = dist(mouseRef.current, charCenter);
+          const ratio = Math.max(0, 1 - d / maxDist);
 
-          const wdth = width ? Math.floor(getAttr(d, maxDist, 5, 200)) : 100;
-          const wght = weight ? Math.floor(getAttr(d, maxDist, 100, 900)) : 400;
-          const italVal = italic ? getAttr(d, maxDist, 0, 1).toFixed(2) : 0;
-          const alphaVal = alpha ? getAttr(d, maxDist, 0, 1).toFixed(2) : 1;
+          // Variable font boundaries safe for Roboto Flex (wdth: 25..151, wght: 100..1000)
+          wdth = width ? Math.round(85 + ratio * 55) : 100;     // 85 to 140
+          wght = weight ? Math.round(400 + ratio * 500) : 700;  // 400 to 900
+          italVal = italic ? (ratio * 0.8).toFixed(2) : 0;
+          alphaVal = alpha ? Math.max(0.3, ratio).toFixed(2) : 1;
+        } else {
+          // Subtle elegant breathing wave when idle / on mobile
+          const wave = (Math.sin(time + i * 0.55) + 1) / 2; // 0 to 1
+          wdth = width ? Math.round(92 + wave * 38) : 105;     // 92 to 130
+          wght = weight ? Math.round(500 + wave * 380) : 700;  // 500 to 880
+          italVal = italic ? (wave * 0.35).toFixed(2) : 0;
+          alphaVal = alpha ? (0.7 + wave * 0.3).toFixed(2) : 1;
+        }
 
-          const newFontVariationSettings = `'wght' ${wght}, 'wdth' ${wdth}, 'ital' ${italVal}`;
-
-          if (span.style.fontVariationSettings !== newFontVariationSettings) {
-            span.style.fontVariationSettings = newFontVariationSettings;
-          }
-          if (alpha && span.style.opacity !== alphaVal) {
-            span.style.opacity = alphaVal;
-          }
-        });
-      }
+        const newFontVariation = `'wght' ${wght}, 'wdth' ${wdth}, 'ital' ${italVal}`;
+        if (span.style.fontVariationSettings !== newFontVariation) {
+          span.style.fontVariationSettings = newFontVariation;
+        }
+        if (alpha && span.style.opacity !== String(alphaVal)) {
+          span.style.opacity = alphaVal;
+        }
+      });
 
       rafId = requestAnimationFrame(animate);
     };
 
-    animate();
+    rafId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafId);
   }, [width, weight, italic, alpha]);
 
@@ -164,11 +183,16 @@ const TextPressure = ({
     return (
       <style>{`
         @import url('${fontUrl}');
-        .stroke span {
+        .text-pressure-span {
+          display: inline-block;
+          will-change: font-variation-settings;
+          transition: color 0.2s ease;
+        }
+        .text-pressure-title.stroke span {
           position: relative;
           color: ${textColor};
         }
-        .stroke span::after {
+        .text-pressure-title.stroke span::after {
           content: attr(data-char);
           position: absolute;
           left: 0;
@@ -180,31 +204,37 @@ const TextPressure = ({
         }
       `}</style>
     );
-  }, [fontFamily, fontUrl, textColor, strokeColor, strokeWidth]);
+  }, [fontUrl, textColor, strokeColor, strokeWidth]);
 
   return (
-    <div ref={containerRef} className="relative w-full h-full overflow-hidden bg-transparent">
+    <div
+      ref={containerRef}
+      className="relative w-full h-full flex items-center justify-center overflow-visible bg-transparent select-none"
+    >
       {styleElement}
       <h1
         ref={titleRef}
         className={`text-pressure-title ${className} ${
-          flex ? 'flex justify-between' : ''
-        } ${stroke ? 'stroke' : ''} uppercase text-center`}
+          flex ? 'flex justify-between items-center w-full' : 'inline-block'
+        } ${stroke ? 'stroke' : ''} uppercase text-center leading-none`}
         style={{
           fontFamily,
-          fontSize: fontSize,
-          lineHeight,
-          transform: `scale(1, ${scaleY})`,
-          transformOrigin: 'center top',
+          fontSize: `${fontSize}px`,
           margin: 0,
-          fontWeight: 100,
-          color: stroke ? undefined : textColor
+          fontWeight: 700,
+          color: stroke ? undefined : textColor,
+          letterSpacing: '0.02em',
         }}
       >
         {chars.map((char, i) => (
-          <span key={i} ref={el => {
+          <span
+            key={i}
+            ref={el => {
               spansRef.current[i] = el;
-            }} data-char={char} className="inline-block">
+            }}
+            data-char={char}
+            className="text-pressure-span"
+          >
             {char === ' ' ? '\u00A0' : char}
           </span>
         ))}
@@ -214,3 +244,4 @@ const TextPressure = ({
 };
 
 export default TextPressure;
+

@@ -56,9 +56,10 @@ const Projects = () => {
         </p>
 
         <h2
+          className="rouge-script-regular"
           style={{
-            fontSize: "clamp(1.8rem, 3.5vw, 2.4rem)",
-            fontWeight: 800,
+            fontSize: "clamp(2rem, 3.8vw, 2.8rem)",
+            fontWeight: 400,
             color: "var(--text)",
             marginBottom: 10,
             lineHeight: 1.15,

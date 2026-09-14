@@ -72,9 +72,9 @@ const Loader = () => {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5 }}
           style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: 24,
-            fontWeight: 800,
+            fontFamily: "'Rouge Script', cursive",
+            fontSize: 36,
+            fontWeight: 400,
             color: 'var(--text)',
             position: 'relative',
             zIndex: 10

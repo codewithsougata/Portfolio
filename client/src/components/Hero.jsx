@@ -45,8 +45,8 @@ const Hero = () => {
           className="md:items-start"
         >
           <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 800, lineHeight: 1.15, marginBottom: 12, color: 'var(--text)' }}>
-            Hi, I'm <Cover><span style={{ textShadow: '0 0 20px rgba(255,255,255,0.2)' }}>Sougata</span></Cover><br />
-            Manna.
+            Hi, I'm <Cover><span className="rouge-script-regular" style={{ fontSize: '1.25em', textShadow: '0 0 20px rgba(255,255,255,0.2)' }}>Sougata</span></Cover><br />
+            <span className="rouge-script-regular" style={{ fontSize: '1.1em', letterSpacing: '0.01em' }}>Manna.</span>
           </h1>
 
           <div style={{ fontSize: 'clamp(0.9rem, 1.4vw, 1.2rem)', fontWeight: 600, color: 'var(--text-mute)', marginBottom: 16, display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center', justifyContent: 'center', height: '1.4rem' }} className="md:justify-start">

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Rubik+Spray+Paint&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rouge+Script&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -25,6 +25,7 @@
   --text-mute: #9ca3af;
   --map-filter: brightness(1) invert(0);
   --map-opacity: 0.3;
+  --font-script: 'Rouge Script', cursive;
 }
 
 html.light {
@@ -242,6 +243,13 @@ html.light {
     box-shadow:
       0 0px 0 var(--border),
       0 5px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  /* ── Rouge Script Font Utility ─────────────────────────────────── */
+  .rouge-script-regular {
+    font-family: "Rouge Script", cursive;
+    font-weight: 400;
+    font-style: normal;
   }
 }
 
