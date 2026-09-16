@@ -60,6 +60,7 @@ html.light {
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 74px;
+    overflow-x: clip;
   }
 
   body {
@@ -69,6 +70,12 @@ html.light {
     background-color: var(--bg);
     color: var(--text);
     transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  #root {
+    min-height: 100vh;
+    max-width: 100%;
+    overflow-x: clip;
   }
 
   /* Animated gradient mesh background */

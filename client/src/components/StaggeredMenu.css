@@ -34,7 +34,7 @@
 }
 
 .staggered-menu-btn:hover {
-  border-color: var(--cyan, #00d4ff);
+  border-color: var(--cyan, #e5e9ea);
   transform: translateY(-1px);
 }
 
@@ -273,7 +273,7 @@
   font-family: 'JetBrains Mono', monospace, monospace;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--cyan, #00d4ff);
+  color: var(--cyan, #0f285d);
   opacity: var(--sm-num-opacity, 0.8);
   letter-spacing: 0.05em;
   min-width: 24px;
