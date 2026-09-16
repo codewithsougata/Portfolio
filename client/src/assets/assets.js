@@ -2,7 +2,7 @@
 // This file centralizes all images, PDFs, and data lists for the portfolio.
 
 // Import local assets here (when available)
-import profile_img from './sou.jpeg';
+import profile_img from './sou.png';
 import resume_pdf from './SOUGATA_MANNA_CV.pdf';
 import Quiz_img from './Quiz.png';
 import Food_img from './food.png';

@@ -29,7 +29,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home" style={{ minHeight: '85vh', display: 'flex', alignItems: 'center', padding: '48px 20px 24px', position: 'relative', overflow: 'hidden' }}>
+    <section id="home" style={{ minHeight: '85vh', display: 'flex', alignItems: 'center', padding: '48px 20px 24px', position: 'relative', top: '1px', overflow: 'hidden' }}>
       <div style={{ maxWidth: 960, margin: '0 auto', width: '100%', position: 'relative', zIndex: 1, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: 32, overflow: 'hidden' }} className="md:justify-between md:text-left">
         <div className="absolute inset-0 z-0 w-full h-full overflow-hidden pointer-events-none">
           <ShootingStars />
@@ -132,14 +132,14 @@ const Hero = () => {
           className="items-center justify-center hidden sm:flex"
           style={{ flex: '1 1 280px', position: 'relative', zIndex: 1 }}
         >
-          <div className="relative flex items-center justify-center p-8">
+          <div className="relative flex items-center justify-center p-6">
             {/* Spinning Circular Text Ring */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <CircularText
                 text="SOUGATA*MANNA*DEVELOPER*"
                 onHover="speedUp"
                 spinDuration={20}
-                className="w-[260px] h-[260px] sm:w-[280px] sm:h-[280px] pointer-events-auto"
+                className="w-[240px] h-[240px] sm:w-[260px] sm:h-[260px] pointer-events-auto"
                 letterClassName="text-[11px] sm:text-xs font-bold tracking-widest text-[var(--cyan)] uppercase"
               />
             </div>
@@ -153,13 +153,11 @@ const Hero = () => {
               style={{ borderRadius: '50%' }}
               borderRadius={9999}
             >
-              <div className="relative w-40 overflow-hidden rounded-full sm:w-44 aspect-square">
-                <img
-                  src={assets.profile}
-                  alt="Sougata Manna"
-                  className="w-full h-full rounded-full object-cover object-top shadow-xl border border-[var(--border2)]"
-                />
-              </div>
+              <img
+                src={assets.profile}
+                alt="Sougata Manna"
+                className="block w-40 rounded-full object-contain shadow-xl border border-[var(--border2)] sm:w-44 aspect-square"
+              />
             </ElectricBorder>
           </div>
         </motion.div>

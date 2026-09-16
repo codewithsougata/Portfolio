@@ -14,8 +14,8 @@ const Education = () => {
             {/* Top row with degree icon + View Marksheet button */}
             <div className="w-full flex items-center justify-between gap-2 mb-3.5 z-10">
               <div className="flex items-center gap-2.5">
-                <div className="flex items-center justify-center rounded-xl shadow-sm h-9 w-9 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
-                  <GraduationCap className="h-5 w-5" />
+                <div className="flex items-center justify-center border shadow-sm rounded-xl h-9 w-9 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20">
+                  <GraduationCap className="w-5 h-5" />
                 </div>
                 <div>
                   <span className="text-[11px] font-semibold tracking-wider uppercase text-cyan-600 dark:text-cyan-400">
@@ -35,25 +35,25 @@ const Education = () => {
               >
                 <FileText className="h-3.5 w-3.5" />
                 <span>View Marksheet</span>
-                <ExternalLink className="h-3 w-3 opacity-70" />
+                <ExternalLink className="w-3 h-3 opacity-70" />
               </a>
             </div>
 
-            <h3 className="relative z-10 mb-2 text-base md:text-lg font-bold dark:text-white text-neutral-900 tracking-tight leading-snug">
+            <h3 className="relative z-10 mb-2 text-base font-bold leading-snug tracking-tight md:text-lg dark:text-white text-neutral-900">
               Bachelor of Computer Applications (BCA)
             </h3>
 
             <div className="relative z-10 flex flex-wrap items-center gap-2 mb-3">
               <span className="px-2.5 py-1 bg-cyan-500/10 dark:bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 text-xs font-medium rounded-md border border-cyan-500/20 flex items-center gap-1">
-                <Award className="h-3 w-3 text-cyan-500" />
+                <Award className="w-3 h-3 text-cyan-500" />
                 Brainware University
               </span>
               <span className="px-2.5 py-1 bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-xs font-medium rounded-md border border-emerald-500/20 flex items-center gap-1">
-                <Check className="h-3 w-3 text-emerald-500" /> Pursuing / 2023-2026
+                <Check className="w-3 h-3 text-emerald-500" /> Pursuing / 2023-2026
               </span>
             </div>
 
-            <p className="relative z-10 text-xs md:text-sm font-normal leading-relaxed dark:text-neutral-300 text-neutral-600">
+            <p className="relative z-10 text-xs font-normal leading-relaxed md:text-sm dark:text-neutral-300 text-neutral-600">
               Pursuing undergraduate degree in Computer Applications, specializing in full-stack web development, data structures, algorithm design, and modern software engineering practices.
             </p>
 
@@ -69,8 +69,8 @@ const Education = () => {
           <div className="relative flex flex-col items-start justify-end h-full p-5 overflow-hidden transition-all duration-300 border shadow-xl rounded-2xl dark:border-indigo-500/20 border-indigo-600/20 dark:bg-gradient-to-br dark:from-neutral-900/90 dark:to-neutral-950/90 bg-white/90 backdrop-blur-md hover:shadow-indigo-500/10 hover:border-indigo-500/40 group">
             <div className="w-full flex items-center justify-between gap-2 mb-3.5 z-10">
               <div className="flex items-center gap-2.5">
-                <div className="flex items-center justify-center rounded-xl shadow-sm h-9 w-9 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
-                  <School className="h-5 w-5" />
+                <div className="flex items-center justify-center text-indigo-600 border shadow-sm rounded-xl h-9 w-9 bg-indigo-500/10 dark:text-indigo-400 border-indigo-500/20">
+                  <School className="w-5 h-5" />
                 </div>
                 <div>
                   <span className="text-[11px] font-semibold tracking-wider uppercase text-indigo-600 dark:text-indigo-400">
@@ -80,7 +80,7 @@ const Education = () => {
               </div>
             </div>
 
-            <h3 className="relative z-10 mb-2 text-base md:text-lg font-bold dark:text-white text-neutral-900 tracking-tight leading-snug">
+            <h3 className="relative z-10 mb-2 text-base font-bold leading-snug tracking-tight md:text-lg dark:text-white text-neutral-900">
               Higher Secondary Education (10+2)
             </h3>
 
@@ -89,11 +89,11 @@ const Education = () => {
                 Chakbhabani M.K.N Vidyayatan
               </span>
               <span className="px-2.5 py-1 bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-xs font-medium rounded-md border border-emerald-500/20 flex items-center gap-1">
-                <Check className="h-3 w-3 text-emerald-500" /> Completed
+                <Check className="w-3 h-3 text-emerald-500" /> Completed
               </span>
             </div>
 
-            <p className="relative z-10 text-xs md:text-sm font-normal leading-relaxed dark:text-neutral-300 text-neutral-600">
+            <p className="relative z-10 text-xs font-normal leading-relaxed md:text-sm dark:text-neutral-300 text-neutral-600">
               Completed higher secondary education with a strong academic foundation in science, computer science, and mathematics.
             </p>
 
@@ -105,7 +105,7 @@ const Education = () => {
   ];
 
   return (
-    <section id="education" className="relative w-full py-12 md:py-16 section-container">
+    <section id="education" className="relative w-full py-12 -mt-24 md:py-16 section-container">
       <div className="mb-8 text-center">
         <h2 className="rouge-script-regular" style={{ fontSize: 'clamp(1.8rem, 2.5vw, 2.4rem)', fontWeight: 400, color: 'var(--text)', marginBottom: 5 }}>
           My Education

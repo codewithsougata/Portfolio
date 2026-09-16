@@ -18,7 +18,7 @@ const Footer = () => {
     <footer style={{
       borderTop: '1px solid var(--border)',
       background: 'var(--surface)',
-      marginTop: 80,
+      marginTop: 12,
     }}>
       {/* Status bar row */}
       <div style={{

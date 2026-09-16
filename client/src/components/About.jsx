@@ -49,8 +49,8 @@ const About = () => {
   const [hovered, setHovered] = useState(null);
 
   return (
-    <section id="about" className="relative z-30 w-full pt-4 section-container overflow-visible">
-      <BackgroundLines className="z-0 flex-col items-center justify-center w-full px-4 md:px-10 py-4 overflow-visible" svgClassName="h-[70%] md:h-[80%] my-auto">
+    <section id="about" className="relative -top-[70px] z-30 w-full pt-4 section-container overflow-visible">
+      <BackgroundLines className="z-0 flex-col items-center justify-center w-full px-4 py-4 overflow-visible md:px-10" svgClassName="h-[70%] md:h-[80%] my-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -84,7 +84,7 @@ const About = () => {
 
             {/* Bio text */}
             <div
-              className="flex flex-col items-start text-left w-full px-1"
+              className="flex flex-col items-start w-full px-1 text-left"
               style={{ color: 'var(--text-dim)', marginBottom: 20, position: 'relative', zIndex: 1 }}
             >
               <ul className="flex flex-col gap-3.5 w-full list-none p-0 m-0">
@@ -175,7 +175,7 @@ const About = () => {
           >
             <div style={{ position: 'absolute', bottom: -80, right: -80, width: 200, height: 200, background: '#a78bfa', filter: 'blur(100px)', opacity: 0.15, borderRadius: '50%', pointerEvents: 'none' }} />
 
-            <div className="flex items-center justify-between mb-5 relative z-10">
+            <div className="relative z-10 flex items-center justify-between mb-5">
               <h3 style={{ fontWeight: 700, fontSize: 17, color: 'var(--text)' }}>
                 Technical Skills & Stack
               </h3>
@@ -185,7 +185,7 @@ const About = () => {
             </div>
 
             {/* LogoLoop marquee tracks */}
-            <div className="flex flex-col gap-3 py-1 relative z-10 overflow-hidden">
+            <div className="relative z-10 flex flex-col gap-3 py-1 overflow-hidden">
               {/* Top Loop: scrolling left */}
               <LogoLoop
                 logos={techLogosRow1}
@@ -222,4 +222,3 @@ const About = () => {
 };
 
 export default About;
-

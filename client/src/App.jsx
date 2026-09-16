@@ -114,9 +114,9 @@ function App() {
             <Navbar theme={theme} toggleTheme={toggleTheme} />
             <main>
               <Hero />
-              <div className="border-t border-[var(--border2)] max-w-[960px] mx-auto opacity-60" />
+              <div className="relative -top-[40px] border-t border-[var(--border2)] max-w-[960px] mx-auto opacity-60" />
               <About />
-              <div className="border-t border-[var(--border2)] max-w-[960px] mx-auto opacity-60" />
+              <div className="relative -top-16 border-t border-[var(--border2)] max-w-[960px] mx-auto opacity-60" />
               <Education />
               <div className="border-t border-[var(--border2)] max-w-[960px] mx-auto opacity-60" />
               <Projects />
@@ -134,4 +134,3 @@ function App() {
 }
 
 export default App;
-
