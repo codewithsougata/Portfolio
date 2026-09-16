@@ -33,7 +33,7 @@ const Education = () => {
                 aria-label="View Marksheet PDF"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 bg-cyan-500/15 hover:bg-cyan-500 text-cyan-700 dark:text-cyan-300 hover:text-white dark:hover:text-black border border-cyan-500/30 hover:border-cyan-500 shadow-sm active:scale-95"
               >
-                <FileText className="h-3.5 w-3.5" />
+                <FileText className="w-2.5 h-2.5" />
                 <span>View</span>
                 <ExternalLink className="w-3 h-3 opacity-70" />
               </a>
