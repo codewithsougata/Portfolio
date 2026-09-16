@@ -41,7 +41,7 @@ const Hero = () => {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          style={{ flex: '1 1 450px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 1 }}
+          style={{ flex: '1 1 450px', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '7px 16px', position: 'relative', zIndex: 1 }}
           className="md:items-start"
         >
           <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 800, lineHeight: 1.15, marginBottom: 12, color: 'var(--text)' }}>
