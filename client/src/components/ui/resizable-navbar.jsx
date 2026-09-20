@@ -15,11 +15,7 @@ export const Navbar = ({
   children,
   className
 }) => {
-  const ref = useRef(null);
-  const { scrollY } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
+  const { scrollY } = useScroll();
   const [visible, setVisible] = useState(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -32,7 +28,6 @@ export const Navbar = ({
 
   return (
     <motion.div
-      ref={ref}
       className={cn("fixed inset-x-0 top-2 z-[100] w-full px-2 sm:px-4 md:px-8", className)}>
       {React.Children.map(children, (child) =>
         React.isValidElement(child)

@@ -58,6 +58,7 @@ html.light {
   }
 
   html {
+    position: relative;
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
     overflow-x: clip;

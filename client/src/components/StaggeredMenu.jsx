@@ -323,24 +323,13 @@ export const StaggeredMenu = ({
   }, []);
 
   const lockScroll = useCallback(() => {
-    const scrollY = window.scrollY;
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = '100%';
-    document.body.dataset.scrollY = scrollY;
   }, []);
 
   const unlockScroll = useCallback(() => {
-    const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    delete document.body.dataset.scrollY;
-    window.scrollTo(0, scrollY);
   }, []);
 
   const toggleMenu = useCallback(() => {
@@ -353,6 +342,12 @@ export const StaggeredMenu = ({
       onMenuOpen?.();
       playOpen();
     } else {
+      if (panelRef.current && panelRef.current.contains(document.activeElement)) {
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
+        toggleBtnRef.current?.focus({ preventScroll: true });
+      }
       unlockScroll();
       onMenuClose?.();
       playClose();
@@ -365,6 +360,12 @@ export const StaggeredMenu = ({
 
   const closeMenu = useCallback(() => {
     if (openRef.current) {
+      if (panelRef.current && panelRef.current.contains(document.activeElement)) {
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
+        toggleBtnRef.current?.focus({ preventScroll: true });
+      }
       openRef.current = false;
       setOpen(false);
       unlockScroll();
@@ -460,6 +461,7 @@ export const StaggeredMenu = ({
           height: '100dvh',
         }}
         aria-hidden={!open}
+        inert={!open ? '' : undefined}
       >
         <div className="sm-panel-inner flex-1 flex flex-col justify-start gap-0">
           {/* Drawer Header — close button only */}
