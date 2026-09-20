@@ -322,15 +322,38 @@ export const StaggeredMenu = ({
     });
   }, []);
 
+  const lockScroll = useCallback(() => {
+    const scrollY = window.scrollY;
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+    document.body.dataset.scrollY = scrollY;
+  }, []);
+
+  const unlockScroll = useCallback(() => {
+    const scrollY = parseInt(document.body.dataset.scrollY || '0', 10);
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    delete document.body.dataset.scrollY;
+    window.scrollTo(0, scrollY);
+  }, []);
+
   const toggleMenu = useCallback(() => {
     const target = !openRef.current;
     openRef.current = target;
     setOpen(target);
 
     if (target) {
+      lockScroll();
       onMenuOpen?.();
       playOpen();
     } else {
+      unlockScroll();
       onMenuClose?.();
       playClose();
     }
@@ -338,19 +361,20 @@ export const StaggeredMenu = ({
     animateIcon(target);
     animateColor(target);
     animateText(target);
-  }, [playOpen, playClose, animateIcon, animateColor, animateText, onMenuOpen, onMenuClose]);
+  }, [playOpen, playClose, animateIcon, animateColor, animateText, onMenuOpen, onMenuClose, lockScroll, unlockScroll]);
 
   const closeMenu = useCallback(() => {
     if (openRef.current) {
       openRef.current = false;
       setOpen(false);
+      unlockScroll();
       onMenuClose?.();
       playClose();
       animateIcon(false);
       animateColor(false);
       animateText(false);
     }
-  }, [playClose, animateIcon, animateColor, animateText, onMenuClose]);
+  }, [playClose, animateIcon, animateColor, animateText, onMenuClose, unlockScroll]);
 
   useEffect(() => {
     if (!closeOnClickAway || !open) return;
@@ -372,6 +396,13 @@ export const StaggeredMenu = ({
     };
   }, [closeOnClickAway, open, closeMenu]);
 
+  // Ensure scroll is fully restored if component unmounts while open
+  useEffect(() => {
+    return () => {
+      unlockScroll();
+    };
+  }, [unlockScroll]);
+
   // Drawer Portal Content attached directly to document.body
   const drawerPortal = mounted ? createPortal(
     <div
@@ -379,11 +410,16 @@ export const StaggeredMenu = ({
       style={accentColor ? { ['--sm-accent']: accentColor } : undefined}
       data-position={position}
     >
-      {/* Backdrop overlay */}
+      {/* Backdrop overlay - transparent blur so background content shows through */}
       <div
-        className={`fixed inset-0 bg-black/60 backdrop-blur-md z-[99990] transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[99989] transition-all duration-500 ${
           open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
+        style={{
+          backdropFilter: open ? 'blur(10px) brightness(0.7)' : 'blur(0px)',
+          WebkitBackdropFilter: open ? 'blur(10px) brightness(0.7)' : 'blur(0px)',
+          background: 'rgba(0,0,0,0.15)',
+        }}
         onClick={closeMenu}
       />
 
@@ -425,22 +461,9 @@ export const StaggeredMenu = ({
         }}
         aria-hidden={!open}
       >
-        <div className="sm-panel-inner flex-1 flex flex-col justify-between gap-5">
-          {/* Drawer Header */}
-          <div className="flex items-center justify-between pb-3 border-b border-white/10">
-            <div className="flex items-center gap-2.5">
-              {logoUrl ? (
-                <img
-                  src={logoUrl}
-                  alt="Logo"
-                  className="w-7 h-7 rounded-full border-2 border-[var(--cyan,#00d4ff)] object-cover"
-                />
-              ) : null}
-              <span className="font-bold text-sm sm:text-base text-white tracking-tight font-sans">
-                {logoText}
-              </span>
-            </div>
-
+        <div className="sm-panel-inner flex-1 flex flex-col justify-start gap-0">
+          {/* Drawer Header — close button only */}
+          <div className="flex items-center justify-end pb-3 border-b border-white/10">
             <button
               type="button"
               onClick={closeMenu}
@@ -453,7 +476,7 @@ export const StaggeredMenu = ({
 
           {/* Nav Items List */}
           <ul
-            className="sm-panel-list list-none m-0 p-0 flex flex-col gap-2.5 my-auto"
+            className="sm-panel-list list-none m-0 p-0 flex flex-col gap-3 mt-6"
             role="list"
             data-numbering={displayItemNumbering || undefined}
           >
@@ -461,11 +484,25 @@ export const StaggeredMenu = ({
               items.map((it, idx) => (
                 <li className="sm-panel-itemWrap relative overflow-hidden leading-none" key={it.label + idx}>
                   <a
-                    className="sm-panel-item relative text-white font-bold text-[1.25rem] sm:text-[1.5rem] cursor-pointer leading-tight tracking-[-0.02em] uppercase transition-colors duration-150 inline-block no-underline pr-7 hover:text-[var(--sm-accent,#5227FF)]"
+                    className="sm-panel-item relative text-white font-bold text-[1.6rem] sm:text-[1.9rem] cursor-pointer leading-tight tracking-[-0.03em] uppercase transition-colors duration-150 inline-block no-underline pr-7 hover:text-[var(--sm-accent,#5227FF)]"
                     href={it.link}
                     aria-label={it.ariaLabel}
                     data-index={idx + 1}
-                    onClick={() => closeMenu()}
+                    onClick={(e) => {
+                      if (it.link && it.link.startsWith('#')) {
+                        e.preventDefault();
+                        closeMenu();
+                        // Wait for scroll lock to release before scrolling
+                        setTimeout(() => {
+                          const target = document.querySelector(it.link);
+                          if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }
+                        }, 380);
+                      } else {
+                        closeMenu();
+                      }
+                    }}
                   >
                     <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">
                       {it.label}
@@ -478,7 +515,7 @@ export const StaggeredMenu = ({
 
           {/* Socials Section */}
           {displaySocials && socialItems && socialItems.length > 0 && (
-            <div className="sm-socials pt-5 border-t border-white/10" aria-label="Social links">
+            <div className="sm-socials mt-auto pt-5 border-t border-white/10" aria-label="Social links">
               <h3 className="sm-socials-title m-0 mb-3 text-xs font-mono uppercase tracking-wider text-[var(--sm-accent,#5227FF)]">
                 Connect
               </h3>

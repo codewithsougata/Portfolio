@@ -59,8 +59,16 @@ html.light {
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 74px;
+    scroll-padding-top: 80px;
     overflow-x: clip;
+    /* Smooth momentum-based scrolling on iOS/macOS */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   body {
