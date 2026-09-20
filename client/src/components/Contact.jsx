@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Input, TextArea, Label } from './ui/input';
-import { Mail, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Mail, AlertCircle } from 'lucide-react';
 import { IconBrandGithub, IconBrandLinkedin, IconBrandX } from '@tabler/icons-react';
 import emailjs from '@emailjs/browser';
 import OptionWheel from './OptionWheel';
 import TextPressure from './TextPressure';
+import { Button as StatefulButton } from './ui/stateful-button';
 
 const BottomGradient = () => {
   return (
@@ -34,13 +35,22 @@ const Contact = () => {
   });
   const [status, setStatus] = useState('idle');
 
+  const isFormValid =
+    formData.firstname.trim() !== '' &&
+    formData.lastname.trim() !== '' &&
+    formData.email.trim() !== '' &&
+    formData.message.trim() !== '';
+
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+  };
 
+  // Promise-returning function consumed by the StatefulButton
+  const sendMessage = async () => {
     const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
     const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
@@ -71,9 +81,7 @@ const Contact = () => {
         }),
       };
 
-      await emailjs.send(serviceId, templateId, templateParams, {
-        publicKey,
-      });
+      await emailjs.send(serviceId, templateId, templateParams, { publicKey });
 
       setStatus('success');
       setFormData({
@@ -271,36 +279,18 @@ const Contact = () => {
               />
             </LabelInputContainer>
 
-            {/* Submit Button */}
-            <button
-              className="bg-gradient-to-br relative group/btn from-neutral-900 to-neutral-800 dark:from-zinc-900 dark:to-zinc-900 block w-full text-white rounded-md h-9 font-medium text-xs shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] transition duration-300 cursor-pointer disabled:opacity-50 mt-4"
-              type="submit"
-              disabled={status === 'sending'}
-            >
-              <span className="flex items-center justify-center gap-1.5">
-                {status === 'sending' ? (
-                  <>Sending...</>
-                ) : (
-                  <>
-                    Send Message &rarr;
-                  </>
-                )}
-              </span>
-              <BottomGradient />
-            </button>
-
-            {/* Status alerts */}
-            {status === 'success' && (
-              <motion.div
-                initial={{ opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex items-center gap-2 p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-medium"
+            {/* Submit Button — Aceternity Stateful Button */}
+            <div className="mt-4 flex justify-center">
+              <StatefulButton
+                onClick={sendMessage}
+                disabled={!isFormValid}
+                className="bg-gradient-to-br from-neutral-900 to-neutral-800 dark:from-zinc-900 dark:to-zinc-900 hover:ring-neutral-600 dark:ring-offset-black w-full rounded-md px-6 py-2 text-xs font-medium disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                <CheckCircle2 size={14} />
-                <span>Message sent successfully!</span>
-              </motion.div>
-            )}
+                Send Message
+              </StatefulButton>
+            </div>
 
+            {/* Error alert */}
             {status === 'error' && (
               <motion.div
                 initial={{ opacity: 0, y: 4 }}

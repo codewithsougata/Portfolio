@@ -7,7 +7,7 @@ This project showcases personal projects, skills, and interactive UI design.
 
 ## 🚀 Live Demo
 
-🌐 https://portfolio-seven-orpin-79.vercel.app
+🌐https://sougata-dev-portfolio.vercel.app/
 
 ---
 
@@ -57,7 +57,7 @@ portfolio
 ### 1️⃣ Clone Repository
 
 
-git clone https://github.com/yourusername/portfolio.git
+git clone https://github.com/codewithsougata/Portfolio
 
 cd portfolio
 
