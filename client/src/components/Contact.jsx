@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Input, TextArea, Label } from './ui/input';
-import { Mail, Send, CheckCircle2, AlertCircle, Sparkles } from 'lucide-react';
+import { Mail, CheckCircle2, AlertCircle } from 'lucide-react';
 import { IconBrandGithub, IconBrandLinkedin, IconBrandX } from '@tabler/icons-react';
 import emailjs from '@emailjs/browser';
 import OptionWheel from './OptionWheel';
@@ -10,8 +10,8 @@ import TextPressure from './TextPressure';
 const BottomGradient = () => {
   return (
     <>
-      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
-      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+      <span className="absolute inset-x-0 block w-full h-px transition duration-500 opacity-0 group-hover/btn:opacity-100 -bottom-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
+      <span className="absolute block w-1/2 h-px mx-auto transition duration-500 opacity-0 group-hover/btn:opacity-100 blur-sm -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
     </>
   );
 };
@@ -40,46 +40,62 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      console.error('EmailJS environment variables are missing.');
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+      return;
+    }
+
     setStatus('sending');
 
     try {
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID_HERE';
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID_HERE';
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY_HERE';
-
       const fullName = `${formData.firstname} ${formData.lastname}`.trim();
 
+      // These variable names must match the variables used in
+      // your EmailJS Contact template and Auto-Reply template.
       const templateParams = {
-        from_name: fullName,
-        from_email: formData.email,
-        company: formData.subject,
+        name: fullName,
+        email: formData.email,
+        title: formData.subject || 'Portfolio Contact',
         message: formData.message,
-        user_name: fullName,
-        user_email: formData.email,
-        reply_to: formData.email,
+        time: new Date().toLocaleString('en-IN', {
+          dateStyle: 'medium',
+          timeStyle: 'short',
+          timeZone: 'Asia/Kolkata',
+        }),
       };
 
-      if (serviceId !== 'YOUR_SERVICE_ID_HERE') {
-        await emailjs.send(serviceId, templateId, templateParams, publicKey);
-      } else {
-        // Fallback simulation
-        await new Promise((res) => setTimeout(res, 1000));
-      }
+      await emailjs.send(serviceId, templateId, templateParams, {
+        publicKey,
+      });
 
       setStatus('success');
-      setFormData({ firstname: '', lastname: '', email: '', subject: '', message: '' });
-      setTimeout(() => setStatus('idle'), 4000);
+      setFormData({
+        firstname: '',
+        lastname: '',
+        email: '',
+        subject: '',
+        message: '',
+      });
+
+      setTimeout(() => setStatus('idle'), 5000);
     } catch (error) {
-      console.error('Email sending failed:', error);
+      console.error('EmailJS sending failed:', error);
       setStatus('error');
-      setTimeout(() => setStatus('idle'), 4000);
+      setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
   return (
     <section
       id="contact"
-      className="section-container relative w-full py-8 md:py-12"
+      className="relative w-full py-8 section-container md:py-12"
       style={{ maxWidth: '960px', margin: '0 auto' }}
     >
       {/* Background radial glow */}
@@ -149,7 +165,7 @@ const Contact = () => {
             </p>
           </div>
 
-          <div className="flex-1 w-full relative overflow-hidden mt-2">
+          <div className="relative flex-1 w-full mt-2 overflow-hidden">
             <OptionWheel
               items={[
                 'Web Development',
@@ -188,7 +204,7 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="w-full col-span-1 lg:col-span-7 rounded-2xl p-5 md:p-6 shadow-input dark:bg-black/60 bg-white/90 dark:border-neutral-800 border-neutral-200 border backdrop-blur-xl relative z-10 flex flex-col justify-between"
+          className="relative z-10 flex flex-col justify-between w-full col-span-1 p-5 border lg:col-span-7 rounded-2xl md:p-6 shadow-input dark:bg-black/60 bg-white/90 dark:border-neutral-800 border-neutral-200 backdrop-blur-xl"
         >
           <form onSubmit={handleSubmit} className="space-y-3">
             <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-2.5">
@@ -309,7 +325,7 @@ const Contact = () => {
                 aria-label="GitHub Profile"
                 className="relative group/btn flex items-center justify-center h-9 w-9 rounded-md dark:bg-zinc-800 bg-neutral-100 dark:text-white text-neutral-800 border border-[var(--border2)] shadow-input hover:bg-neutral-200 dark:hover:bg-zinc-700 transition duration-200"
               >
-                <IconBrandGithub className="h-4 w-4 text-neutral-700 dark:text-neutral-300 group-hover/btn:text-black dark:group-hover/btn:text-white transition-colors" />
+                <IconBrandGithub className="w-4 h-4 transition-colors text-neutral-700 dark:text-neutral-300 group-hover/btn:text-black dark:group-hover/btn:text-white" />
                 <BottomGradient />
               </a>
 
@@ -319,7 +335,7 @@ const Contact = () => {
                 aria-label="Direct Email"
                 className="relative group/btn flex items-center justify-center h-9 w-9 rounded-md dark:bg-zinc-800 bg-neutral-100 dark:text-white text-neutral-800 border border-[var(--border2)] shadow-input hover:bg-neutral-200 dark:hover:bg-zinc-700 transition duration-200"
               >
-                <Mail className="h-4 w-4 text-neutral-700 dark:text-neutral-300 group-hover/btn:text-black dark:group-hover/btn:text-white transition-colors" />
+                <Mail className="w-4 h-4 transition-colors text-neutral-700 dark:text-neutral-300 group-hover/btn:text-black dark:group-hover/btn:text-white" />
                 <BottomGradient />
               </a>
 
@@ -331,7 +347,7 @@ const Contact = () => {
                 aria-label="LinkedIn Profile"
                 className="relative group/btn flex items-center justify-center h-9 w-9 rounded-md dark:bg-zinc-800 bg-neutral-100 dark:text-white text-neutral-800 border border-[var(--border2)] shadow-input hover:bg-neutral-200 dark:hover:bg-zinc-700 transition duration-200"
               >
-                <IconBrandLinkedin className="h-4 w-4 text-neutral-700 dark:text-neutral-300 group-hover/btn:text-black dark:group-hover/btn:text-white transition-colors" />
+                <IconBrandLinkedin className="w-4 h-4 transition-colors text-neutral-700 dark:text-neutral-300 group-hover/btn:text-black dark:group-hover/btn:text-white" />
                 <BottomGradient />
               </a>
 
@@ -343,7 +359,7 @@ const Contact = () => {
                 aria-label="X Profile"
                 className="relative group/btn flex items-center justify-center h-9 w-9 rounded-md dark:bg-zinc-800 bg-neutral-100 dark:text-white text-neutral-800 border border-[var(--border2)] shadow-input hover:bg-neutral-200 dark:hover:bg-zinc-700 transition duration-200"
               >
-                <IconBrandX className="h-4 w-4 text-neutral-700 dark:text-neutral-300 group-hover/btn:text-black dark:group-hover/btn:text-white transition-colors" />
+                <IconBrandX className="w-4 h-4 transition-colors text-neutral-700 dark:text-neutral-300 group-hover/btn:text-black dark:group-hover/btn:text-white" />
                 <BottomGradient />
               </a>
             </div>
