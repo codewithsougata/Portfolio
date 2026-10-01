@@ -54,7 +54,7 @@ export const projects_list = [
         description: 'Full-stack AI-Powered Quiz App with authentication, dynamic quizzes, and real-time feedback. Built with React, Node.js, Express, and MongoDB. ',
         techStack: ['React', 'Node.js', 'Express', 'MongoDB'],
         github: 'https://github.com/codewithsougata/Quiz_App',
-        live: 'https://quiz-app-blond-one-72.vercel.app/',
+        live: 'https://ai-quiz-generator-khaki-xi.vercel.app/',
         color: 'var(--cyan)',
         image: assets.projects.ecommerce,
     },
