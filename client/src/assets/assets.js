@@ -7,18 +7,10 @@ import resume_pdf from './SOUGATA_MANNA_CV.pdf';
 import Quiz_img from './Quiz.png';
 import Food_img from './food.png';
 import Portfolio_img from './fro.png';
-import Marksheet_img from './marksheet.pdf';
 
 export const assets = {
-    // Images & Icons
     profile: profile_img,
-    logo_text: "Sougata",
-
-    // PDF Assets
     resume: resume_pdf,
-    marksheet: Marksheet_img,
-
-    // Project Thumbnails
     projects: {
         ecommerce: Quiz_img,
         taskManager: Food_img,
@@ -34,17 +26,6 @@ export const roles_list = [
     "UI/UX Enthusiast",
     "Backend Developer",
     "React Specialist"
-];
-
-// Skills data for the About section
-export const skills_list = [
-    { name: 'HTML5', color: '#E34F26', level: 90 },
-    { name: 'CSS3', color: '#1572B6', level: 85 },
-    { name: 'JavaScript', color: '#F7DF1E', level: 80 },
-    { name: 'React', color: '#61DAFB', level: 75 },
-    { name: 'Node.js', color: '#339933', level: 70 },
-    { name: 'Express', color: '#a0aec0', level: 70 },
-    { name: 'MongoDB', color: '#47A248', level: 65 },
 ];
 
 export const projects_list = [
